@@ -6,7 +6,8 @@ from lxml import objectify
 from requests.auth import HTTPBasicAuth
 
 from custom_exceptions import HighriseGetException, ParseTimeException
-from classes.person import *
+from classes.person import Person
+from classes.task_category import DealCategory, TaskCategory
 
 
 class Highton(object):
@@ -29,6 +30,20 @@ class Highton(object):
     def _get_data(self, endpoint, params={}):
         data = []
         try:
+            data = objectify.fromstring(
+                self._request(endpoint, params).content
+            ).getchildren()
+        except TypeError:
+            if not data:
+                raise HighriseGetException(
+                    endpoint,
+                    'Parsing people from Highrise caused a failure'
+                )
+        return data
+
+    def _get_paged_data(self, endpoint, params={}):
+        data = []
+        try:
             page = 500
             counter = 0
             while True:
@@ -36,7 +51,6 @@ class Highton(object):
                 objects = objectify.fromstring(
                     self._request(endpoint, params).content
                 ).getchildren()
-
                 if objects:
                     data += objects
                 else:
@@ -97,7 +111,7 @@ class Highton(object):
         Just run this Method and you get a Person object with all objects and attributes inside it. Get Lucky
         :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
         """
-        return self._get_person_objects(self._get_data('people'))
+        return self._get_person_objects(self._get_paged_data('people'))
 
     def get_people_since(self, since):
         """
@@ -110,4 +124,39 @@ class Highton(object):
         except ValueError:
             raise ParseTimeException
 
-        return self._get_person_objects(self._get_data('people', params={'since': since}))
+        return self._get_person_objects(self._get_paged_data('people', params={'since': since}))
+
+    def _get_categories(self, category_type):
+        return self._get_data(category_type + '_categories')
+
+    def _get_category_objects(self, categories, category_type):
+        return_categories = []
+
+        for category in categories:
+            if category_type == 'task':
+                temp_category = TaskCategory()
+            elif category_type == 'deal':
+                temp_category = DealCategory()
+
+            temp_category.highrise_id = category['id']
+
+            for attr in [
+                'name',
+                'updated-at',
+                'account-id',
+                'color',
+                'created-at',
+                'elements-count'
+            ]:
+                setattr(temp_category, attr.replace('-', '_'), category[attr])
+
+            return_categories.append(temp_category)
+        return return_categories
+
+    def get_task_categories(self):
+        category_type = 'task'
+        return self._get_category_objects(self._get_categories(category_type), category_type)
+
+    def get_deal_categories(self):
+        category_type = 'deal'
+        return self._get_category_objects(self._get_categories(category_type), category_type)

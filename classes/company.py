@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
 from contact import Contact
 
 
-class Person(Contact):
+class Company(Contact):
     """
         Feel free to work with this attributes.
         highrise_id,
