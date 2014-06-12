@@ -24,4 +24,33 @@ class Company(Contact):
         subject_datas,
         tags
     """
-    pass
+    def save_data(self, company):
+        self.highrise_id = company['id']
+
+        for attr in [
+            'author-id',
+            'background',
+            'created-at',
+            'group-id',
+            'owner-id',
+            'updated-at',
+            'visible-to',
+            'name',
+            'avatar-url',
+        ]:
+            setattr(self, attr.replace('-', '_'), company[attr])
+
+        for attr in [
+            'phone-numbers',
+            'email-addresses',
+            'addresses',
+        ]:
+            if hasattr(company['contact-data'], attr):
+                getattr(self, 'set_' + attr.replace('-', '_'))(company['contact-data'][attr])
+
+        for attr in [
+            'subject_datas',
+            'tags',
+        ]:
+            if hasattr(company, attr):
+                getattr(self, 'set_' + attr.replace('-', '_'))(company[attr])

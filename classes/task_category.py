@@ -11,7 +11,19 @@ class Category(object):
         created_at,
         elements_count,
     """
-    pass
+    def save_data(self, category):
+        self.highrise_id = category['id']
+
+        for attr in [
+            'name',
+            'updated-at',
+            'account-id',
+            'color',
+            'created-at',
+            'elements-count'
+        ]:
+            setattr(self, attr.replace('-', '_'), category[attr])
+
 
 
 class TaskCategory(Category):
