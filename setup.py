@@ -7,7 +7,7 @@ README = open(os.path.join(os.path.dirname(__file__), 'README.md')).read()
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
  
 setup(
-    name = 'highton',
+    name = 'Highton-API',
     version = '0.1',
     license = 'Apache License 2.0',
     description = 'A Python library for Highrise',
@@ -15,9 +15,10 @@ setup(
     url = 'https://github.com/bykof/Highton-API',
     author = 'Michael Bykovski',
     author_email = 'bykof@me.com',
-    py_modules=['pyrise'],
-    install_requires = ['requests'],
-    classifiers =[
+    py_modules=['Highton-API'],
+    install_requires = ['requests', 'lxml'],
+    keywords = 'bykof python api highrise highton',
+    classifiers = [
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
