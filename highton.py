@@ -77,6 +77,12 @@ class Highton(object):
             for attr in [
                 'phone-numbers',
                 'email-addresses',
+                'addresses',
+            ]:
+                if hasattr(person['contact-data'], attr):
+                    getattr(temp_person, 'set_' + attr.replace('-', '_'))(person['contact-data'][attr])
+
+            for attr in [
                 'subject_datas',
                 'tags',
             ]:
@@ -87,9 +93,18 @@ class Highton(object):
         return return_people
 
     def get_people(self):
+        """
+        Just run this Method and you get a Person object with all objects and attributes inside it. Get Lucky
+        :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
+        """
         return self._get_person_objects(self._get_data('people'))
 
     def get_people_since(self, since):
+        """
+        Gives you all people since the set parameter
+        :param since: string with %Y%m%d%H%M%S - Format
+        :return: return all people since the given parameter
+        """
         try:
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
