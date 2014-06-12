@@ -37,9 +37,7 @@ class Contact(object):
             )
 
     def set_email_addresses(self, email_addresses):
-        print 'rund'
         for email_address in email_addresses.getchildren():
-            print email_address.__dict__
             self.email_addresses.append(
                 EmailAddress(
                     email_address['id'],
