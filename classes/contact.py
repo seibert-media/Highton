@@ -53,7 +53,7 @@ class Contact(object):
                     subject_data['id'],
                     subject_data['value'],
                     subject_data['subject_field_id'],
-                    subject_data['subject_field_labek'],
+                    subject_data['subject_field_label'],
                 )
             )
 

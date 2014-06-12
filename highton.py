@@ -8,6 +8,7 @@ from requests.auth import HTTPBasicAuth
 from custom_exceptions import HighriseGetException, ParseTimeException
 from classes.person import Person
 from classes.task_category import DealCategory, TaskCategory
+from classes.company import Company
 
 
 class Highton(object):
@@ -123,7 +124,6 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-
         return self._get_person_objects(self._get_paged_data('people', params={'since': since}))
 
     def _get_categories(self, category_type):
@@ -160,3 +160,52 @@ class Highton(object):
     def get_deal_categories(self):
         category_type = 'deal'
         return self._get_category_objects(self._get_categories(category_type), category_type)
+
+    def _get_company_objects(self, companies):
+        return_companies = []
+        for company in companies:
+            temp_company = Company()
+            temp_company.highrise_id = company['id']
+
+            for attr in [
+                'author-id',
+                'background',
+                'created-at',
+                'group-id',
+                'owner-id',
+                'updated-at',
+                'visible-to',
+                'name',
+                'avatar-url',
+            ]:
+                setattr(temp_company, attr.replace('-', '_'), company[attr])
+
+            for attr in [
+                'phone-numbers',
+                'email-addresses',
+                'addresses',
+            ]:
+                if hasattr(company['contact-data'], attr):
+                    getattr(temp_company, 'set_' + attr.replace('-', '_'))(company['contact-data'][attr])
+
+            for attr in [
+                'subject_datas',
+                'tags',
+            ]:
+                if hasattr(company, attr):
+                    getattr(temp_company, 'set_' + attr.replace('-', '_'))(company[attr])
+
+            return_companies.append(temp_company)
+        return return_companies
+
+    def get_companies_since(self, since):
+        """
+        Gives you all companies since the set parameter
+        :param since: string with %Y%m%d%H%M%S - Format
+        :return: return all companies since the given parameter
+        """
+        try:
+            datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
+        except ValueError:
+            raise ParseTimeException
+        return self._get_company_objects(self._get_paged_data('companies', params={'since': since}))
