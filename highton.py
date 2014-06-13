@@ -98,9 +98,17 @@ class Highton(object):
         return self._get_data(category_type + '_categories')
 
     def get_task_categories(self):
+        """
+        Get all Task-Categories
+        :return: all Task-Categories
+        """
         return self._get_object_data(self._get_categories('task'), TaskCategory)
 
     def get_deal_categories(self):
+        """
+        Get all Deal-Categories
+        :return: all Deal-Categories
+        """
         return self._get_object_data(self._get_categories('deal'), DealCategory)
 
     def get_companies(self):
