@@ -8,7 +8,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
  
 setup(
     name = 'Highton-API',
-    version = '0.1',
+    version = '1.0',
     license = 'Apache License 2.0',
     description = 'A Python library for Highrise',
     long_description = README,
@@ -22,7 +22,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Django',
         'Intended Audience :: Developers',
-        'License :: Apache License 2.0',
+        'License :: OSI Approved :: Apache Software License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2.7',
