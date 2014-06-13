@@ -1,17 +1,11 @@
-import os
 from setuptools import setup
- 
-
-# Allow setup.py to be run from any path
-def read(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
  
 setup(
     name = 'Highton-API',
-    version = '1.0.1',
+    version = '1.0.2',
     license = 'Apache License 2.0',
     description = 'A Python library for Highrise',
-    long_description = read('README.md'),
+    long_description = 'A beautiful Python - Highrise - API. Less is more.',
     url = 'https://github.com/bykof/Highton-API',
     author = 'Michael Bykovski',
     author_email = 'bykof@me.com',
