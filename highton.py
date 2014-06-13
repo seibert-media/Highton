@@ -5,7 +5,7 @@ import requests
 from lxml import objectify
 from requests.auth import HTTPBasicAuth
 
-from custom_exceptions import HighriseGetException, ParseTimeException
+from custom_exceptions import HighriseGetException, ParseTimeException, FieldExcepetion
 from classes.person import Person
 from classes.category import DealCategory, TaskCategory
 from classes.company import Company
@@ -138,7 +138,7 @@ class Highton(object):
         try:
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
-            raise ParseTimeException
+            raise ParseTimeException(since)
         return self._get_object_data(self._get_paged_data('kases', params={'since': since}), Case)
 
     def get_deals(self):
@@ -159,3 +159,9 @@ class Highton(object):
         except ValueError:
             raise ParseTimeException
         return self._get_object_data(self._get_paged_data('deals', params={'since': since}), Deal)
+
+    def get_deals_by_status(self, status):
+        fields = ['won', 'lost', 'pending']
+        if status not in fields:
+            raise FieldExcepetion(fields)
+        return self._get_object_data(self._get_paged_data('deals', params={'status': status}), Deal)

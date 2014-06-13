@@ -16,3 +16,11 @@ class ParseTimeException(Exception):
     def __unicode__(self):
         return 'Your parsed string: {} is false. Please correct it in following format: YYYYMMDDHHMMSS in Python ' \
                'you would say: %Y%m%d%H%M%S'
+
+
+class FieldExcepetion(Exception):
+    def __init__(self, fields):
+        self.fields = fields
+
+    def __unicode__(self):
+        return 'You have to set the parameter on one of these fields: {}'.format(self.fields)
