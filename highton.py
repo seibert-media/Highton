@@ -7,9 +7,10 @@ from requests.auth import HTTPBasicAuth
 
 from custom_exceptions import HighriseGetException, ParseTimeException
 from classes.person import Person
-from classes.task_category import DealCategory, TaskCategory
+from classes.category import DealCategory, TaskCategory
 from classes.company import Company
 from classes.case import Case
+from classes.deal import Deal
 
 
 class Highton(object):
@@ -168,3 +169,21 @@ class Highton(object):
         except ValueError:
             raise ParseTimeException
         return self._get_case_objects(self._get_paged_data('kases', params={'since': since}))
+
+    def _get_deal_objects(self, deals):
+        return_deals = []
+        for deal in deals:
+            temp_deal = Deal()
+            temp_deal.save_data(deal)
+            return_deals.append(temp_deal)
+        return return_deals
+
+    def get_deals(self):
+        return self._get_deal_objects(self._get_paged_data('deals'))
+
+    def get_deals_since(self, since):
+        try:
+            datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
+        except ValueError:
+            raise ParseTimeException
+        return self._get_deal_objects(self._get_paged_data('deals', params={'since': since}))
