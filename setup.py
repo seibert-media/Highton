@@ -1,15 +1,15 @@
 from setuptools import setup
  
 setup(
-    name = 'Highton-API',
-    version = '1.0.3',
+    name = 'Highton',
+    version = '1.0.4',
     license = 'Apache License 2.0',
     description = 'A Python library for Highrise',
     long_description = 'A beautiful Python - Highrise - API. Less is more.',
     url = 'https://github.com/bykof/Highton-API',
     author = 'Michael Bykovski',
     author_email = 'bykof@me.com',
-    py_modules=['Highton-API'],
+    py_modules=['highton'],
     install_requires = ['requests', 'lxml'],
     keywords = 'bykof python api highrise highton',
     classifiers = [
