@@ -69,7 +69,8 @@ class Highton(object):
     def _get_person_objects(self, people):
         return_people = []
         for person in people:
-            temp_person = Person().save_data(person)
+            temp_person = Person()
+            temp_person.save_data(person)
             return_people.append(temp_person)
         return return_people
 
@@ -117,7 +118,8 @@ class Highton(object):
     def _get_company_objects(self, companies):
         return_companies = []
         for company in companies:
-            temp_company = Company().save_data(company)
+            temp_company = Company()
+            temp_company.save_data(company)
             return_companies.append(temp_company)
         return return_companies
 
@@ -143,13 +145,26 @@ class Highton(object):
     def _get_case_objects(self, cases):
         return_cases = []
         for case in cases:
-            temp_case = Case().save_data(case)
+            temp_case = Case()
+            temp_case.save_data(case)
             return_cases.append(temp_case)
         return return_cases
 
     def get_cases(self):
         """
-        Just run this Method and you get a Company object with all objects and attributes inside it. Get Lucky
+        Just run this Method and you get a Case object with all objects and attributes inside it. Get Lucky
         :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
         """
         return self._get_case_objects(self._get_paged_data('kases'))
+
+    def get_cases_since(self, since):
+        """
+        Gives you all Cases since the set parameter
+        :param since: string with %Y%m%d%H%M%S - Format
+        :return: return all cases since the given parameter
+        """
+        try:
+            datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
+        except ValueError:
+            raise ParseTimeException
+        return self._get_case_objects(self._get_paged_data('kases', params={'since': since}))

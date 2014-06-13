@@ -34,6 +34,17 @@ class Case(object):
         ]:
             setattr(self, attr.replace('-', '_'), case[attr])
 
+        if hasattr(case, 'parties'):
+            self.set_parties(case['parties'])
+
     def set_parties(self, parties):
         for party in parties.getchildren():
-            pass
+            if party['type'] == 'Person':
+                person = Person()
+                person.save_data(party)
+                self.parties.append(person)
+            elif party['type'] == 'Company':
+                company = Company()
+                company.save_data(party)
+                self.parties.append(company)
+
