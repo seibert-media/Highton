@@ -67,20 +67,20 @@ class Highton(object):
                 )
         return data
 
-    def _get_person_objects(self, people):
-        return_people = []
-        for person in people:
-            temp_person = Person()
-            temp_person.save_data(person)
-            return_people.append(temp_person)
-        return return_people
+    def _get_object_data(self, data, highrise_class):
+        data_list = []
+        for d in data:
+            temp = highrise_class()
+            temp.save_data(d)
+            data_list.append(temp)
+        return data_list
 
     def get_people(self):
         """
         Just run this Method and you get a Person object with all objects and attributes inside it. Get Lucky
         :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
         """
-        return self._get_person_objects(self._get_paged_data('people'))
+        return self._get_object_data(self._get_paged_data('people'), Person)
 
     def get_people_since(self, since):
         """
@@ -92,44 +92,23 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_person_objects(self._get_paged_data('people', params={'since': since}))
+        return self._get_object_data(self._get_paged_data('people', params={'since': since}), Person)
 
     def _get_categories(self, category_type):
         return self._get_data(category_type + '_categories')
 
-    def _get_category_objects(self, categories, category_type):
-        return_categories = []
-        for category in categories:
-            if category_type == 'task':
-                temp_category = TaskCategory()
-            elif category_type == 'deal':
-                temp_category = DealCategory()
-            temp_category.save_data(category)
-            return_categories.append(temp_category)
-        return return_categories
-
     def get_task_categories(self):
-        category_type = 'task'
-        return self._get_category_objects(self._get_categories(category_type), category_type)
+        return self._get_object_data(self._get_categories('task'), TaskCategory)
 
     def get_deal_categories(self):
-        category_type = 'deal'
-        return self._get_category_objects(self._get_categories(category_type), category_type)
-
-    def _get_company_objects(self, companies):
-        return_companies = []
-        for company in companies:
-            temp_company = Company()
-            temp_company.save_data(company)
-            return_companies.append(temp_company)
-        return return_companies
+        return self._get_object_data(self._get_categories('deal'), DealCategory)
 
     def get_companies(self):
         """
         Just run this Method and you get a Company object with all objects and attributes inside it. Get Lucky
         :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
         """
-        return self._get_company_objects(self._get_paged_data('companies'))
+        return self._get_object_data(self._get_paged_data('companies'), Company)
 
     def get_companies_since(self, since):
         """
@@ -141,22 +120,14 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_company_objects(self._get_paged_data('companies', params={'since': since}))
-
-    def _get_case_objects(self, cases):
-        return_cases = []
-        for case in cases:
-            temp_case = Case()
-            temp_case.save_data(case)
-            return_cases.append(temp_case)
-        return return_cases
+        return self._get_object_data(self._get_paged_data('companies', params={'since': since}), Company)
 
     def get_cases(self):
         """
         Just run this Method and you get a Case object with all objects and attributes inside it. Get Lucky
         :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
         """
-        return self._get_case_objects(self._get_paged_data('kases'))
+        return self._get_object_data(self._get_paged_data('kases'), Case)
 
     def get_cases_since(self, since):
         """
@@ -168,22 +139,23 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_case_objects(self._get_paged_data('kases', params={'since': since}))
-
-    def _get_deal_objects(self, deals):
-        return_deals = []
-        for deal in deals:
-            temp_deal = Deal()
-            temp_deal.save_data(deal)
-            return_deals.append(temp_deal)
-        return return_deals
+        return self._get_object_data(self._get_paged_data('kases', params={'since': since}), Case)
 
     def get_deals(self):
-        return self._get_deal_objects(self._get_paged_data('deals'))
+        """
+        Gives you all Deals, but handle them wisely!
+        :return: returns you all the Deals you have
+        """
+        return self._get_object_data(self._get_paged_data('deals'), Deal)
 
     def get_deals_since(self, since):
+        """
+        Gives you all deals since the parameter since
+        :param since: Have to be String in format YYYYMMDDHHMMSS
+        :return: returns you all Deals which were updated since the parameter
+        """
         try:
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_deal_objects(self._get_paged_data('deals', params={'since': since}))
+        return self._get_object_data(self._get_paged_data('deals', params={'since': since}), Deal)
