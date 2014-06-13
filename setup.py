@@ -8,7 +8,7 @@ def read(fname):
  
 setup(
     name = 'Highton-API',
-    version = '1.0',
+    version = '1.0.1',
     license = 'Apache License 2.0',
     description = 'A Python library for Highrise',
     long_description = read('README.md'),
