@@ -1,7 +1,9 @@
-Highton-API
+Highton
 ===========
 
-#Highton is a python library for Highrise
+##Highton is a python library for Highrise
+
+Thank you that you came to my repository. Feel free to work with my API. - Bykof
 
 ##What you can do with Highton?
 
