@@ -2,9 +2,11 @@ Highton
 ===========
 
 ##Highton is a python library for Highrise
+Install via Pip:
+
+    pip install highton
 
 Thank you that you came to my repository. Feel free to work with my API. - Bykof
-
 ##What you can do with Highton?
 
  * You can get nearly all Highrise-data (working on it!)
@@ -14,7 +16,7 @@ Thank you that you came to my repository. Feel free to work with my API. - Bykof
 
 
 ##How does the Highton API work?
-You will have the main class so just import Highton to your libraries (will be available on PyPi soon) and call some functions:
+You will have the main class so just import Highton to your libraries and call some functions:
 
 ```python
 #import Highton
