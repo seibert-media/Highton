@@ -95,6 +95,14 @@ Get deals by status
     
     deals = high.get_deals_by_status('status')
 
+Get Tasks from a Person/Company/Case/Deal
+    
+    tasks = high.get_person_tasks('person_highrise_id')
+    tasks = high.get_company_tasks('company_highrise_id')
+    tasks = high.get_case_tasks('case_highrise_id')
+    tasks = high.get_deal_tasks('deal_highrise_id')
+
+
 
 #Classes
 
@@ -228,6 +236,33 @@ Get deals by status
  * value
  * subject_field_id
  * subject_field_label
+
 ##Tag
  * highrise_id
  * name
+
+##Task
+ * highrise_id
+ * subject-id
+ * subject-type
+ * category-id
+ * body
+ * frame
+ * due-at
+ * alert-at
+ * created-at
+ * author-id
+ * updated-at
+ * public
+ * recording-id
+ * subject-id
+ * subject-type
+ * category-id
+ * body
+ * frame
+ * due-at
+ * alert-at
+ * created-at
+ * author-id
+ * updated-at
+ * public
