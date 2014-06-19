@@ -186,15 +186,15 @@ class Highton(object):
     def _get_tasks(self, subject_id, highrise_type):
         return self._get_object_data(self._get_data('{}/{}/tasks'.format(highrise_type, subject_id)), Task)
 
-    def get_people_tasks(self, subject_id):
+    def get_person_tasks(self, subject_id):
         return self._get_tasks(subject_id, 'people')
 
-    def get_companies_tasks(self, subject_id):
+    def get_company_tasks(self, subject_id):
         return self._get_tasks(subject_id, 'companies')
 
-    def get_cases_tasks(self, subject_id):
+    def get_case_tasks(self, subject_id):
         return self._get_tasks(subject_id, 'kases')
 
-    def get_deals_tasks(self, subject_id):
+    def get_deal_tasks(self, subject_id):
         return self._get_tasks(subject_id, 'deals')
 
