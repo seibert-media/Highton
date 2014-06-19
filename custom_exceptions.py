@@ -18,9 +18,17 @@ class ParseTimeException(Exception):
                'you would say: %Y%m%d%H%M%S'
 
 
-class FieldExcepetion(Exception):
+class FieldException(Exception):
     def __init__(self, fields):
         self.fields = fields
 
     def __unicode__(self):
         return 'You have to set the parameter on one of these fields: {}'.format(self.fields)
+
+
+class XMLRequestException(Exception):
+    def __init__(self, url):
+        self.url = url
+
+    def __unicode__(self):
+        return 'Sorry but the url: {} doesnt response an xml.'.format(self.url)

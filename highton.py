@@ -5,12 +5,13 @@ import requests
 from lxml import objectify
 from requests.auth import HTTPBasicAuth
 
-from custom_exceptions import HighriseGetException, ParseTimeException, FieldExcepetion
+from custom_exceptions import HighriseGetException, ParseTimeException, FieldException, XMLRequestException
 from classes.person import Person
 from classes.category import DealCategory, TaskCategory
 from classes.company import Company
 from classes.case import Case
 from classes.deal import Deal
+from classes.task import Task
 
 
 class Highton(object):
@@ -23,12 +24,20 @@ class Highton(object):
         self.api_key_password = 'X'
 
     def _request(self, endpoint, params={}):
-        return requests.get(
-            'https://{}.highrisehq.com/{}.xml'.format(self.user, endpoint),
+        url = 'https://{}.highrisehq.com/{}.xml'.format(self.user, endpoint)
+        request = requests.get(
+            url,
             auth=HTTPBasicAuth(self.api_key, self.api_key_password),
-            headers={'User-Agent': 'Highton-API: (bykof@me.com)', 'Content-Type': 'application/xml'},
+            headers={'User-Agent': 'Highton-API: (bykof@me.com)'},
             params=params,
         )
+        
+        print request.content
+
+        if 'text/html' in request.headers['content-type']:
+            raise XMLRequestException(url)
+
+        return request
 
     def _get_data(self, endpoint, params={}):
         data = []
@@ -171,5 +180,21 @@ class Highton(object):
     def get_deals_by_status(self, status):
         fields = ['won', 'lost', 'pending']
         if status not in fields:
-            raise FieldExcepetion(fields)
+            raise FieldException(fields)
         return self._get_object_data(self._get_paged_data('deals', params={'status': status}), Deal)
+
+    def _get_tasks(self, subject_id, highrise_type):
+        return self._get_object_data(self._get_data('{}/{}/tasks'.format(highrise_type, subject_id)), Task)
+
+    def get_people_tasks(self, subject_id):
+        return self._get_tasks(subject_id, 'people')
+
+    def get_companies_tasks(self, subject_id):
+        return self._get_tasks(subject_id, 'companies')
+
+    def get_cases_tasks(self, subject_id):
+        return self._get_tasks(subject_id, 'kases')
+
+    def get_deals_tasks(self, subject_id):
+        return self._get_tasks(subject_id, 'deals')
+
