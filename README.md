@@ -243,26 +243,26 @@ Get Tasks from a Person/Company/Case/Deal
 
 ##Task
  * highrise_id
- * subject-id
- * subject-type
- * category-id
+ * subject_id
+ * subject_type
+ * category_id
  * body
  * frame
- * due-at
- * alert-at
- * created-at
- * author-id
- * updated-at
+ * due_at
+ * alert_at
+ * created_at
+ * author_id
+ * updated_at
  * public
- * recording-id
- * subject-id
- * subject-type
- * category-id
+ * recording_id
+ * subject_id
+ * subject_type
+ * category_id
  * body
  * frame
- * due-at
- * alert-at
- * created-at
- * author-id
- * updated-at
+ * due_at
+ * alert_at
+ * created_at
+ * author_id
+ * updated_at
  * public
