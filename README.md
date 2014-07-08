@@ -102,7 +102,12 @@ Get Tasks from a Person/Company/Case/Deal
     tasks = high.get_case_tasks('case_highrise_id')
     tasks = high.get_deal_tasks('deal_highrise_id')
 
+Get Notes from a Person/Company/Case/Deal
 
+    notes = high.get_person_notes('person_highrise_id')
+    notes = high.get_company_notes('company_highrise_id')
+    notes = high.get_case_notes('case_highrise_id')
+    notes = high.get_deal_notes('deal_highrise_id')
 
 #Classes
 
@@ -266,3 +271,25 @@ Get Tasks from a Person/Company/Case/Deal
  * author_id
  * updated_at
  * public
+
+##Notes
+ * highrise_id
+ * body
+ * author_id
+ * subject_id
+ * subject_type
+ * subject_name
+ * collection_id
+ * collection_type
+ * visible_to
+ * owner_id
+ * group_id
+ * updated_at
+ * created_at
+ * attachments
+
+##Attachment
+ * highrise_id
+ * url
+ * name
+ * size
