@@ -38,6 +38,20 @@ class Highton(object):
 
         return request
 
+    def _get_single_data(self, endpoint, params={}):
+        data = []
+        try:
+            data = objectify.fromstring(
+                self._request(endpoint, params).content
+            )
+        except TypeError:
+            if not data:
+                raise HighriseGetException(
+                    endpoint,
+                    'Parsing data from Highrise caused a failure'
+                )
+        return data
+
     def _get_data(self, endpoint, params={}):
         data = []
         try:
@@ -48,7 +62,7 @@ class Highton(object):
             if not data:
                 raise HighriseGetException(
                     endpoint,
-                    'Parsing people from Highrise caused a failure'
+                    'Parsing data from Highrise caused a failure'
                 )
         return data
 
@@ -156,6 +170,14 @@ class Highton(object):
         except ValueError:
             raise ParseTimeException(since)
         return self._get_object_data(self._get_paged_data('kases', params={'since': since}), Case)
+
+    def get_deal(self, subject_id):
+        """
+        Gives you a chosen deal as an object
+        :param subject_id: the highrise_id of the deal
+        :return: deal object
+        """
+        return self._get_object_data(self._get_single_data('deals/{}'.format(subject_id)), Deal)[0]
 
     def get_deals(self):
         """
