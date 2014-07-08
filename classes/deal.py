@@ -73,7 +73,6 @@ class Deal(object):
                 company.save_data(deal['party'])
                 self.party = company
 
-
         if hasattr(deal, 'parties'):
             self.set_parties(deal['parties'])
 

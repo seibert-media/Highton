@@ -12,6 +12,7 @@ from classes.company import Company
 from classes.case import Case
 from classes.deal import Deal
 from classes.task import Task
+from classes.note import Note
 
 
 class Highton(object):
@@ -31,8 +32,6 @@ class Highton(object):
             headers={'User-Agent': 'Highton-API: (bykof@me.com)'},
             params=params,
         )
-        
-        print request.content
 
         if 'text/html' in request.headers['content-type']:
             raise XMLRequestException(url)
@@ -197,4 +196,21 @@ class Highton(object):
 
     def get_deal_tasks(self, subject_id):
         return self._get_tasks(subject_id, 'deals')
+
+    def _get_notes(self, subject_id, highrise_type):
+        return self._get_object_data(self._get_data('{}/{}/notes'.format(highrise_type, subject_id)), Note)
+
+    def get_person_notes(self, subject_id):
+        return self._get_notes(subject_id, 'people')
+
+    def get_company_notes(self, subject_id):
+        return self._get_notes(subject_id, 'companies')
+
+    def get_case_notes(self, subject_id):
+        return self._get_notes(subject_id, 'kases')
+
+    def get_deal_notes(self, subject_id):
+        return self._get_notes(subject_id, 'deals')
+
+
 
