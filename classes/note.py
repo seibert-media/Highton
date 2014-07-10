@@ -1,3 +1,4 @@
+from .tools import to_datetime
 
 
 class Note(object):
@@ -21,7 +22,9 @@ class Note(object):
         self.attachments = []
 
     def save_data(self, note):
-        self.highrise_id = note['id']
+        self.highrise_id = note['id'].pyval
+        self.created_at = to_datetime(note['created-at'].pyval)
+        self.updated_at = to_datetime(note['updated-at'].pyval)
 
         for attr in [
             'body',
@@ -34,10 +37,8 @@ class Note(object):
             'visible-to',
             'owner-id',
             'group-id',
-            'updated-at',
-            'created-at',
         ]:
-            setattr(self, attr.replace('-', '_',), note[attr])
+            setattr(self, attr.replace('-', '_',), note[attr].pyval)
 
         if hasattr(note, 'attachments'):
             self.set_attachments(note['attachments'])
@@ -57,7 +58,7 @@ class Attachment(object):
         size
     """
     def save_data(self, attachment):
-        self.highrise_id = attachment['id']
+        self.highrise_id = attachment['id'].pyval
 
         for attr in ['url', 'name', 'size']:
-            setattr(self, attr, attachment[attr])
+            setattr(self, attr, attachment[attr].pyval)

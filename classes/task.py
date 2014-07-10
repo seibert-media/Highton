@@ -1,3 +1,4 @@
+from .tools import to_datetime
 
 
 class Task(object):
@@ -31,7 +32,11 @@ class Task(object):
     """
 
     def save_data(self, task):
-        self.highrise_id = task['id']
+        self.highrise_id = task['id'].pyval
+        self.created_at = to_datetime(task['created-at'].pyval)
+        self.updated_at = to_datetime(task['updated-at'].pyval)
+        self.due_at = to_datetime(task['due-at'].pyval)
+        self.alert_at = to_datetime(task['alert-at'].pyval)
 
         for attr in [
             'recording-id',
@@ -40,11 +45,7 @@ class Task(object):
             'category-id',
             'body',
             'frame',
-            'due-at',
-            'alert-at',
-            'created-at',
             'author-id',
-            'updated-at',
             'public',
             'recording-id',
             'subject-id',
@@ -58,4 +59,4 @@ class Task(object):
             'author-id',
             'updated-at',
             'public']:
-            setattr(self, attr.replace('-', '_'), task[attr])
+            setattr(self, attr.replace('-', '_'), task[attr].pyval)

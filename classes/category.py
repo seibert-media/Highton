@@ -1,3 +1,4 @@
+from .tools import to_datetime
 
 
 class Category(object):
@@ -7,8 +8,8 @@ class Category(object):
         name,
     """
     def save_data(self, category):
-        self.highrise_id = category['id']
-        self.name = category['name']
+        self.highrise_id = category['id'].pyval
+        self.name = category['name'].pyval
 
 
 class TaskCategory(Category):
@@ -24,17 +25,17 @@ class TaskCategory(Category):
         elements_count,
     """
     def save_data(self, category):
-        self.highrise_id = category['id']
+        self.highrise_id = category['id'].pyval
 
+        self.created_at = to_datetime(category['created-at'].pyval)
+        self.updated_at = to_datetime(category['updated-at'].pyval)
         for attr in [
             'name',
-            'updated-at',
             'account-id',
             'color',
-            'created-at',
             'elements-count'
         ]:
-            setattr(self, attr.replace('-', '_'), category[attr])
+            setattr(self, attr.replace('-', '_'), category[attr].pyval)
 
 
 class DealCategory(Category):
@@ -50,14 +51,14 @@ class DealCategory(Category):
         elements_count,
     """
     def save_data(self, category):
-        self.highrise_id = category['id']
+        self.highrise_id = category['id'].pyval
+        self.created_at = to_datetime(category['created-at'].pyval)
+        self.updated_at = to_datetime(category['updated-at'].pyval)
 
         for attr in [
             'name',
-            'updated-at',
             'account-id',
             'color',
-            'created-at',
             'elements-count'
         ]:
-            setattr(self, attr.replace('-', '_'), category[attr])
+            setattr(self, attr.replace('-', '_'), category[attr].pyval)

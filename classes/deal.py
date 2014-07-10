@@ -2,6 +2,8 @@ from person import Person
 from company import Company
 from category import Category
 
+from .tools import to_datetime, to_date
+
 
 class Deal(object):
     """
@@ -34,14 +36,16 @@ class Deal(object):
         self.parties = []
 
     def save_data(self, deal):
-        self.highrise_id = deal['id']
+        self.highrise_id = deal['id'].pyval
+        self.created_at = to_datetime(deal['created-at'].pyval)
+        self.updated_at = to_datetime(deal['updated-at'].pyval)
+        self.status_changed_on = to_date(deal['status-changed-on'].pyval)
 
         for attr in [
             'account-id',
             'author-id',
             'background',
             'category-id',
-            'created-at',
             'currency',
             'duration',
             'group-id',
@@ -53,10 +57,9 @@ class Deal(object):
             'responsible-party-id',
             'status',
             'status-changed-on',
-            'updated-at',
             'visible-to',
         ]:
-            setattr(self, attr.replace('-', '_'), deal[attr])
+            setattr(self, attr.replace('-', '_'), deal[attr].pyval)
 
         if hasattr(deal, 'category'):
             category = Category()

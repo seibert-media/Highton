@@ -6,5 +6,5 @@ class Tag:
         highrise_id,
         name
     ):
-        self.highrise_id = highrise_id
-        self.name = name
+        self.highrise_id = highrise_id.pyval
+        self.name = name.pyval

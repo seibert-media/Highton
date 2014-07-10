@@ -1,6 +1,7 @@
 from person import Person
 from company import Company
 
+from .tools import to_datetime
 
 class Case(object):
     """
@@ -20,19 +21,19 @@ class Case(object):
         self.parties = []
 
     def save_data(self, case):
-        self.highrise_id = case['id']
+        self.highrise_id = case['id'].pyval
+        self.created_at = to_datetime(case['created-at'].pyval)
+        self.updated_at = to_datetime(case['updated-at'].pyval)
+        self.closed_at = to_datetime(case['closed-at'].pyval)
 
         for attr in [
             'author-id',
-            'closed-at',
-            'created-at',
-            'updated-at',
             'name',
             'visible-to',
             'group-id',
             'owner-id',
         ]:
-            setattr(self, attr.replace('-', '_'), case[attr])
+            setattr(self, attr.replace('-', '_'), case[attr].pyval)
 
         if hasattr(case, 'parties'):
             self.set_parties(case['parties'])

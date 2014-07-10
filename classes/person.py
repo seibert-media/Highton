@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from contact import Contact
 
+from .tools import to_datetime
+
 
 class Person(Contact):
     """
@@ -26,8 +28,9 @@ class Person(Contact):
         tags
     """
     def save_data(self, person):
-        self.highrise_id = person['id']
-
+        self.highrise_id = person['id'].pyval
+        self.created_at = to_datetime(person['created-at'].pyval)
+        self.updated_at = to_datetime(person['updated-at'].pyval)
         for attr in [
             'first-name',
             'last-name',
@@ -37,14 +40,12 @@ class Person(Contact):
             'avatar-url',
             'company-id',
             'company-name',
-            'created-at',
-            'updated-at',
             'visible-to',
             'owner-id',
             'group-id',
             'author-id',
         ]:
-            setattr(self, attr.replace('-', '_'), person[attr])
+            setattr(self, attr.replace('-', '_'), person[attr].pyval)
 
         for attr in [
             'phone-numbers',

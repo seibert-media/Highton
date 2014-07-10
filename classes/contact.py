@@ -74,9 +74,9 @@ class PhoneNumber(object):
             number,
             location,
         ):
-        self.highrise_id = highrise_id
-        self.number = number
-        self.location = location
+        self.highrise_id = highrise_id.pyval
+        self.number = number.pyval
+        self.location = location.pyval
 
 
 class EmailAddress(object):
@@ -86,9 +86,9 @@ class EmailAddress(object):
         address,
         location,
     ):
-        self.higrise_id = highrise_id
-        self.address = address
-        self.location = location
+        self.higrise_id = highrise_id.pyval
+        self.address = address.pyval
+        self.location = location.pyval
 
 
 class Address(object):
@@ -101,9 +101,9 @@ class Address(object):
         state,
         street,
     ):
-        self.highrise_id = highrise_id
-        self.city = city
-        self.country = country
-        self.location = location
-        self.state = state
-        self.street = street
+        self.highrise_id = highrise_id.pyval
+        self.city = city.pyval
+        self.country = country.pyval
+        self.location = location.pyval
+        self.state = state.pyval
+        self.street = street.pyval

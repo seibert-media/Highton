@@ -8,7 +8,7 @@ class SubjectData:
         subject_field_id,
         subject_field_label,
     ):
-        self.highrise_id = highrise_id
-        self.value = value
-        self.subject_field_id = subject_field_id
-        self.subject_field_label = subject_field_label
+        self.highrise_id = highrise_id.pyval
+        self.value = value.pyval
+        self.subject_field_id = subject_field_id.pyval
+        self.subject_field_label = subject_field_label.pyval

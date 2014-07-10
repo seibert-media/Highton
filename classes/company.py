@@ -1,5 +1,7 @@
 from contact import Contact
 
+from .tools import to_datetime
+
 
 class Company(Contact):
     """
@@ -25,20 +27,19 @@ class Company(Contact):
         tags
     """
     def save_data(self, company):
-        self.highrise_id = company['id']
-
+        self.highrise_id = company['id'].pyval
+        self.created_at = to_datetime(company['created-at'].pyval)
+        self.updated_at = to_datetime(company['updated-at'].pyval)
         for attr in [
             'author-id',
             'background',
-            'created-at',
             'group-id',
             'owner-id',
-            'updated-at',
             'visible-to',
             'name',
             'avatar-url',
         ]:
-            setattr(self, attr.replace('-', '_'), company[attr])
+            setattr(self, attr.replace('-', '_'), company[attr].pyval)
 
         for attr in [
             'phone-numbers',
