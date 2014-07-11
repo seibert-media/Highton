@@ -86,7 +86,7 @@ class EmailAddress(object):
         address,
         location,
     ):
-        self.higrise_id = highrise_id.pyval
+        self.highrise_id = highrise_id.pyval
         self.address = address.pyval
         self.location = location.pyval
 
