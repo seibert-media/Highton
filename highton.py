@@ -13,6 +13,7 @@ from classes.case import Case
 from classes.deal import Deal
 from classes.task import Task
 from classes.note import Note
+from classes.email import Email
 
 
 class Highton(object):
@@ -234,5 +235,19 @@ class Highton(object):
     def get_deal_notes(self, subject_id):
         return self._get_notes(subject_id, 'deals')
 
+    def _get_emails(self, subject_id, highrise_type):
+        return self._get_object_data(self._get_data('{}/{}/emails'.format(highrise_type, subject_id)), Email)
+
+    def get_person_emails(self, subject_id):
+        return self._get_emails(subject_id, 'people')
+
+    def get_company_emails(self, subject_id):
+        return self._get_emails(subject_id, 'companies')
+
+    def get_case_emails(self, subject_id):
+        return self._get_emails(subject_id, 'kases')
+
+    def get_deal_emails(self, subject_id):
+        return self._get_emails(subject_id, 'deals')
 
 
