@@ -53,10 +53,7 @@ class Task(object):
             'category-id',
             'body',
             'frame',
-            'due-at',
-            'alert-at',
-            'created-at',
             'author-id',
-            'updated-at',
-            'public']:
+            'public'
+        ]:
             setattr(self, attr.replace('-', '_'), task[attr].pyval)
