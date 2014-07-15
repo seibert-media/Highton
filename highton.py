@@ -208,6 +208,9 @@ class Highton(object):
     def _get_tasks(self, subject_id, highrise_type):
         return self._get_object_data(self._get_data('{}/{}/tasks'.format(highrise_type, subject_id)), Task)
 
+    def get_tasks(self):
+        return self._get_object_data(self._get_data('tasks/all'), Task)
+
     def get_person_tasks(self, subject_id):
         return self._get_tasks(subject_id, 'people')
 
