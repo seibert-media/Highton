@@ -42,18 +42,12 @@ class Task(object):
             'recording-id',
             'subject-id',
             'subject-type',
+            'subject-name',
             'category-id',
             'body',
             'frame',
             'author-id',
             'public',
             'recording-id',
-            'subject-id',
-            'subject-type',
-            'category-id',
-            'body',
-            'frame',
-            'author-id',
-            'public'
         ]:
             setattr(self, attr.replace('-', '_'), task[attr].pyval)
