@@ -16,6 +16,7 @@ from classes.task import Task
 from classes.note import Note
 from classes.email import Email
 from classes.deletions import Deletion
+from classes.tools import to_datetime
 
 
 class Highton(object):
@@ -23,6 +24,7 @@ class Highton(object):
         Highton-API is just a really simple Python library which helps you to
         get information about your Highrise data
     """
+
     def __init__(self, api_key, user):
         self.user = user
         self.api_key = api_key
@@ -41,6 +43,29 @@ class Highton(object):
             raise XMLRequestException(url)
 
         return request
+
+    def set_account(self, params={}):
+        """
+        Set the account on the Highton instance. There really isn't a reason
+        not to since there should be only one account here.
+        """
+        account = objectify.fromstring(
+            self._get_request('account', params).content
+        )
+        self.account = {}
+        self.account['highrise_id'] = account['id'].pyval
+        self.account['created_at'] = to_datetime(account['created-at'].pyval)
+        self.account['updated_at'] = to_datetime(account['updated-at'].pyval)
+        for attr in [
+            'name',
+            'subdomain',
+            'plan',
+            'color_theme',
+            'ssl_enabled',
+            'people-count',
+            'storage'
+        ]:
+            self.account[attr.replace('-', '_')] = account[attr].pyval
 
     def _get_single_data(self, endpoint, params={}):
         data = []
