@@ -26,7 +26,7 @@ class Highton(object):
         self.api_key = api_key
         self.api_key_password = 'X'
 
-    def _request(self, endpoint, params={}):
+    def _get_request(self, endpoint, params={}):
         url = 'https://{}.highrisehq.com/{}.xml'.format(self.user, endpoint)
         request = requests.get(
             url,
@@ -44,7 +44,7 @@ class Highton(object):
         data = []
         try:
             data = objectify.fromstring(
-                self._request(endpoint, params).content
+                self._get_request(endpoint, params).content
             )
         except TypeError:
             if not data:
@@ -58,7 +58,7 @@ class Highton(object):
         data = []
         try:
             data = objectify.fromstring(
-                self._request(endpoint, params).content
+                self._get_request(endpoint, params).content
             ).getchildren()
         except TypeError:
             if not data:
@@ -76,7 +76,7 @@ class Highton(object):
             while True:
                 params.update({'n': page * counter})
                 objects = objectify.fromstring(
-                    self._request(endpoint, params).content
+                    self._get_request(endpoint, params).content
                 ).getchildren()
                 if objects:
                     data += objects
@@ -101,6 +101,24 @@ class Highton(object):
             temp.save_data(d)
             data_list.append(temp)
         return data_list
+
+    def _put_request(self, endpoint, data=None, params={}):
+        url = 'https://{}.highrisehq.com/{}.xml'.format(self.user, endpoint, params)
+        request = requests.put(
+            url,
+            auth=HTTPBasicAuth(self.api_key, self.api_key_password),
+            headers={
+                'User-Agent': 'Highton-API: (bykof@me.com)',
+                'content-type': 'application/xml'
+            },
+            params=params,
+            data=data
+        )
+
+        if 'text/html' in request.headers['content-type']:
+            raise XMLRequestException(url)
+
+        return request
 
     def get_person(self, subject_id):
         """
@@ -294,7 +312,7 @@ class Highton(object):
         # This object type is odd since the `type` attr is attached
         # to the xml at a parent level relative to the placement
         # of the rest of the data.
-        _deletions = etree.fromstring(self._request('deletions', params).content)
+        _deletions = etree.fromstring(self._get_request('deletions', params).content)
         deletions = []
         for deletion in _deletions:
             data = {}
@@ -317,3 +335,25 @@ class Highton(object):
         except ValueError:
             raise ParseTimeException
         return self.get_deletions(params={'since': since})
+
+    def put_task(self, highrise_id, data, params={}):
+        """
+        Put to a specific task id
+        :param highrise_id: Highrise id.
+        :param data: xml string of updated fields.
+            see https://github.com/basecamp/highrise-api/blob/master/sections/tasks.md#update-task
+        :param params: pass {'reload': 'true'} for xml success content in the response.
+        :return: return response or none. see :param params:
+        """
+        return self._put_request('tasks/{}'.format(highrise_id), data, params)
+
+    def put_case(self, highrise_id, data, params={}):
+        """
+        Put to a specific case id
+        :param highrise_id: Highrise id.
+        :param data: xml string of updated fields.
+            see https://github.com/basecamp/highrise-api/blob/master/sections/cases.md#update-case
+        :param params: pass {'reload': 'true'} for xml success content in the response.
+        :return: return response or none. see :param params:
+        """
+        return self._put_request('kases/{}'.format(highrise_id), data, params)

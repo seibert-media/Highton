@@ -1,5 +1,5 @@
-from custom_field import SubjectData
-from tag import Tag
+from .custom_field import SubjectData
+from .tag import Tag
 
 
 class Contact(object):
@@ -73,7 +73,7 @@ class PhoneNumber(object):
             highrise_id,
             number,
             location,
-        ):
+    ):
         self.highrise_id = highrise_id.pyval
         self.number = number.pyval
         self.location = location.pyval

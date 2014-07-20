@@ -3,7 +3,8 @@ import datetime
 
 
 def to_datetime(datetime_string):
-    match = re.match('^(.*)-(.*)-(.*)( |T)(.*):(.*):(.*)(\+|Z).*$', datetime_string)
+    match = re.match(
+        '^(.*)-(.*)-(.*)( |T)(.*):(.*):(.*)(\+|Z).*$', datetime_string)
     if match:
         return datetime.datetime(
             year=int(match.group(1)),
