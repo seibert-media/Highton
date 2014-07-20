@@ -129,6 +129,25 @@ class Highton(object):
             data_list.append(temp)
         return data_list
 
+    def _post_request(self, endpoint, data=None, params={}):
+        url = 'https://{}.highrisehq.com/{}.xml'.format(
+            self.user, endpoint, params)
+        request = requests.post(
+            url,
+            auth=HTTPBasicAuth(self.api_key, self.api_key_password),
+            headers={
+                'User-Agent': 'Highton-API: (bykof@me.com)',
+                'content-type': 'application/xml'
+            },
+            params=params,
+            data=data
+        )
+
+        if 'text/html' in request.headers['content-type']:
+            raise XMLRequestException(url)
+
+        return request
+
     def _put_request(self, endpoint, data=None, params={}):
         url = 'https://{}.highrisehq.com/{}.xml'.format(
             self.user, endpoint, params)
@@ -404,6 +423,48 @@ class Highton(object):
             raise ParseTimeException
         return self.get_deletions(params={'since': since})
 
+    # Create Methods:
+    def post_case(self, data, params={}):
+        return self._post_request('kases', data, params)
+
+    def post_comment(self, data, params={}):
+        return self._post_request('comments', data, params)
+
+    def post_company(self, data, params={}):
+        return self._post_request(
+            'companies/{}', data, params)
+
+    def post_custom_field(self, data, params={}):
+        return self._post_request(
+            'subject_field', data, params)
+
+    def post_deal(self, data, params={}):
+        return self._post_request('deals', data, params)
+
+    def post_email(self, data, params={}):
+        return self._post_request('emails', data, params)
+
+    def post_subject_email(self, subject_type, subject_id, data, params={}):
+        return self._post_request('{}/{}/emails'.format(
+            subject_type, subject_id), data, params)
+
+    def post_group(self, data, params={}):
+        return self._post_request('groups', data, params)
+
+    def post_note(self, data, params={}):
+        return self._post_request('notes', data, params)
+
+    def post_subject_note(self, subject_type, subject_id, data, params={}):
+        return self._post_request('{}/{}/notes'.format(
+            subject_type, subject_id), data, params)
+
+    def post_person(self, data, params={}):
+        return self._post_request('people', data, params)
+
+    def post_task(self, data, params={}):
+        return self._post_request('tasks', data, params)
+
+    # Update Methods:
     def put_case(self, highrise_id, data, params={}):
         return self._put_request('kases/{}'.format(highrise_id), data, params)
 
@@ -437,6 +498,7 @@ class Highton(object):
     def put_task(self, highrise_id, data, params={}):
         return self._put_request('tasks/{}'.format(highrise_id), data, params)
 
+    # Destroy Methosd
     def delete_case(self, highrise_id, params={}):
         return self._delete_request('kases/{}'.format(highrise_id), params)
 
