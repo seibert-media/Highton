@@ -1,4 +1,4 @@
-from contact import Contact
+from .contact import Contact
 
 from .tools import to_datetime
 
@@ -47,7 +47,8 @@ class Company(Contact):
             'addresses',
         ]:
             if hasattr(company['contact-data'], attr):
-                getattr(self, 'set_' + attr.replace('-', '_'))(company['contact-data'][attr])
+                getattr(self, 'set_' + attr.replace('-', '_'))(
+                    company['contact-data'][attr])
 
         for attr in [
             'subject_datas',

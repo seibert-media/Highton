@@ -1,7 +1,8 @@
-from person import Person
-from company import Company
+from .person import Person
+from .company import Company
 
 from .tools import to_datetime
+
 
 class Case(object):
     """
@@ -48,4 +49,3 @@ class Case(object):
                 company = Company()
                 company.save_data(party)
                 self.parties.append(company)
-

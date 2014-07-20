@@ -1,6 +1,6 @@
-from person import Person
-from company import Company
-from category import Category
+from .person import Person
+from .company import Company
+from .category import Category
 
 from .tools import to_datetime, to_date
 

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from contact import Contact
+from .contact import Contact
 
 from .tools import to_datetime
 
@@ -53,7 +53,8 @@ class Person(Contact):
             'addresses',
         ]:
             if hasattr(person['contact-data'], attr):
-                getattr(self, 'set_' + attr.replace('-', '_'))(person['contact-data'][attr])
+                getattr(self, 'set_' + attr.replace('-', '_'))(
+                    person['contact-data'][attr])
 
         for attr in [
             'subject_datas',
@@ -61,4 +62,3 @@ class Person(Contact):
         ]:
             if hasattr(person, attr):
                 getattr(self, 'set_' + attr.replace('-', '_'))(person[attr])
-
