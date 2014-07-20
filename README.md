@@ -9,7 +9,7 @@ Install via Pip:
 Thank you that you came to my repository. Feel free to work with my API. - Bykof
 ##What you can do with Highton?
 
- * You can get nearly all Highrise-data (working on it!)
+ * You can get/put/post/delete nearly all Highrise-data (working on it!)
  * Every data you get from Highton is structured in a simple class - structure (more a the bottom)
  * You have a lot of exception-handler in there so don't worry about to fail
  * Yeah Highton means Highrise and Python - you got it!
@@ -30,7 +30,7 @@ high = Highton(
 
 """
     now you can use every method
-    example: 
+    example:
     yes it will iterate over all pages
     not only the first 500
 """
@@ -39,42 +39,59 @@ people = high.get_people()
 #iterate over all people
 for person in people:
 #choose one of the attributes from below
-    print person.first_name
-    
+    print(person.first_name)
+
 #or get all deals since a datetime for a faster import
 #Format is YYYYMMDDHHMMSS
 deals = high.get_deals_since('20140601000000')
 
 for deal in deals:
-    print deal.name
+    print(deal.name)
+
+"""
+    Set the current authenticated
+    account on the Highton instance.
+"""
+high.set_account()
+print(high.account)
 #enjoy your output
+
 ```
 #Highton Functions
+
+##Account
+
+Never a bad idea to set the account context on the Highton instance.
+
+    high.set_account()
+    # Set the currently authenticated account as a member of the class. Can access the account with `high.account`.
+
+##GET
 
 Get all cases
 
     cases = high.get_cases()
 
 Get cases since dateimte
-    
+
     cases_since_datetime = high.get_cases_since('YYYMMDDHHMMSS')
-    
+
 Get people
-    
+
     people = high.get_people()
-    
+
 Get people since datetime
 
     people = high.get_people_since('YYYMMDDHHMMSS')
 
 Get task categories
-    
+
     task_categories = high.get_task_categories()
 
 Get deal categories
-    
+
     deal_categories = high.get_deal_categories()
-    
+
 Get companies
 
     companies = high.get_companies()
@@ -82,21 +99,21 @@ Get companies
 Get companies since datetime
 
     companies = high.get_companies_since('YYYMMDDHHMMSS')
-    
+
 Get deals
-    
+
     deals = high.get_deals()
-    
+
 Get deals since datetime
-    
+
     deals = high.get_deals_since('YYYMMDDHHMMSS')
-    
+
 Get deals by status
-    
+
     deals = high.get_deals_by_status('status')
 
 Get Tasks from a Person/Company/Case/Deal
-    
+
     tasks = high.get_person_tasks('person_highrise_id')
     tasks = high.get_company_tasks('company_highrise_id')
     tasks = high.get_case_tasks('case_highrise_id')
@@ -109,7 +126,170 @@ Get Notes from a Person/Company/Case/Deal
     notes = high.get_case_notes('case_highrise_id')
     notes = high.get_deal_notes('deal_highrise_id')
 
+Get Deleted items
+
+    dele = high.get_deleted()
+
+Get deleted items since
+
+    dele = high.get_deleted_since('YYYYMMDDHHmmss')
+
+##POST
+  * You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
+    sample_xml = "<{TYPE}><{KEY}>Refer to the basecamp docs</{KEY}></{TYPE}>"
+
+Create a case
+
+    high.post_case(data)
+
+Create a comment
+
+    high.post_comment(data)
+
+Create a company
+
+    high.post_company(data)
+
+Create a custom_field
+
+    high.post_custom_field(data)
+
+Create a deal
+
+    high.post_deal(data)
+
+Create a email
+
+    high.post_email(data)
+
+Create a subject_email with a subject type and subject id
+
+    high.post_subject_email(subject_type, subject_id, data)
+
+Create a group
+
+    high.post_group(data)
+
+Create a note
+
+    high.post_note(data)
+
+Create a subject_note with a subject type and subject id
+
+    high.post_subject_note(subject_type, subject_id, data)
+
+Create a person
+
+    high.post_note(data)
+
+Create a task
+
+    high.post_task(data)
+
+##UPDATE
+  * You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
+    sample_xml = "<{TYPE}><{KEY}>Refer to the basecamp docs</{KEY}></{TYPE}>"
+
+  * Pass {'reload': 'true'} if you want to use the successfully updated item.
+
+Update a case
+
+    high.put_case(highrise_id, data, {params})
+
+Update a comment
+
+    high.put_comment(highrise_id, data, {params})
+
+Update a company
+
+    high.put_company(highrise_id, data, {params})
+
+Update a custom_field
+
+    high.put_custom_field(highrise_id, data, {params})
+
+Update a deal
+
+    high.put_deal(highrise_id, data, {params})
+
+Update a email
+
+    high.put_email(highrise_id, data, {params})
+
+Update a group
+
+    high.put_group(highrise_id, data, {params})
+
+Update a note
+
+    high.put_note(highrise_id, data, {params})
+
+Update a person
+
+    high.put_note(highrise_id, data, {params})
+
+Update a task
+
+    high.put_task(highrise_id, data, {params})
+
+##DESTROY
+
+  * Simply send in the Highrise ID
+
+Destroy a case
+
+    high.delete_case(highrise_id, data, {params})
+
+Destroy a comment
+
+    high.delete_comment(highrise_id, data, {params})
+
+Destroy a company
+
+    high.delete_company(highrise_id, data, {params})
+
+Destroy a custom_field
+
+    high.delete_custom_field(highrise_id, data, {params})
+
+Destroy a deal
+
+    high.delete_deal(highrise_id, data, {params})
+
+Destroy a email
+
+    high.delete_email(highrise_id, data, {params})
+
+Destroy a group
+
+    high.delete_group(highrise_id, data, {params})
+
+Destroy a note
+
+    high.delete_note(highrise_id, data, {params})
+
+Destroy a person
+
+    high.delete_note(highrise_id, data, {params})
+
+Destroy a task
+
+    high.delete_task(highrise_id, data, {params})
+
 #Classes
+
+##Highton
+ * account (After calling high.set_account())
+  * highrise_id
+  * created_at
+  * updated_at
+  * name
+  * plan
+  * subdomain
+  * color_theme
+  * ssl_enabled
+  * people_count
+  * storage
 
 ##Case
  * highrise_id
@@ -293,3 +473,8 @@ Get Notes from a Person/Company/Case/Deal
  * url
  * name
  * size
+
+##Deletion
+ * highrise_id
+ * type
+ * deleted_at
