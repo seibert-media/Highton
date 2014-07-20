@@ -123,6 +123,23 @@ class Highton(object):
 
         return request
 
+    def _delete_request(self, endpoint, params={}):
+        url = 'https://{}.highrisehq.com/{}.xml'.format(
+            self.user, endpoint, params)
+        request = requests.delete(
+            url,
+            auth=HTTPBasicAuth(self.api_key, self.api_key_password),
+            headers={
+                'User-Agent': 'Highton-API: (bykof@me.com)',
+            },
+            params=params,
+        )
+
+        if 'text/html' in request.headers['content-type']:
+            raise XMLRequestException(url)
+
+        return request
+
     def get_person(self, subject_id):
         """
         Gives you a chosen person as an object.
@@ -394,3 +411,51 @@ class Highton(object):
 
     def put_task(self, highrise_id, data, params={}):
         return self._put_request('tasks/{}'.format(highrise_id), data, params)
+
+    def delete_case(self, highrise_id, params={}):
+        return self._delete_request('kases/{}'.format(highrise_id), params)
+
+    def delete_category(self, model_type, highrise_id, params={}):
+        return self._delete_request(
+            '{}_categories/{}'.format(model_type, highrise_id), params)
+
+    def delete_comment(self, highrise_id, params={}):
+        return self._delete_request('comments/{}'.format(highrise_id), params)
+
+    def delete_company(self, highrise_id, params={}):
+        return self._delete_request(
+            'companies/{}'.format(highrise_id), params)
+
+    def delete_custom_field(self, highrise_id, params={}):
+        return self._delete_request(
+            'subject_field/{}'.format(highrise_id), params)
+
+    def delete_deal(self, highrise_id, params={}):
+        return self._delete_request('deals/{}'.format(highrise_id), params)
+
+    def delete_email(self, highrise_id, params={}):
+        return self._delete_request('emails/{}'.format(highrise_id), params)
+
+    def delete_group(self, highrise_id, params={}):
+        return self._delete_request('groups/{}'.format(highrise_id), params)
+
+    def delete_membership(self, highrise_id, params={}):
+        return self._delete_request(
+            'memberships/{}'.format(highrise_id), params)
+
+    def delete_note(self, highrise_id, params={}):
+        return self._delete_request('notes/{}'.format(highrise_id), params)
+
+    def delete_person(self, highrise_id, params={}):
+        return self._delete_request('people/{}'.format(highrise_id), params)
+
+    def delete_tag(self, subject_type, subject_id, highrise_id, params={}):
+        """
+        A delete call for a tag requires a specific path.
+        DELETE /#{subject_type}/#{subject_id}/tags/#{id}.xml
+        """
+        return self._delete_request('{}/{}/tags/{}'.format(
+            subject_type, subject_id, highrise_id), params)
+
+    def delete_task(self, highrise_id, params={}):
+        return self._delete_request('tasks/{}'.format(highrise_id), params)
