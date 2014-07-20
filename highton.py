@@ -2,7 +2,7 @@
 import datetime
 
 import requests
-from lxml import objectify
+from lxml import objectify, etree
 from requests.auth import HTTPBasicAuth
 
 from custom_exceptions import HighriseGetException, ParseTimeException, FieldException, XMLRequestException
@@ -14,6 +14,7 @@ from classes.deal import Deal
 from classes.task import Task
 from classes.note import Note
 from classes.email import Email
+from classes.deletions import Deletion
 
 
 class Highton(object):
@@ -91,12 +92,23 @@ class Highton(object):
         return data
 
     def _get_object_data(self, data, highrise_class):
+        """
+        Return a formatted highrise_class list.
+        """
         data_list = []
         for d in data:
             temp = highrise_class()
             temp.save_data(d)
             data_list.append(temp)
         return data_list
+
+    def get_person(self, subject_id):
+        """
+        Gives you a chosen person as an object.
+        :param subject_id: the highrise_id of the deal
+        :return: person object
+        """
+        return self._get_object_data(self._get_single_data('people/{}'.format(subject_id)), Person)[0]
 
     def get_people(self):
         """
@@ -134,6 +146,14 @@ class Highton(object):
         """
         return self._get_object_data(self._get_categories('deal'), DealCategory)
 
+    def get_company(self, subject_id):
+        """
+        Gives you a chosen company as an object.
+        :param subject_id: the highrise_id of the deal
+        :return: company object
+        """
+        return self._get_object_data(self._get_single_data('companies/{}'.format(subject_id)), Company)[0]
+
     def get_companies(self):
         """
         Just run this Method and you get a Company object with all objects and attributes inside it. Get Lucky
@@ -152,6 +172,14 @@ class Highton(object):
         except ValueError:
             raise ParseTimeException
         return self._get_object_data(self._get_paged_data('companies', params={'since': since}), Company)
+
+    def get_case(self, subject_id):
+        """
+        Gives you a chosen case as an object.
+        :param subject_id: the highrise_id of the deal
+        :return: case object
+        """
+        return self._get_object_data(self._get_single_data('kases/{}'.format(subject_id)), Case)[0]
 
     def get_cases(self):
         """
@@ -205,6 +233,14 @@ class Highton(object):
             raise FieldException(fields)
         return self._get_object_data(self._get_paged_data('deals', params={'status': status}), Deal)
 
+    def get_task(self, subject_id):
+        """
+        Gives you a chosen task as an object.
+        :param subject_id: the highrise_id of the deal
+        :return: task object
+        """
+        return self._get_object_data(self._get_single_data('tasks/{}'.format(subject_id)), Task)[0]
+
     def _get_tasks(self, subject_id, highrise_type):
         return self._get_object_data(self._get_data('{}/{}/tasks'.format(highrise_type, subject_id)), Task)
 
@@ -253,4 +289,31 @@ class Highton(object):
     def get_deal_emails(self, subject_id):
         return self._get_emails(subject_id, 'deals')
 
+    def get_deletions(self, params={}):
+        # Get the xml data in an etree obj since we have lxml.
+        # This object type is odd since the `type` attr is attached
+        # to the xml at a parent level relative to the placement
+        # of the rest of the data.
+        _deletions = etree.fromstring(self._request('deletions', params).content)
+        deletions = []
+        for deletion in _deletions:
+            data = {}
+            data['type'] = deletion.attrib.values()[0]
+            for sub in deletion:
+                data[sub.tag] = sub.text
+            temp = Deletion()
+            temp.save_data(data)
+            deletions.append(temp)
+        return deletions
 
+    def get_deletions_since(self, since):
+        """
+        Gives you all deletions since the set parameter
+        :param since: string with %Y%m%d%H%M%S - Format
+        :return: return all deletions since the given parameter
+        """
+        try:
+            datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
+        except ValueError:
+            raise ParseTimeException
+        return self.get_deletions(params={'since': since})
