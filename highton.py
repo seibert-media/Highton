@@ -5,7 +5,8 @@ import requests
 from lxml import objectify, etree
 from requests.auth import HTTPBasicAuth
 
-from custom_exceptions import HighriseGetException, ParseTimeException, FieldException, XMLRequestException
+from custom_exceptions import (HighriseGetException, ParseTimeException,
+                               FieldException, XMLRequestException)
 from classes.person import Person
 from classes.category import DealCategory, TaskCategory
 from classes.company import Company
@@ -19,7 +20,8 @@ from classes.deletions import Deletion
 
 class Highton(object):
     """
-        Highton-API is just a really simple Python library which helps you to get information about your Highrise data
+        Highton-API is just a really simple Python library which helps you to
+        get information about your Highrise data
     """
     def __init__(self, api_key, user):
         self.user = user
@@ -103,7 +105,8 @@ class Highton(object):
         return data_list
 
     def _put_request(self, endpoint, data=None, params={}):
-        url = 'https://{}.highrisehq.com/{}.xml'.format(self.user, endpoint, params)
+        url = 'https://{}.highrisehq.com/{}.xml'.format(
+            self.user, endpoint, params)
         request = requests.put(
             url,
             auth=HTTPBasicAuth(self.api_key, self.api_key_password),
@@ -126,12 +129,15 @@ class Highton(object):
         :param subject_id: the highrise_id of the deal
         :return: person object
         """
-        return self._get_object_data(self._get_single_data('people/{}'.format(subject_id)), Person)[0]
+        return self._get_object_data(self._get_single_data('people/{}'.format(
+            subject_id)), Person)[0]
 
     def get_people(self):
         """
-        Just run this Method and you get a Person object with all objects and attributes inside it. Get Lucky
-        :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
+        Just run this Method and you get a Person object with all objects and
+        attributes inside it. Get Lucky
+        :return: returns all people (of course it iterates over all pages, so
+            you dont get only the first 500)
         """
         return self._get_object_data(self._get_paged_data('people'), Person)
 
@@ -145,7 +151,8 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_object_data(self._get_paged_data('people', params={'since': since}), Person)
+        return self._get_object_data(self._get_paged_data(
+            'people', params={'since': since}), Person)
 
     def _get_categories(self, category_type):
         return self._get_data(category_type + '_categories')
@@ -155,14 +162,16 @@ class Highton(object):
         Get all Task-Categories
         :return: all Task-Categories
         """
-        return self._get_object_data(self._get_categories('task'), TaskCategory)
+        return self._get_object_data(
+            self._get_categories('task'), TaskCategory)
 
     def get_deal_categories(self):
         """
         Get all Deal-Categories
         :return: all Deal-Categories
         """
-        return self._get_object_data(self._get_categories('deal'), DealCategory)
+        return self._get_object_data(
+            self._get_categories('deal'), DealCategory)
 
     def get_company(self, subject_id):
         """
@@ -170,14 +179,18 @@ class Highton(object):
         :param subject_id: the highrise_id of the deal
         :return: company object
         """
-        return self._get_object_data(self._get_single_data('companies/{}'.format(subject_id)), Company)[0]
+        return self._get_object_data(self._get_single_data(
+            'companies/{}'.format(subject_id)), Company)[0]
 
     def get_companies(self):
         """
-        Just run this Method and you get a Company object with all objects and attributes inside it. Get Lucky
-        :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
+        Just run this Method and you get a Company object with all objects and
+        attributes inside it. Get Lucky
+        :return: returns all people (of course it iterates over all pages, so
+            you dont get only the first 500)
         """
-        return self._get_object_data(self._get_paged_data('companies'), Company)
+        return self._get_object_data(
+            self._get_paged_data('companies'), Company)
 
     def get_companies_since(self, since):
         """
@@ -189,7 +202,8 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_object_data(self._get_paged_data('companies', params={'since': since}), Company)
+        return self._get_object_data(self._get_paged_data(
+            'companies', params={'since': since}), Company)
 
     def get_case(self, subject_id):
         """
@@ -197,12 +211,15 @@ class Highton(object):
         :param subject_id: the highrise_id of the deal
         :return: case object
         """
-        return self._get_object_data(self._get_single_data('kases/{}'.format(subject_id)), Case)[0]
+        return self._get_object_data(self._get_single_data('kases/{}'.format(
+            subject_id)), Case)[0]
 
     def get_cases(self):
         """
-        Just run this Method and you get a Case object with all objects and attributes inside it. Get Lucky
-        :return: returns all people (of course it iterates over all pages, so you dont get only the first 500)
+        Just run this Method and you get a Case object with all objects and
+        attributes inside it. Get Lucky
+        :return: returns all people (of course it iterates over all pages, so
+            you dont get only the first 500)
         """
         return self._get_object_data(self._get_paged_data('kases'), Case)
 
@@ -216,7 +233,8 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException(since)
-        return self._get_object_data(self._get_paged_data('kases', params={'since': since}), Case)
+        return self._get_object_data(self._get_paged_data(
+            'kases', params={'since': since}), Case)
 
     def get_deal(self, subject_id):
         """
@@ -224,7 +242,8 @@ class Highton(object):
         :param subject_id: the highrise_id of the deal
         :return: deal object
         """
-        return self._get_object_data(self._get_single_data('deals/{}'.format(subject_id)), Deal)[0]
+        return self._get_object_data(self._get_single_data('deals/{}'.format(
+            subject_id)), Deal)[0]
 
     def get_deals(self):
         """
@@ -243,13 +262,15 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_object_data(self._get_paged_data('deals', params={'since': since}), Deal)
+        return self._get_object_data(self._get_paged_data(
+            'deals', params={'since': since}), Deal)
 
     def get_deals_by_status(self, status):
         fields = ['won', 'lost', 'pending']
         if status not in fields:
             raise FieldException(fields)
-        return self._get_object_data(self._get_paged_data('deals', params={'status': status}), Deal)
+        return self._get_object_data(self._get_paged_data(
+            'deals', params={'status': status}), Deal)
 
     def get_task(self, subject_id):
         """
@@ -257,10 +278,12 @@ class Highton(object):
         :param subject_id: the highrise_id of the deal
         :return: task object
         """
-        return self._get_object_data(self._get_single_data('tasks/{}'.format(subject_id)), Task)[0]
+        return self._get_object_data(self._get_single_data('tasks/{}'.format(
+            subject_id)), Task)[0]
 
     def _get_tasks(self, subject_id, highrise_type):
-        return self._get_object_data(self._get_data('{}/{}/tasks'.format(highrise_type, subject_id)), Task)
+        return self._get_object_data(self._get_data('{}/{}/tasks'.format(
+            highrise_type, subject_id)), Task)
 
     def get_tasks(self):
         return self._get_object_data(self._get_data('tasks/all'), Task)
@@ -278,7 +301,8 @@ class Highton(object):
         return self._get_tasks(subject_id, 'deals')
 
     def _get_notes(self, subject_id, highrise_type):
-        return self._get_object_data(self._get_data('{}/{}/notes'.format(highrise_type, subject_id)), Note)
+        return self._get_object_data(self._get_data('{}/{}/notes'.format(
+            highrise_type, subject_id)), Note)
 
     def get_person_notes(self, subject_id):
         return self._get_notes(subject_id, 'people')
@@ -293,7 +317,8 @@ class Highton(object):
         return self._get_notes(subject_id, 'deals')
 
     def _get_emails(self, subject_id, highrise_type):
-        return self._get_object_data(self._get_data('{}/{}/emails'.format(highrise_type, subject_id)), Email)
+        return self._get_object_data(self._get_data('{}/{}/emails'.format(
+            highrise_type, subject_id)), Email)
 
     def get_person_emails(self, subject_id):
         return self._get_emails(subject_id, 'people')
@@ -312,7 +337,8 @@ class Highton(object):
         # This object type is odd since the `type` attr is attached
         # to the xml at a parent level relative to the placement
         # of the rest of the data.
-        _deletions = etree.fromstring(self._get_request('deletions', params).content)
+        _deletions = etree.fromstring(
+            self._get_request('deletions', params).content)
         deletions = []
         for deletion in _deletions:
             data = {}
@@ -336,24 +362,35 @@ class Highton(object):
             raise ParseTimeException
         return self.get_deletions(params={'since': since})
 
-    def put_task(self, highrise_id, data, params={}):
-        """
-        Put to a specific task id
-        :param highrise_id: Highrise id.
-        :param data: xml string of updated fields.
-            see https://github.com/basecamp/highrise-api/blob/master/sections/tasks.md#update-task
-        :param params: pass {'reload': 'true'} for xml success content in the response.
-        :return: return response or none. see :param params:
-        """
-        return self._put_request('tasks/{}'.format(highrise_id), data, params)
-
     def put_case(self, highrise_id, data, params={}):
-        """
-        Put to a specific case id
-        :param highrise_id: Highrise id.
-        :param data: xml string of updated fields.
-            see https://github.com/basecamp/highrise-api/blob/master/sections/cases.md#update-case
-        :param params: pass {'reload': 'true'} for xml success content in the response.
-        :return: return response or none. see :param params:
-        """
         return self._put_request('kases/{}'.format(highrise_id), data, params)
+
+    def put_comment(self, highrise_id, data, params={}):
+        return self._put_request(
+            'comments/{}'.format(highrise_id), data, params)
+
+    def put_company(self, highrise_id, data, params={}):
+        return self._put_request(
+            'companies/{}'.format(highrise_id), data, params)
+
+    def put_custom_field(self, highrise_id, data, params={}):
+        return self._put_request(
+            'subject_field/{}'.format(highrise_id), data, params)
+
+    def put_deal(self, highrise_id, data, params={}):
+        return self._put_request('deals/{}'.format(highrise_id), data, params)
+
+    def put_email(self, highrise_id, data, params={}):
+        return self._put_request('emails/{}'.format(highrise_id), data, params)
+
+    def put_group(self, highrise_id, data, params={}):
+        return self._put_request('groups/{}'.format(highrise_id), data, params)
+
+    def put_note(self, highrise_id, data, params={}):
+        return self._put_request('notes/{}'.format(highrise_id), data, params)
+
+    def put_person(self, highrise_id, data, params={}):
+        return self._put_request('people/{}'.format(highrise_id), data, params)
+
+    def put_task(self, highrise_id, data, params={}):
+        return self._put_request('tasks/{}'.format(highrise_id), data, params)
