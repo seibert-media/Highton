@@ -1,12 +1,13 @@
 
 
-class HighriseGetException(Exception):
+class HighriseRequestException(Exception):
     def __init__(self, function_name, message):
         self.function_name = function_name
         self.message = message
 
     def __unicode__(self):
-        return 'Following type: {} threw following exception: {}'.format(self.function_name, self.message)
+        return 'Following type: {} threw following exception: {}'.format(
+            self.function_name, self.message)
 
 
 class ParseTimeException(Exception):
@@ -14,8 +15,9 @@ class ParseTimeException(Exception):
         self.parsed_string = parsed_string
 
     def __unicode__(self):
-        return 'Your parsed string: {} is false. Please correct it in following format: YYYYMMDDHHMMSS in Python ' \
-               'you would say: %Y%m%d%H%M%S'
+        return 'Your parsed string: {} is false. Please correct it in ' \
+            'following format: YYYYMMDDHHMMSS in Python you would ' \
+            'say: %Y%m%d%H%M%S'
 
 
 class FieldException(Exception):
@@ -23,7 +25,8 @@ class FieldException(Exception):
         self.fields = fields
 
     def __unicode__(self):
-        return 'You have to set the parameter on one of these fields: {}'.format(self.fields)
+        return 'You have to set the parameter on one of these fields: ' \
+            '{}'.format(self.fields)
 
 
 class XMLRequestException(Exception):

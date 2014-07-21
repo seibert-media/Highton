@@ -135,16 +135,12 @@ Get deleted items since
     dele = high.get_deleted_since('YYYYMMDDHHmmss')
 
 ##POST
-  * You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
+  * data: You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
     sample_xml = "<{TYPE}><{KEY}>Refer to the basecamp docs</{KEY}></{TYPE}>"
 
 Create a case
 
     high.post_case(data)
-
-Create a comment
-
-    high.post_comment(data)
 
 Create a company
 
@@ -166,10 +162,6 @@ Create a subject_email with a subject type and subject id
 
     high.post_subject_email(subject_type, subject_id, data)
 
-Create a group
-
-    high.post_group(data)
-
 Create a note
 
     high.post_note(data)
@@ -187,18 +179,14 @@ Create a task
     high.post_task(data)
 
 ##UPDATE
-  * You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
+  * data: You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
     sample_xml = "<{TYPE}><{KEY}>Refer to the basecamp docs</{KEY}></{TYPE}>"
 
-  * Pass {'reload': 'true'} if you want to use the successfully updated item.
+  * Pass {'reload': 'true'} if you want to use the successfully updated item. If you pass {'reload': 'true'} then you will get back a dict: `{'request': request, 'model', HightonModel}` else ignore the param to get back just the response.
 
 Update a case
 
     high.put_case(highrise_id, data, {params})
-
-Update a comment
-
-    high.put_comment(highrise_id, data, {params})
 
 Update a company
 
@@ -216,10 +204,6 @@ Update a email
 
     high.put_email(highrise_id, data, {params})
 
-Update a group
-
-    high.put_group(highrise_id, data, {params})
-
 Update a note
 
     high.put_note(highrise_id, data, {params})
@@ -235,6 +219,7 @@ Update a task
 ##DESTROY
 
   * Simply send in the Highrise ID
+  * Only the response is returned for now since this is a lightweight uselesss table.
 
 Destroy a case
 
@@ -256,7 +241,7 @@ Destroy a deal
 
     high.delete_deal(highrise_id, data, {params})
 
-Destroy a email
+Destroy an email
 
     high.delete_email(highrise_id, data, {params})
 
@@ -279,13 +264,21 @@ Destroy a task
 #Classes
 
 ##Highton
- * account (After calling high.set_account())
+ * account (After calling high.get_account())
   * highrise_id
   * created_at
   * updated_at
   * name
   * plan
   * subdomain
+  * color_theme
+  * ssl_enabled
+  * people_count
+  * storage
+ * me (After calling high.get_me())
+  * name
+  * subdomain
+  * plan
   * color_theme
   * ssl_enabled
   * people_count
