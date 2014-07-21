@@ -6,7 +6,7 @@ packages = [
 
 setup(
     name = 'Highton',
-    version = '1.1.5',
+    version = '1.2',
     license = 'Apache License 2.0',
     description = 'A Python library for Highrise',
     long_description = 'A beautiful Python - Highrise - API. Less is more.',
