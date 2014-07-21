@@ -6,11 +6,10 @@ class User(object):
         Feel free to use these attributes:
         highrise_id
         name
-        email
-        token
-        dropbox
+        email_address
         created_at
         updated_at
+        admin
     """
 
     def save_data(self, user):

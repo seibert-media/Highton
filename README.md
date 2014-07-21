@@ -63,10 +63,19 @@ print(high.account)
 
 Never a bad idea to set the account context on the Highton instance.
 
-    high.set_account()
+    high.get_account()
     # Set the currently authenticated account as a member of the class. Can access the account with `high.account`.
 
+Or yourself;
+
+    high.get_me()
+    # Set the currently authenticated user as a member of the instance. Can access yourself with `high.me`
+
 ##GET
+
+Get all users
+
+    cases = high.get_users()
 
 Get all cases
 
@@ -125,6 +134,18 @@ Get Notes from a Person/Company/Case/Deal
     notes = high.get_company_notes('company_highrise_id')
     notes = high.get_case_notes('case_highrise_id')
     notes = high.get_deal_notes('deal_highrise_id')
+
+#All of the above also have a single getter.
+
+    thing = high.get_THING(THINGS_ID)
+
+Get a {case/company/contact/...} like that
+
+    thing = high.get_{case/company/contact/...}(str(HIGHRIGE_ID))
+
+Get a case like that
+
+    case = high.get_case(HIGHRIGE_ID)
 
 Get Deleted items
 
@@ -471,3 +492,11 @@ Destroy a task
  * highrise_id
  * type
  * deleted_at
+
+##User
+ * highrise_id
+ * name
+ * email_address
+ * created_at
+ * updated_at
+ * admin
