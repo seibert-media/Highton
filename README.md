@@ -137,8 +137,6 @@ Get Notes from a Person/Company/Case/Deal
 
 #All of the above also have a single getter.
 
-    thing = high.get_THING(THINGS_ID)
-
 Get a {case/company/contact/...} like that
 
     thing = high.get_{case/company/contact/...}(str(HIGHRIGE_ID))
