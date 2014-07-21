@@ -69,7 +69,7 @@ class Highton(object):
         ]:
             self.account[attr.replace('-', '_')] = account[attr].pyval
 
-    def get_me(self, params={}):
+    def get_current_auth_user(self, params={}):
         """
         Gives you the currently authenticated user as an object.
         :return: task object on Highton instance.

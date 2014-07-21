@@ -68,7 +68,7 @@ Never a bad idea to set the account context on the Highton instance.
 
 Or yourself;
 
-    high.get_me()
+    high.get_current_auth_user()
     # Set the currently authenticated user as a member of the instance. Can access yourself with `high.me`
 
 ##GET
@@ -294,7 +294,7 @@ Destroy a task
   * ssl_enabled
   * people_count
   * storage
- * me (After calling high.get_me())
+ * me (After calling high.get_current_auth_user())
   * name
   * subdomain
   * plan
