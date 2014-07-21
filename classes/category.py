@@ -3,7 +3,8 @@ from .tools import to_datetime
 
 class Category(object):
     """
-        Feel free to use these attributes, they will be added if you call get_task_categories in the Highton-Class
+        Feel free to use these attributes, they will be added if you call
+        get_task_categories in the Highton-Class:
         highrise_id,
         name,
     """
@@ -14,8 +15,9 @@ class Category(object):
 
 class TaskCategory(Category):
     """
-        This is just a class to identify later, which type of Category the request have
-        Feel free to use these attributes, they will be added if you call get_task_categories in the Highton-Class
+        This is just a class to identify later, which type of Category the
+        request have. Feel free to use these attributes, they will be added
+        if you call get_task_categories in the Highton-Class:
         highrise_id,
         name,
         updated_at,
@@ -40,8 +42,9 @@ class TaskCategory(Category):
 
 class DealCategory(Category):
     """
-        This is just a class to identify later, which type of Category the request have
-        Feel free to use these attributes, they will be added if you call get_task_categories in the Highton-Class
+        This is just a class to identify later, which type of Category the
+        request have. Feel free to use these attributes, they will be added
+        if you call get_task_categories in the Highton-Class:
         highrise_id,
         name,
         updated_at,
