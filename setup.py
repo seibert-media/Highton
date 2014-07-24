@@ -1,9 +1,5 @@
 from setuptools import setup
 
-packages = [
-    'classes',
-]
-
 setup(
     name = 'Highton',
     version = '1.2',
@@ -13,8 +9,7 @@ setup(
     url = 'https://github.com/seibert-media/Highton',
     author = 'Michael Bykovski',
     author_email = 'mbykovski@seibert-media.net',
-    py_modules=['highton', 'custom_exceptions'],
-    packages=packages,
+    packages=['highton'],
     install_requires = ['requests', 'lxml'],
     keywords = 'bykof seibertmedia seibert media python api highrise highton',
     classifiers = [

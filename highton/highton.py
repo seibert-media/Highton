@@ -5,20 +5,20 @@ import requests
 from lxml import objectify, etree
 from requests.auth import HTTPBasicAuth
 
-from custom_exceptions import (HighriseRequestException, ParseTimeException,
-                               FieldException, XMLRequestException)
-from classes.person import Person
-from classes.category import DealCategory, TaskCategory
-from classes.company import Company
-from classes.case import Case
-from classes.deal import Deal
-from classes.task import Task
-from classes.note import Note
-from classes.email import Email
-from classes.deletions import Deletion
-from classes.custom_field import SubjectData
-from classes.user import User
-from classes.tools import to_datetime
+from .custom_exceptions import (HighriseRequestException, ParseTimeException,
+                                FieldException, XMLRequestException)
+from .classes.person import Person
+from .classes.category import DealCategory, TaskCategory
+from .classes.company import Company
+from .classes.case import Case
+from .classes.deal import Deal
+from .classes.task import Task
+from .classes.note import Note
+from .classes.email import Email
+from .classes.deletions import Deletion
+from .classes.custom_field import SubjectData
+from .classes.user import User
+from .classes.tools import to_datetime
 
 
 class Highton(object):
