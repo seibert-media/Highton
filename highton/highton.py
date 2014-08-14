@@ -374,7 +374,7 @@ class Highton(object):
             datetime.datetime.strptime(since, '%Y%m%d%H%M%S')
         except ValueError:
             raise ParseTimeException
-        return self._get_object_data(self._get_object_data(
+        return self._get_object_data(self._get_data(
             'deals', params={'since': since}), Deal)
 
     def get_deals_by_status(self, status):
