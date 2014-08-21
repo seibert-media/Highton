@@ -9,7 +9,7 @@ setup(
     url = 'https://github.com/seibert-media/Highton',
     author = 'Michael Bykovski',
     author_email = 'mbykovski@seibert-media.net',
-    packages=['highton'],
+    packages=['highton', 'highton.classes'],
     install_requires = ['requests', 'lxml'],
     keywords = 'bykof seibertmedia seibert media python api highrise highton',
     classifiers = [
