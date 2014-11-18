@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
+import logging
 
 import requests
 from lxml import objectify, etree
@@ -19,6 +20,8 @@ from .classes.deletions import Deletion
 from .classes.custom_field import SubjectData
 from .classes.user import User
 from .classes.tools import to_datetime
+
+logger = logging.getLogger(__name__)
 
 
 class Highton(object):
@@ -106,11 +109,12 @@ class Highton(object):
                 )
         return data
 
-    def _get_data(self, endpoint, params={}):
+    def _get_data(self, endpoint, params={}, fail_counter=0):
         data = []
         try:
+            content = self._get_request(endpoint, params).content
             data = objectify.fromstring(
-                self._get_request(endpoint, params).content
+                content
             ).getchildren()
         except TypeError:
             if not data:
@@ -118,6 +122,10 @@ class Highton(object):
                     endpoint,
                     'Parsing data from Highrise caused a failure'
                 )
+        except etree.XMLSyntaxError:
+            if fail_counter < 3:
+                self._get_data(endpoint=endpoint, params=params, fail_counter=fail_counter+1)
+            return False
         return data
 
     def _get_paged_data(self, endpoint, params={}):
@@ -148,10 +156,17 @@ class Highton(object):
         Return a formatted highrise_class list.
         """
         data_list = []
-        for d in data:
-            temp = highrise_class()
-            temp.save_data(d)
-            data_list.append(temp)
+        if data:
+            for d in data:
+                temp = highrise_class()
+                temp.save_data(d)
+                data_list.append(temp)
+        else:
+            logger.error(
+                'No data found for your Request (Class: {}). Here is some data: {}'.format(
+                    data, highrise_class
+                )
+            )
         return data_list
 
     def _post_request(self, endpoint, highrise_class, data=None, params={}):
