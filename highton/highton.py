@@ -153,7 +153,7 @@ class Highton(object):
 
     def _get_object_data(self, data, highrise_class):
         """
-        Return a formatted highrise_class list.
+        Return a formatted highrise_class list or False if there is an error
         """
         data_list = []
         if data:
@@ -167,6 +167,7 @@ class Highton(object):
                     data, highrise_class
                 )
             )
+            return False
         return data_list
 
     def _post_request(self, endpoint, highrise_class, data=None, params={}):
