@@ -162,7 +162,7 @@ class Highton(object):
                 temp.save_data(d)
                 data_list.append(temp)
         else:
-            logger.error(
+            logger.debug(
                 'No data found for your Request (Class: {}). Here is some data: {}'.format(
                     data, highrise_class
                 )
