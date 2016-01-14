@@ -676,7 +676,7 @@ class Highton(object):
     def put_task(self, highrise_id, data, params={}):
         return self._put_request('tasks/{}'.format(highrise_id), data, params)
 
-    # Destroy Methosd
+    # Destroy Methods
     def delete_case(self, highrise_id, params={}):
         return self._delete_request('kases/{}'.format(highrise_id), params)
 
