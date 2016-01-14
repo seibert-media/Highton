@@ -37,7 +37,7 @@ class Company(Contact):
             'owner-id',
             'visible-to',
             'name',
-            'avatar-url',
+            'avatar_url',
         ]:
             setattr(self, attr.replace('-', '_'), company[attr].pyval)
 
