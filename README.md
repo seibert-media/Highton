@@ -1,3 +1,5 @@
+[![PyPI version](https://badge.fury.io/py/highton.svg)](https://badge.fury.io/py/highton)
+
 Highton
 ===========
 
