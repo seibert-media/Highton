@@ -37,7 +37,7 @@ class Person(Contact):
             'title',
             'background',
             'linkedin-url',
-            'avatar-url',
+            'avatar_url',
             'company-id',
             'company-name',
             'visible-to',
