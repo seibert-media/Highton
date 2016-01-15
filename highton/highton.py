@@ -205,8 +205,6 @@ class Highton(object):
         try:
             url = 'https://{}.highrisehq.com/{}.xml'.format(
                 self.user, endpoint, params)
-            print url
-            print data
             request = requests.put(
                 url,
                 auth=HTTPBasicAuth(self.api_key, self.api_key_password),
