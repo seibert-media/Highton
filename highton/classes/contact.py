@@ -23,6 +23,7 @@ class Contact(object):
                     address['location'],
                     address['state'],
                     address['street'],
+                    address['zip'],
                 )
             )
 
@@ -100,6 +101,7 @@ class Address(object):
         location,
         state,
         street,
+        zip_code,
     ):
         self.highrise_id = highrise_id.pyval
         self.city = city.pyval
@@ -107,3 +109,4 @@ class Address(object):
         self.location = location.pyval
         self.state = state.pyval
         self.street = street.pyval
+        self.zip_code = zip_code.pyval
