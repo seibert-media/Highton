@@ -215,7 +215,7 @@ class Highton(object):
                 params=params,
                 data=data
             )
-
+            
             if 'text/html' in request.headers['content-type']:
                 raise XMLRequestException(url)
 
@@ -507,6 +507,19 @@ class Highton(object):
             raise ParseTimeException
         return self.get_deletions(params={'since': since})
 
+    # Search Methods:
+    def search_people(self, criteria):
+        """
+        Just run this Method and you get a Person object with all objects and
+        attributes inside it. Get Lucky
+        :return: returns all people matching the supplied search criteria (of course it iterates over all pages, so
+            you dont get only the first 500)
+        """
+        params = {}
+        for key, value in criteria.iteritems():
+            params['criteria['+key+']'] = value
+        return self._get_object_data(self._get_paged_data('people/search', params=params), Person)
+    
     # Create Methods:
     def post_case(self, data, params={}):
         """
@@ -671,7 +684,7 @@ class Highton(object):
         return self._put_request('notes/{}'.format(highrise_id), data, params)
 
     def put_person(self, highrise_id, data, params={}):
-        return self._put_request('people/{}'.format(highrise_id), data, params)
+        return self._put_request('people/{}'.format(highrise_id), Person, data, params)
 
     def put_task(self, highrise_id, data, params={}):
         return self._put_request('tasks/{}'.format(highrise_id), data, params)
