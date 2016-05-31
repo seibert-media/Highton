@@ -24,7 +24,8 @@ class Company(Contact):
         phone_numbers,
         email_addresses,
         subject_datas,
-        tags
+        tags,
+        web-addresses
     """
     def save_data(self, company):
         self.highrise_id = company['id'].pyval
@@ -45,6 +46,7 @@ class Company(Contact):
             'phone-numbers',
             'email-addresses',
             'addresses',
+            'web-addresses'
         ]:
             if hasattr(company['contact-data'], attr):
                 getattr(self, 'set_' + attr.replace('-', '_'))(
