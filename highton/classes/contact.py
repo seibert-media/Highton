@@ -9,7 +9,8 @@ class Contact(object):
             'email_addresses',
             'subject_datas',
             'tags',
-            'addresses'
+            'addresses',
+            'web_addresses'
         ]:
             setattr(self, attr, [])
 
@@ -44,6 +45,16 @@ class Contact(object):
                     email_address['id'],
                     email_address['address'],
                     email_address['location'],
+                )
+            )
+
+    def set_web_addresses(self, web_addresses):
+        for web_address in web_addresses.getchildren():
+            self.web_addresses.append(
+                WebAddress(
+                    web_address['id'],
+                    web_address['url'],
+                    web_address['location'],
                 )
             )
 
@@ -91,6 +102,16 @@ class EmailAddress(object):
         self.address = address.pyval
         self.location = location.pyval
 
+class WebAddress(object):
+    def __init__(
+        self,
+        highrise_id,
+        url,
+        location,
+    ):
+        self.highrise_id = highrise_id.pyval
+        self.url =url.pyval
+        self.location = location.pyval
 
 class Address(object):
     def __init__(
