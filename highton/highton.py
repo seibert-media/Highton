@@ -516,7 +516,7 @@ class Highton(object):
             you dont get only the first 500)
         """
         params = {}
-        for key, value in criteria.iteritems():
+        for key, value in criteria.items():
             params['criteria['+key+']'] = value
         return self._get_object_data(self._get_paged_data('people/search', params=params), Person)
     
