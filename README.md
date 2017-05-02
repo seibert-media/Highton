@@ -3,13 +3,14 @@
 Highton
 ===========
 
-##Highton is a python library for Highrise
+## Highton is a python library for Highrise
 Install via Pip:
 
     pip install highton
 
 Thank you that you came to my repository. Feel free to work with my API. - Bykof
-##What you can do with Highton?
+
+## What you can do with Highton?
 
  * You can get/put/post/delete nearly all Highrise-data (working on it!)
  * Every data you get from Highton is structured in a simple class - structure (more a the bottom)
@@ -17,7 +18,7 @@ Thank you that you came to my repository. Feel free to work with my API. - Bykof
  * Yeah Highton means Highrise and Python - you got it!
 
 
-##How does the Highton API work?
+## How does the Highton API work?
 You will have the main class so just import Highton to your libraries and call some functions:
 
 ```python
@@ -59,9 +60,10 @@ print(high.account)
 #enjoy your output
 
 ```
-#Highton Functions
 
-##Account
+# Highton Functions
+
+## Account
 
 Never a bad idea to set the account context on the Highton instance.
 
@@ -73,7 +75,7 @@ Or yourself;
     high.get_current_auth_user()
     # Set the currently authenticated user as a member of the instance. Can access yourself with `high.me`
 
-##GET
+## GET
 
 Get all users
 
@@ -137,7 +139,7 @@ Get Notes from a Person/Company/Case/Deal
     notes = high.get_case_notes('case_highrise_id')
     notes = high.get_deal_notes('deal_highrise_id')
 
-#All of the above also have a single getter.
+**All of the above also have a single getter:**
 
 Get a {case/company/contact/...} like that
 
@@ -155,7 +157,7 @@ Get deleted items since
 
     dele = high.get_deleted_since('YYYYMMDDHHmmss')
 
-##POST
+## POST
   * data: You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
     sample_xml = "<{TYPE}><{KEY}>Refer to the basecamp docs</{KEY}></{TYPE}>"
 
@@ -199,7 +201,7 @@ Create a task
 
     high.post_task(data)
 
-##UPDATE
+## UPDATE
   * data: You must (for now) use an xml string for the request data. There will soon be a way to send dicts or tuples.
     sample_xml = "<{TYPE}><{KEY}>Refer to the basecamp docs</{KEY}></{TYPE}>"
 
@@ -237,7 +239,7 @@ Update a task
 
     high.put_task(highrise_id, data, {params})
 
-##DESTROY
+## DESTROY
 
   * Simply send in the Highrise ID
   * Only the response is returned for now since this is a lightweight uselesss table.
@@ -282,9 +284,9 @@ Destroy a task
 
     high.delete_task(highrise_id, data, {params})
 
-#Classes
+# Classes
 
-##Highton
+## Highton
  * account (After calling high.get_account())
   * highrise_id
   * created_at
@@ -305,7 +307,7 @@ Destroy a task
   * people_count
   * storage
 
-##Case
+## Case
  * highrise_id
  * author_id
  * closed_at
@@ -317,11 +319,11 @@ Destroy a task
  * owner_id
  * parties
 
-##Category
+## Category
  * highrise_id,
  * name
 
-###TaskCategory
+### TaskCategory
  * highrise_id
  * name
  * updated_at
@@ -330,7 +332,7 @@ Destroy a task
  * created_at
  * elements_count
 
-###DealCategory
+### DealCategory
  * highrise_id
  * name
  * updated_at
@@ -339,7 +341,7 @@ Destroy a task
  * created_at
  * elements_count
 
-##Company
+## Company
  * highrise_id
  * first_name
  * last_name
@@ -360,24 +362,24 @@ Destroy a task
  * subject_datas
  * tags
 
-##Contact
+## Contact
  * phone_numbers
  * email_addresses
  * subject_datas
  * tags
  * addresses
 
-###PhoneNumber
+### PhoneNumber
  * highrise_id
  * number
  * location
 
-###EmailAdresses
+### EmailAdresses
  * highrise_id
  * address
  * location
 
-###Address
+### Address
  * highrise_id
  * city
  * country
@@ -385,7 +387,7 @@ Destroy a task
  * state
  * street
 
-##Person
+## Person
  * highrise_id
  * first_name
  * last_name
@@ -406,7 +408,7 @@ Destroy a task
  * subject_datas
  * tags
 
-##Deal
+## Deal
  * account_id
  * author_id
  * background
@@ -430,17 +432,17 @@ Destroy a task
  * party
  * parties
 
-##SubjectData
+## SubjectData
  * highrise_id
  * value
  * subject_field_id
  * subject_field_label
 
-##Tag
+## Tag
  * highrise_id
  * name
 
-##Task
+## Task
  * highrise_id
  * subject_id
  * subject_type
@@ -466,7 +468,7 @@ Destroy a task
  * updated_at
  * public
 
-##Notes
+## Notes
  * highrise_id
  * body
  * author_id
@@ -482,18 +484,18 @@ Destroy a task
  * created_at
  * attachments
 
-##Attachment
+## Attachment
  * highrise_id
  * url
  * name
  * size
 
-##Deletion
+## Deletion
  * highrise_id
  * type
  * deleted_at
 
-##User
+## User
  * highrise_id
  * name
  * email_address
