@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/highton.svg)](https://badge.fury.io/py/highton)
+[![PyPI version](https://badge.fury.io/py/Highton.svg)](https://badge.fury.io/py/Highton)
 
 Highton
 ===========
