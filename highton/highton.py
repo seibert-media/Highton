@@ -664,30 +664,30 @@ class Highton(object):
 
     def put_company(self, highrise_id, data, params={}):
         return self._put_request(
-            'companies/{}'.format(highrise_id), data, params)
+            'companies/{}'.format(highrise_id), Company, data, params)
 
     def put_custom_field(self, highrise_id, data, params={}):
         return self._put_request(
-            'subject_field/{}'.format(highrise_id), data, params)
+            'subject_field/{}'.format(highrise_id), SubjectData, data, params)
 
     def put_deal(self, highrise_id, data, params={}):
-        return self._put_request('deals/{}'.format(highrise_id), data, params)
+        return self._put_request('deals/{}'.format(highrise_id), Deal, data, params)
 
     def put_email(self, highrise_id, data, params={}):
-        return self._put_request('emails/{}'.format(highrise_id), data, params)
+        return self._put_request('emails/{}'.format(highrise_id), Email, data, params)
 
     # def put_group(self, highrise_id, data, params={}):
     #     return self._put_request(
     #         'groups/{}'.format(highrise_id), data, params)
 
     def put_note(self, highrise_id, data, params={}):
-        return self._put_request('notes/{}'.format(highrise_id), data, params)
+        return self._put_request('notes/{}'.format(highrise_id), Note, data, params)
 
     def put_person(self, highrise_id, data, params={}):
         return self._put_request('people/{}'.format(highrise_id), Person, data, params)
 
     def put_task(self, highrise_id, data, params={}):
-        return self._put_request('tasks/{}'.format(highrise_id), data, params)
+        return self._put_request('tasks/{}'.format(highrise_id), Task, data, params)
 
     # Destroy Methods
     def delete_case(self, highrise_id, params={}):
