@@ -10,6 +10,14 @@ class Highton:
         self._user = user
         self._api_key = api_key
 
+    @staticmethod
+    def _parse_from_xml_to_dict(xml):
+        return xmltodict.parse(xml)
+
+    @staticmethod
+    def _parse_from_dict_to_xml(dictionary):
+        return xmltodict.unparse(dictionary)
+
     def _create_get_request(self, endpoint, params=None):
         get_response = requests.get(
             url='https://{user}.{highrise_url}/{endpoint}.xml'.format(
@@ -21,12 +29,12 @@ class Highton:
                 username=self._api_key,
                 password=''
             ),
-            params=self._parse_from_dict_to_xml(params),
+            params=params if params else {},
         )
 
         return self._parse_from_xml_to_dict(get_response.content)
 
-    def _create_post_request(self, endpoint, data=None):
+    def _create_post_request(self, endpoint, data):
         post_response = requests.post(
             url='https://{user}.{highrise_url}/{endpoint}.xml'.format(
                 user=self._user,
@@ -37,12 +45,13 @@ class Highton:
                 username=self._api_key,
                 password=''
             ),
+            headers={'Content-Type': 'application/xml'},
             data=self._parse_from_dict_to_xml(data),
         )
 
         return self._parse_from_xml_to_dict(post_response.content)
 
-    def _create_put_request(self, endpoint, data=None):
+    def _create_put_request(self, endpoint, data):
         put_response = requests.put(
             url='https://{user}.{highrise_url}/{endpoint}.xml'.format(
                 user=self._user,
@@ -53,10 +62,11 @@ class Highton:
                 username=self._api_key,
                 password=''
             ),
+            headers={'Content-Type': 'application/xml'},
             data=self._parse_from_dict_to_xml(data),
         )
 
-        return put_response.status_code
+        return put_response.text
 
     def _create_delete_request(self, endpoint):
         delete_response = requests.delete(
@@ -71,16 +81,10 @@ class Highton:
             ),
         )
 
-        return delete_response.status_code
-
-    def _parse_from_xml_to_dict(self, xml):
-        pass
-
-    def _parse_from_dict_to_xml(self, dic):
-        pass
+        return delete_response.ok
 
     def get_person(self, subject_id):
-        self._create_get_request(
+        return self._create_get_request(
             endpoint='people/{}'.format(subject_id),
         )
 
