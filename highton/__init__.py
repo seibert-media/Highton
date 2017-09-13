@@ -1,4 +1,3 @@
 from .highton import Highton
 
-__author__ = 'mbykovski'
-__contributors__ = ['taystack']
+__author__ = 'jgiebelhausen, jloehnertz, mbykovski'
