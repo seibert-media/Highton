@@ -79,10 +79,14 @@ class Highton:
     """
 
     def search_people(self, term=None, **kwargs):
+        params = {}
+        for key in kwargs.keys():
+            params[f'criteria[{key}]'] = kwargs[key]
+
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='people/search',
-            params={'term': term} if term else kwargs
+            params={'term': term} if term else params
         )
 
     def get_person(self, subject_id):
