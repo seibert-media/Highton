@@ -16,6 +16,9 @@ class Highton:
     class RequestException(Exception):
         pass
 
+    class InsufficentParametersException(Exception):
+        pass
+
     def __init__(self, user, api_key):
         """
         :param user: Your personal username for the Highrise API
@@ -208,4 +211,48 @@ class Highton:
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/tags/{tag_id}',
+        )
+
+    """
+    Section: Custom Fields
+    Docs: https://github.com/basecamp/highrise-api/blob/master/sections/custom_fields.md
+    """
+
+    CUSTOM_FIELD_TYPES = ('party', 'deal', 'all')
+
+    def get_custom_fields(self, field_type):
+        if field_type not in Highton.CUSTOM_FIELD_TYPES:
+            raise Highton.InsufficentParametersException()
+
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint='subject_fields',
+            params={'type': field_type}
+        )
+
+    def create_party_custom_field(self, label):
+        return self._make_request(
+            method=Highton.POST_REQUEST,
+            endpoint='subject_fields',
+            data=label if label.get('subject-field') else {'subject-field': {'label': label}},
+        )
+
+    def update_custom_field(self, field_type, custom_field_id, label):
+        if field_type == 'party':
+            data = {'subject-field': {'id': custom_field_id, 'label': label, 'type': field_type}}
+        elif field_type == 'deal':
+            data = {'subject-field': {'id': custom_field_id, 'label': label}}
+        else:
+            raise Highton.InsufficentParametersException()
+
+        return self._make_request(
+            method=Highton.PUT_REQUEST,
+            endpoint=f'subject_fields/{custom_field_id}',
+            data=data,
+        )
+
+    def destroy_custom_field(self, custom_field_id):
+        return self._make_request(
+            method=Highton.DELETE_REQUEST,
+            endpoint=f'subject_fields/{custom_field_id}',
         )
