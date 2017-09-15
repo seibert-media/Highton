@@ -7,6 +7,7 @@ from requests.auth import HTTPBasicAuth
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
+
 class Highton:
     GET_REQUEST = 'GET'
     POST_REQUEST = 'POST'
@@ -126,25 +127,28 @@ class Highton:
             params={'tag_id': tag_id}
         ).get('companies').get('company')
 
-    def get_companies_since(self, since, offset=0):
+    def get_companies_since(self, since, page=0):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies',
-            params={'since': since.strftime('%Y%m%d%H%M%S'), 'n': offset}
+            params={'since': since.strftime('%Y%m%d%H%M%S'), 'n': page * 500}
         ).get('companies').get('company')
 
-    def get_companies(self, offset=None):
+    def get_companies(self, page=0):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies',
-            params={'offset': offset}
+            params={'n': page * 500}
         ).get('companies').get('company')
 
-    def search_companies(self, **criteria):
+    def search_companies(self, page=0, **criteria):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies/search',
-            params={f'criteria[{k}]': v for k, v in criteria.items()}
+            params={
+                **{f'criteria[{k}]': v for k, v in criteria.items()},
+                **{'n': page * 25}
+            }
         ).get('companies').get('company')
 
     def create_company(self, name, **kwargs):
