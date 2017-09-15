@@ -1,10 +1,11 @@
 import logging
-import xmltodict
+
 import requests
+import xmltodict
 from requests.auth import HTTPBasicAuth
 
 logger = logging.getLogger(__name__)
-
+logging.basicConfig(level=logging.DEBUG)
 
 class Highton:
     GET_REQUEST = 'GET'
@@ -80,6 +81,7 @@ class Highton:
     Section: People
     Docs: https://github.com/basecamp/highrise-api/blob/master/sections/people.md
     """
+
     def get_person(self, subject_id):
         return self._make_request(
             method=Highton.GET_REQUEST,
@@ -104,4 +106,63 @@ class Highton:
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'people/{subject_id}',
+        )
+
+    """
+    Section: Companies
+    Docs: https://github.com/basecamp/highrise-api/blob/master/sections/companies.md
+    """
+
+    def get_company(self, subject_id):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint=f'companies/{subject_id}',
+        ).get('company')
+
+    def get_companies_with_tag(self, tag_id):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint=f'companies',
+            params={'tag_id': tag_id}
+        ).get('companies').get('company')
+
+    def get_companies_since(self, since, offset=0):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint='companies',
+            params={'since': since.strftime('%Y%m%d%H%M%S'), 'n': offset}
+        ).get('companies').get('company')
+
+    def get_companies(self, offset=None):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint='companies',
+            params={'offset': offset}
+        ).get('companies').get('company')
+
+    def search_companies(self, **criteria):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint='companies/search',
+            params={f'criteria[{k}]': v for k, v in criteria.items()}
+        ).get('companies').get('company')
+
+    def create_company(self, name, **kwargs):
+        return self._make_request(
+            method=Highton.POST_REQUEST,
+            endpoint='companies',
+            data='',
+        )
+
+    def update_company(self, company):
+        return self._make_request(
+            method=Highton.PUT_REQUEST,
+            endpoint=f'companies/{company["id"]["#text"]}',
+            data={'company': company},
+        )
+
+    def destroy_company(self, company):
+        return self._make_request(
+            method=Highton.DELETE_REQUEST,
+            endpoint=f'companies/{company["id"]["#text"]}',
         )
