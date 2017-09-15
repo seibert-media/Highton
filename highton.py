@@ -170,3 +170,55 @@ class Highton:
             method=Highton.DELETE_REQUEST,
             endpoint=f'companies/{company["id"]["#text"]}',
         )
+
+    """
+    Section: Notes
+    Docs: https://github.com/basecamp/highrise-api/blob/master/sections/notes.md
+    """
+
+    def get_note(self, note_id):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint=f'notes/{note_id}',
+        ).get('note')
+
+    def get_comments_from_note(self, note_id):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint=f'notes/{note_id}/comments',
+        ).get('comments').get('comment')
+
+    def get_notes(self, subject, subject_id, since=None, page=0):
+        if subject not in ['companies', 'kases', 'deals', 'people']:
+            logger.error(f'The parameter subject must be "companies", "kases", "deals" or "people"')
+            return None
+
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint=f'{subject}/{subject_id}/notes',
+            params={'since': since.strftime('%Y%m%d%H%M%S'), 'n': page * 25}
+        ).get('notes').get('note')
+
+    def create_note(self, subject, subject_id, **kwargs):
+        if subject not in ['companies', 'kases', 'deals', 'people']:
+            logger.error(f'The parameter subject must be "companies", "kases", "deals" or "people"')
+            return None
+
+        return self._make_request(
+            method=Highton.POST_REQUEST,
+            endpoint=f'{subject}/{subject_id}/notes',
+            data='',
+        )
+
+    def update_note(self, note):
+        return self._make_request(
+            method=Highton.PUT_REQUEST,
+            endpoint=f'notes/{note["id"]["#text"]}',
+            data={'note': note},
+        )
+
+    def destroy_note(self, note):
+        return self._make_request(
+            method=Highton.DELETE_REQUEST,
+            endpoint=f'notes/{note["id"]["#text"]}',
+        )
