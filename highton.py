@@ -78,6 +78,13 @@ class Highton:
     Docs: https://github.com/basecamp/highrise-api/blob/master/sections/people.md
     """
 
+    def search_people(self, term=None, **kwargs):
+        return self._make_request(
+            method=Highton.GET_REQUEST,
+            endpoint='people/search',
+            params={'term': term} if term else kwargs
+        )
+
     def get_person(self, subject_id):
         return self._make_request(
             method=Highton.GET_REQUEST,
@@ -167,10 +174,11 @@ class Highton:
     Section: Tags
     Docs: https://github.com/basecamp/highrise-api/blob/master/sections/tags.md
     """
+
     def get_all_tags(self):
         return self._make_request(
             method=Highton.GET_REQUEST,
-            endpoint=f'tags',
+            endpoint='tags',
         )
 
     def get_tags_by_subject(self, subject_type, subject_id):
