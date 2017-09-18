@@ -2,6 +2,7 @@ import logging
 
 import requests
 import xmltodict
+from lxml import objectify, etree
 from requests.auth import HTTPBasicAuth
 
 logger = logging.getLogger(__name__)
@@ -35,6 +36,14 @@ class Highton:
     """
 
     @staticmethod
+    def _xml_to_object(xml):
+        return objectify.fromstring(xml)
+
+    @staticmethod
+    def _object_to_xml(object):
+        return etree.tostring(object)
+
+    @staticmethod
     def _parse_from_xml_to_dict(xml):
         return xmltodict.parse(xml)
 
@@ -63,11 +72,12 @@ class Highton:
                 method=method,
                 endpoint=endpoint,
                 params=params,
-                data=self._parse_from_dict_to_xml(data) if data else {}
+                data=self._object_to_xml(data) if data else {}
             )
 
             if len(response.content) > 1:
-                return self._parse_from_xml_to_dict(response.content)
+                # return self._parse_from_xml_to_dict(response.content)
+                return self._xml_to_object(response.content)
             else:
                 return response.status_code
         except Highton.RequestException as e:
@@ -96,7 +106,7 @@ class Highton:
                 'since': since.strftime('%Y%m%d%H%M%S') if since else None,
                 'n': page * 500,
             },
-        ).get('people').get('person', [])
+        )
 
     def get_people_by_tag(self, tag_id):
         return self._make_request(
@@ -105,7 +115,7 @@ class Highton:
             params={
                 'tag_id': tag_id,
             },
-        ).get('people').get('person', [])
+        )
 
     def search_people(self, term=None, page=0, **criteria):
         return self._make_request(
@@ -116,41 +126,39 @@ class Highton:
                 **{'n': page * 25},
                 **{'term': term},
             }
-        ).get('people').get('person', [])
+        )
 
     def get_people_of_company(self, company):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies/{company["id"]["#text"]}/people',
-        ).get('people').get('person', [])
+        )
 
     def get_person(self, subject_id):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'people/{subject_id}',
-        ).get('person', {})
+        )
 
     def create_person(self, person):
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='people',
-            data=person if person.get('person') else {'person': person},
-        ).get('person', {})
+            data=person,
+        )
 
     def update_person(self, person):
         return self._make_request(
             method=Highton.PUT_REQUEST,
-            endpoint=f'people/{person["id"]["#text"]}',
-            data={
-                'person': person,
-                'reload': 'true',
-            },
-        ).get('person', {})
+            endpoint=f'people/{person.id}',
+            data=person,
+            params={'reload': 'true'}
+        )
 
     def destroy_person(self, person):
         return self._make_request(
             method=Highton.DELETE_REQUEST,
-            endpoint=f'people/{person.get("id").get("#text")}',
+            endpoint=f'people/{person.id}',
         )
 
     """
@@ -166,7 +174,7 @@ class Highton:
                 'since': since.strftime('%Y%m%d%H%M%S') if since else None,
                 'n': page * 500,
             }
-        ).get('companies').get('company', [])
+        )
 
     def get_companies_by_tag(self, tag_id):
         return self._make_request(
@@ -175,7 +183,7 @@ class Highton:
             params={
                 'tag_id': tag_id,
             }
-        ).get('companies').get('company', [])
+        )
 
     def search_companies(self, term=None, page=0, **criteria):
         return self._make_request(
@@ -186,35 +194,33 @@ class Highton:
                 **{'n': page * 25},
                 **{'term': term},
             },
-        ).get('companies').get('company', [])
+        )
 
     def get_company(self, subject_id):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies/{subject_id}',
-        ).get('company', {})
+        )
 
     def create_company(self, company):
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='companies',
-            data=company if company.get('company') else {'company': company},
-        ).get('company', {})
+            data=company,
+        )
 
     def update_company(self, company):
         return self._make_request(
             method=Highton.PUT_REQUEST,
-            endpoint=f'companies/{company["id"]["#text"]}',
-            data={
-                'company': company,
-                'reload': 'true',
-            },
-        ).get('company', {})
+            endpoint=f'companies/{company.id}',
+            data=company,
+            params={'reload': 'true'}
+        )
 
     def destroy_company(self, company):
         return self._make_request(
             method=Highton.DELETE_REQUEST,
-            endpoint=f'companies/{company["id"]["#text"]}',
+            endpoint=f'companies/{company.id}',
         )
 
     """
@@ -226,13 +232,13 @@ class Highton:
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'notes/{note_id}',
-        ).get('note', {})
+        )
 
     def get_comments_from_note(self, note_id):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'notes/{note_id}/comments',
-        ).get('comments').get('comment', [])
+        )
 
     def get_notes(self, subject_type, subject_id, since=None, page=0):
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
@@ -244,7 +250,7 @@ class Highton:
                 'since': since.strftime('%Y%m%d%H%M%S'),
                 'n': page * 25,
             },
-        ).get('notes').get('note', [])
+        )
 
     def create_note(self, subject_type, subject_id, note):
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
@@ -252,23 +258,21 @@ class Highton:
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/notes',
-            data=note if note.get('note') else {'note': note},
-        ).get('note', {})
+            data=note,
+        )
 
     def update_note(self, note):
         return self._make_request(
             method=Highton.PUT_REQUEST,
-            endpoint=f'notes/{note["id"]["#text"]}',
-            data={
-                'note': note,
-                'reload': 'true',
-            },
-        ).get('note', {})
+            endpoint=f'notes/{note.id}',
+            data=note,
+            params={'reload': 'true'}
+        )
 
     def destroy_note(self, note):
         return self._make_request(
             method=Highton.DELETE_REQUEST,
-            endpoint=f'notes/{note["id"]["#text"]}',
+            endpoint=f'notes/{note.id}',
         )
 
     """
@@ -280,7 +284,7 @@ class Highton:
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='tags',
-        ).get('tags').get('tag', [])
+        )
 
     def get_tags_by_subject(self, subject_type, subject_id):
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
@@ -288,13 +292,13 @@ class Highton:
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/tags',
-        ).get('tags').get('tag', [])
+        )
 
     def get_tagged_parties(self, tag_id):
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'tags/{tag_id}',
-        ).get('parties').get('party', [])
+        )
 
     def add_tag(self, subject_type, subject_id, tag_name):
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
@@ -302,8 +306,8 @@ class Highton:
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/tags',
-            data={'name': tag_name},
-        ).get('tag', {})
+            data=tag_name,
+        )
 
     def remove_tag(self, subject_type, subject_id, tag_id):
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
@@ -326,15 +330,15 @@ class Highton:
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='subject_fields',
-            params={'type': field_type}
-        ).get('subject-fields').get('subject-field', [])
+            params=field_type
+        )
 
     def create_party_custom_field(self, label):
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='subject_fields',
-            data={'subject-field': {'label': label}},
-        ).get('subject-field', {})
+            data=label
+        )
 
     def update_custom_field(self, field_type, custom_field_id, label):
         self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
@@ -342,7 +346,7 @@ class Highton:
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'subject_fields/{custom_field_id}',
-            data={'subject-field':{'id': custom_field_id, 'label': label, 'type': field_type}},
+            data={'subject-field': {'id': custom_field_id, 'label': label, 'type': field_type}},
         )
 
     def destroy_custom_field(self, custom_field_id):
