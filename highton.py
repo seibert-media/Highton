@@ -364,18 +364,39 @@ class Highton:
     """
 
     def get_note(self, note_id):
+        """
+        Retrieves a single note by ID.
+
+        :param note_id: The ID of the note in Highrise
+        :return: A dictionary of the note
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'notes/{note_id}',
         ).get('note', {})
 
     def get_comments_from_note(self, note_id):
+        """
+        Retrieves all the comments from a note.
+
+        :param note_id: The ID of the note in Highrise
+        :return: A list of dictionaries of comments
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'notes/{note_id}/comments',
         ).get('comments').get('comment', [])
 
     def get_notes(self, subject_type, subject_id, since=None, page=0):
+        """
+        Retrieves the note/s of a subject, optionally since a certain date.
+
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the note is added to
+        :param since: A native Python datetime object
+        :param page: Each page per 25 entries
+        :return: A list of dictionaries of notes
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -388,6 +409,14 @@ class Highton:
         ).get('notes').get('note', [])
 
     def create_note(self, subject_type, subject_id, note):
+        """
+        Creates a new note.
+
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject to add the note to
+        :param note: The content of the note
+        :return: If the API call was successful the just created note will be returned
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -397,6 +426,13 @@ class Highton:
         ).get('note', {})
 
     def update_note(self, note):
+        """
+        Updates a note.
+
+        :param note: A dictionary consisting of a note with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
+        :return: If the API call was successful the just updated note will be returned
+        """
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'notes/{note["id"]["#text"]}',
@@ -407,6 +443,13 @@ class Highton:
         ).get('note', {})
 
     def destroy_note(self, note):
+        """
+        Deletes a note.
+
+        :param note: A dictionary consisting of a note with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
+        :return: The HTTP status code of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'notes/{note["id"]["#text"]}',
