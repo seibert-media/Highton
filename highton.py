@@ -128,6 +128,13 @@ class Highton:
     """
 
     def get_people(self, since=None, page=0):
+        """
+        Retrieves all the people, optionally since a certain date.
+
+        :param since: A native Python datetime object
+        :param page: Each page per 500 entries
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='people',
@@ -138,6 +145,12 @@ class Highton:
         ).get('people').get('person', [])
 
     def get_people_by_tag(self, tag_id):
+        """
+        Retrieves all the people tagged with a certain tag.
+
+        :param tag_id: The ID of any tag
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'people',
@@ -147,6 +160,14 @@ class Highton:
         ).get('people').get('person', [])
 
     def search_people(self, term=None, page=0, **criteria):
+        """
+        Retrieves people by search terms and/or criteria.
+
+        :param term: A search term
+        :param page: Each page per 25 entries
+        :param criteria: Keyword arguments with any criteria one uses in Highrise e.g. state, zip, city
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='people/search',
@@ -158,18 +179,37 @@ class Highton:
         ).get('people').get('person', [])
 
     def get_people_of_company(self, company):
+        """
+        Retrieves people that belong to a certain company
+
+        :param company: The company as a dictionary preferrably returned from an earlier API call
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies/{company["id"]["#text"]}/people',
         ).get('people').get('person', [])
 
     def get_person(self, subject_id):
+        """
+        Retrieves a single person by ID.
+
+        :param subject_id: The ID of the person in Highrise
+        :return: A dictionary of the person
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'people/{subject_id}',
         ).get('person', {})
 
     def create_person(self, person):
+        """
+        Creates a new person.
+
+        :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
+        :return: If the API call was successful the just created person will be returned
+        """
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='people',
@@ -177,6 +217,13 @@ class Highton:
         ).get('person', {})
 
     def update_person(self, person):
+        """
+        Updates a person.
+
+        :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
+        :return: If the API call was successful the just created person will be returned
+        """
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'people/{person["id"]["#text"]}',
@@ -187,6 +234,13 @@ class Highton:
         ).get('person', {})
 
     def destroy_person(self, person):
+        """
+        Deletes a person.
+
+        :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
+        :return: The HTTP status code of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'people/{person.get("id").get("#text")}',
