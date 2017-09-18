@@ -57,6 +57,15 @@ class Highton:
         return xmltodict.unparse(dictionary)
 
     def _send_request(self, method, endpoint, params=None, data=None):
+        """
+        Creates and sends every request made with the API wrapper
+
+        :param method: One of the HTTP methods from the constants within the class: (GET, POST, PUT, DELETE)
+        :param endpoint: The endpoint of the API (without the file extension '.xml')
+        :param params: Parameters to be URL-encoded and sent within the request
+        :param data: HTTP body data to be sent within the request
+        :return: The HTTP response from the API
+        """
         response = requests.request(
             method=method,
             url=f'https://{self._user}.{Highton.HIGHRISE_URL}/{endpoint}.xml',
@@ -72,6 +81,15 @@ class Highton:
             return response
 
     def _make_request(self, method, endpoint, params=None, data=None):
+        """
+        Calls the request method and also parses to and from XML. It catches Exceptions as well in case of an error.
+
+        :param method: One of the HTTP methods from the constants within the class: (GET, POST, PUT, DELETE)
+        :param endpoint: The endpoint of the API (without the file extension '.xml')
+        :param params: Parameters to be URL-encoded and sent within the request
+        :param data: HTTP body data to be sent within the request
+        :return: The HTTP status code in case there was no content in the response else the content
+        """
         try:
             response = self._send_request(
                 method=method,
@@ -90,6 +108,13 @@ class Highton:
             )
 
     def _check_for_parameters(self, subject_type, types):
+        """
+        Is used within many API methods to check if a correct 'subject_type' was selected.
+        It raises an Exception otherwise.
+
+        :param subject_type: The type to check against
+        :param types: A list of types to check for
+        """
         if subject_type not in types:
             raise Highton.InsufficentParametersException(f'The parameter subject must be in {types}')
 
