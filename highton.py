@@ -18,9 +18,15 @@ class Highton:
     SUBJECT_TYPES = ['companies', 'kases', 'deals', 'people']
 
     class RequestException(Exception):
+        """
+        Offers an Exception in case of a request that timed-out, failed or was malformed.
+        """
         pass
 
     class InsufficentParametersException(Exception):
+        """
+        Offers an Exception in case of a method call that did not receive the correct parameters.
+        """
         pass
 
     def __init__(self, user, api_key):
@@ -45,13 +51,46 @@ class Highton:
 
     @staticmethod
     def _parse_from_xml_to_dict(xml):
+        """
+        Parses valid XML into native Python dictionaries with the ability to parse them back into XML later on.
+
+        :param xml: Valid XML as a string
+        :return: A Python dictionary
+        """
         return xmltodict.parse(xml)
 
     @staticmethod
     def _parse_from_dict_to_xml(dictionary):
+        """
+        Parses a native Python dictionary into valid XML.
+
+        :param dictionary: A Python dictionary
+        :return: Valid XML as a string
+        """
         return xmltodict.unparse(dictionary)
 
+    @staticmethod
+    def _check_for_parameters(subject_type, types):
+        """
+        Is used within many API methods to check if a correct 'subject_type' was selected.
+        It raises an Exception otherwise.
+
+        :param subject_type: The type to check against
+        :param types: A list of types to check for
+        """
+        if subject_type not in types:
+            raise Highton.InsufficentParametersException(f'The parameter subject must be in {types}')
+
     def _send_request(self, method, endpoint, params=None, data=None):
+        """
+        Creates and sends every request made with the API wrapper
+
+        :param method: One of the HTTP methods from the constants within the class: (GET, POST, PUT, DELETE)
+        :param endpoint: The endpoint of the API (without the file extension '.xml')
+        :param params: Parameters to be URL-encoded and sent within the request
+        :param data: HTTP body data to be sent within the request
+        :return: The HTTP response from the API
+        """
         response = requests.request(
             method=method,
             url=f'https://{self._user}.{Highton.HIGHRISE_URL}/{endpoint}.xml',
@@ -67,6 +106,15 @@ class Highton:
             return response
 
     def _make_request(self, method, endpoint, params=None, data=None):
+        """
+        Calls the request method and also parses to and from XML. It catches Exceptions as well in case of an error.
+
+        :param method: One of the HTTP methods from the constants within the class: (GET, POST, PUT, DELETE)
+        :param endpoint: The endpoint of the API (without the file extension '.xml')
+        :param params: Parameters to be URL-encoded and sent within the request
+        :param data: HTTP body data to be sent within the request
+        :return: The HTTP status code in case there was no content in the response else the content
+        """
         try:
             response = self._send_request(
                 method=method,
@@ -85,10 +133,6 @@ class Highton:
                 f'The {method}-request towards the endpoint "/{endpoint}.xml" failed with HTTP-Code {str(e)}'
             )
 
-    def _check_for_parameters(self, subject_type, types):
-        if subject_type not in types:
-            raise Highton.InsufficentParametersException(f'The parameter subject must be in {types}')
-
     """
     API methods
     """
@@ -99,6 +143,13 @@ class Highton:
     """
 
     def get_people(self, since=None, page=0):
+        """
+        Retrieves all the people, optionally since a certain date.
+
+        :param since: A native Python datetime object
+        :param page: Each page per 500 entries
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='people',
@@ -109,6 +160,12 @@ class Highton:
         )
 
     def get_people_by_tag(self, tag_id):
+        """
+        Retrieves all the people tagged with a certain tag.
+
+        :param tag_id: The ID of any tag
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'people',
@@ -118,6 +175,14 @@ class Highton:
         )
 
     def search_people(self, term=None, page=0, **criteria):
+        """
+        Retrieves people by search terms and/or criteria.
+
+        :param term: A search term
+        :param page: Each page per 25 entries
+        :param criteria: Keyword arguments with any criteria one uses in Highrise e.g. state, zip, city
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='people/search',
@@ -129,18 +194,37 @@ class Highton:
         )
 
     def get_people_of_company(self, company):
+        """
+        Retrieves people that belong to a certain company
+
+        :param company: The company as a dictionary preferrably returned from an earlier API call
+        :return: A list of dictionaries of people
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies/{company["id"]["#text"]}/people',
         )
 
     def get_person(self, subject_id):
+        """
+        Retrieves a single person by ID.
+
+        :param subject_id: The ID of the person in Highrise
+        :return: A dictionary of the person
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'people/{subject_id}',
         )
 
     def create_person(self, person):
+        """
+        Creates a new person.
+
+        :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
+        :return: If the API call was successful the just created person will be returned
+        """
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='people',
@@ -148,6 +232,13 @@ class Highton:
         )
 
     def update_person(self, person):
+        """
+        Updates a person.
+
+        :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
+        :return: If the API call was successful the just updated person will be returned
+        """
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'people/{person.id}',
@@ -156,6 +247,13 @@ class Highton:
         )
 
     def destroy_person(self, person):
+        """
+        Deletes a person.
+
+        :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
+        :return: The HTTP status code of the response of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'people/{person.id}',
@@ -167,6 +265,13 @@ class Highton:
     """
 
     def get_companies(self, since, page=0):
+        """
+        Retrieves all the companies, optionally since a certain date.
+
+        :param since: A native Python datetime object
+        :param page: Each page per 500 entries
+        :return: A list of dictionaries of companies
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies',
@@ -177,6 +282,12 @@ class Highton:
         )
 
     def get_companies_by_tag(self, tag_id):
+        """
+        Retrieves all the companies tagged with a certain tag.
+
+        :param tag_id: The ID of any tag
+        :return: A list of dictionaries of companies
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies',
@@ -186,6 +297,14 @@ class Highton:
         )
 
     def search_companies(self, term=None, page=0, **criteria):
+        """
+        Retrieves companies by search terms and/or criteria.
+
+        :param term: A search term
+        :param page: Each page per 25 entries
+        :param criteria: Keyword arguments with any criteria one uses in Highrise e.g. state, zip, city
+        :return: A list of dictionaries of companies
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies/search',
@@ -197,12 +316,25 @@ class Highton:
         )
 
     def get_company(self, subject_id):
+        """
+        Retrieves a single company by ID.
+
+        :param subject_id: The ID of the company in Highrise
+        :return: A dictionary of the company
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies/{subject_id}',
         )
 
     def create_company(self, company):
+        """
+        Creates a new person.
+
+        :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
+        :return: If the API call was successful the just created company will be returned
+        """
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='companies',
@@ -210,6 +342,13 @@ class Highton:
         )
 
     def update_company(self, company):
+        """
+        Updates a company.
+
+        :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
+        :return: If the API call was successful the just updated company will be returned
+        """
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'companies/{company.id}',
@@ -218,6 +357,13 @@ class Highton:
         )
 
     def destroy_company(self, company):
+        """
+        Deletes a company.
+
+        :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
+        :return: The HTTP status code of the response of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'companies/{company.id}',
@@ -229,18 +375,39 @@ class Highton:
     """
 
     def get_note(self, note_id):
+        """
+        Retrieves a single note by ID.
+
+        :param note_id: The ID of the note in Highrise
+        :return: A dictionary of the note
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'notes/{note_id}',
         )
 
     def get_comments_from_note(self, note_id):
+        """
+        Retrieves all the comments from a note.
+
+        :param note_id: The ID of the note in Highrise
+        :return: A list of dictionaries of comments
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'notes/{note_id}/comments',
         )
 
     def get_notes(self, subject_type, subject_id, since=None, page=0):
+        """
+        Retrieves the note/s of a subject, optionally since a certain date.
+
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the note is added to
+        :param since: A native Python datetime object
+        :param page: Each page per 25 entries
+        :return: A list of dictionaries of notes
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -253,6 +420,14 @@ class Highton:
         )
 
     def create_note(self, subject_type, subject_id, note):
+        """
+        Creates a new note.
+
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject to add the note to
+        :param note: The content of the note
+        :return: If the API call was successful the just created note will be returned
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -262,6 +437,13 @@ class Highton:
         )
 
     def update_note(self, note):
+        """
+        Updates a note.
+
+        :param note: A dictionary consisting of a note with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
+        :return: If the API call was successful the just updated note will be returned
+        """
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'notes/{note.id}',
@@ -270,6 +452,13 @@ class Highton:
         )
 
     def destroy_note(self, note):
+        """
+        Deletes a note.
+
+        :param note: A dictionary consisting of a note with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
+        :return: The HTTP status code of the response of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'notes/{note.id}',
@@ -281,12 +470,24 @@ class Highton:
     """
 
     def get_tags(self):
+        """
+        Retrieves all the tags.
+        
+        :return: A list of dictionaries of tags
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='tags',
         )
 
     def get_tags_by_subject(self, subject_type, subject_id):
+        """
+        Retrieves tags from a certain subject.
+        
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the tag is added to
+        :return: A list of dictionaries of tags
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -295,12 +496,26 @@ class Highton:
         )
 
     def get_tagged_parties(self, tag_id):
+        """
+        Return everything that is tagged with a certain tag.
+        
+        :param tag_id: The ID of the tag
+        :return: A list of dictionaries of parties
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'tags/{tag_id}',
         )
 
     def add_tag(self, subject_type, subject_id, tag_name):
+        """
+        Adds a tag to a subject.
+        
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the tag is added to
+        :param tag_name: The name of the tag to add as a string
+        :return: If the API call was successful the just added tag will be returned
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -310,6 +525,14 @@ class Highton:
         )
 
     def remove_tag(self, subject_type, subject_id, tag_id):
+        """
+        Removes a tag from a subject.
+        
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the tag is added to
+        :param tag_id: The ID of the tag
+        :return: The HTTP status code of the response of the DELETE request
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -325,6 +548,12 @@ class Highton:
     CUSTOM_FIELD_TYPES = ['party', 'deal', 'all']
 
     def get_custom_fields(self, field_type):
+        """
+        Retrieves all the custom fields.
+
+        :param field_type: A type of any of these: ['party', 'deal', 'all']
+        :return: A list of dictionaries of custom fields
+        """
         self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
 
         return self._make_request(
@@ -334,6 +563,12 @@ class Highton:
         )
 
     def create_party_custom_field(self, label):
+        """
+        Creates a new custom field.
+
+        :param label: The name of the custom field
+        :return: If the API call was successful the just added custom field will be returned
+        """
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='subject_fields',
@@ -341,6 +576,14 @@ class Highton:
         )
 
     def update_custom_field(self, field_type, custom_field_id, label):
+        """
+        Updates a custom field.
+
+        :param field_type: A type of any of these: ['party', 'deal', 'all']
+        :param custom_field_id: The ID of the custom field
+        :param label: The new name for the chosen custom field
+        :return:
+        """
         self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
 
         return self._make_request(
@@ -350,6 +593,12 @@ class Highton:
         )
 
     def destroy_custom_field(self, custom_field_id):
+        """
+        Deletes a custom field.
+
+        :param custom_field_id: The ID of the custom field
+        :return: The HTTP status code of the response of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'subject_fields/{custom_field_id}',
