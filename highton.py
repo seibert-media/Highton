@@ -17,9 +17,11 @@ class Highton:
     SUBJECT_TYPES = ['companies', 'kases', 'deals', 'people']
 
     class RequestException(Exception):
+        """ Offers an Exception in case of a request that timed-out, failed or was malformed """
         pass
 
     class InsufficentParametersException(Exception):
+        """ Offers an Exception in case of a method call that did not receive the correct parameters """
         pass
 
     def __init__(self, user, api_key):
