@@ -17,11 +17,15 @@ class Highton:
     SUBJECT_TYPES = ['companies', 'kases', 'deals', 'people']
 
     class RequestException(Exception):
-        """ Offers an Exception in case of a request that timed-out, failed or was malformed """
+        """
+        Offers an Exception in case of a request that timed-out, failed or was malformed.
+        """
         pass
 
     class InsufficentParametersException(Exception):
-        """ Offers an Exception in case of a method call that did not receive the correct parameters """
+        """
+        Offers an Exception in case of a method call that did not receive the correct parameters.
+        """
         pass
 
     def __init__(self, user, api_key):
@@ -55,6 +59,18 @@ class Highton:
         :return: Valid XML as a string
         """
         return xmltodict.unparse(dictionary)
+
+    @staticmethod
+    def _check_for_parameters(subject_type, types):
+        """
+        Is used within many API methods to check if a correct 'subject_type' was selected.
+        It raises an Exception otherwise.
+
+        :param subject_type: The type to check against
+        :param types: A list of types to check for
+        """
+        if subject_type not in types:
+            raise Highton.InsufficentParametersException(f'The parameter subject must be in {types}')
 
     def _send_request(self, method, endpoint, params=None, data=None):
         """
@@ -106,17 +122,6 @@ class Highton:
             logger.error(
                 f'The {method}-request towards the endpoint "/{endpoint}.xml" failed with HTTP-Code {str(e)}'
             )
-
-    def _check_for_parameters(self, subject_type, types):
-        """
-        Is used within many API methods to check if a correct 'subject_type' was selected.
-        It raises an Exception otherwise.
-
-        :param subject_type: The type to check against
-        :param types: A list of types to check for
-        """
-        if subject_type not in types:
-            raise Highton.InsufficentParametersException(f'The parameter subject must be in {types}')
 
     """
     API methods
@@ -539,6 +544,12 @@ class Highton:
     CUSTOM_FIELD_TYPES = ['party', 'deal', 'all']
 
     def get_custom_fields(self, field_type):
+        """
+        Retrieves all the custom fields.
+
+        :param field_type: A type of any of these: ['party', 'deal', 'all']
+        :return: A list of dictionaries of custom fields
+        """
         self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
 
         return self._make_request(
@@ -548,6 +559,12 @@ class Highton:
         ).get('subject-fields').get('subject-field', [])
 
     def create_party_custom_field(self, label):
+        """
+        Creates a new custom field.
+
+        :param label: The name of the custom field
+        :return: If the API call was successful the just added custom field will be returned
+        """
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='subject_fields',
@@ -555,6 +572,14 @@ class Highton:
         ).get('subject-field', {})
 
     def update_custom_field(self, field_type, custom_field_id, label):
+        """
+        Updates a custom field.
+
+        :param field_type: A type of any of these: ['party', 'deal', 'all']
+        :param custom_field_id: The ID of the custom field
+        :param label: The new name for the chosen custom field
+        :return:
+        """
         self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
 
         return self._make_request(
@@ -564,6 +589,12 @@ class Highton:
         )
 
     def destroy_custom_field(self, custom_field_id):
+        """
+        Deletes a custom field.
+
+        :param custom_field_id: The ID of the custom field
+        :return: The HTTP status code of the response of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'subject_fields/{custom_field_id}',
