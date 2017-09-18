@@ -239,7 +239,7 @@ class Highton:
 
         :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
         https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
-        :return: The HTTP status code of the DELETE request
+        :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
@@ -351,7 +351,7 @@ class Highton:
 
         :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
         https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
-        :return: The HTTP status code of the DELETE request
+        :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
@@ -448,7 +448,7 @@ class Highton:
 
         :param note: A dictionary consisting of a note with this formatting as a native Python dictionary:
         https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
-        :return: The HTTP status code of the DELETE request
+        :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
@@ -461,12 +461,24 @@ class Highton:
     """
 
     def get_tags(self):
+        """
+        Retrieves all the tags.
+        
+        :return: A list of dictionaries of tags
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='tags',
         ).get('tags').get('tag', [])
 
     def get_tags_by_subject(self, subject_type, subject_id):
+        """
+        Retrieves tags from a certain subject.
+        
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the tag is added to
+        :return: A list of dictionaries of tags
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -475,12 +487,26 @@ class Highton:
         ).get('tags').get('tag', [])
 
     def get_tagged_parties(self, tag_id):
+        """
+        Return everything that is tagged with a certain tag.
+        
+        :param tag_id: The ID of the tag
+        :return: A list of dictionaries of parties
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'tags/{tag_id}',
         ).get('parties').get('party', [])
 
     def add_tag(self, subject_type, subject_id, tag_name):
+        """
+        Adds a tag to a subject.
+        
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the tag is added to
+        :param tag_name: The name of the tag to add as a string
+        :return: If the API call was successful the just added tag will be returned
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
@@ -490,6 +516,14 @@ class Highton:
         ).get('tag', {})
 
     def remove_tag(self, subject_type, subject_id, tag_id):
+        """
+        Removes a tag from a subject.
+        
+        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_id: The ID of the subject the tag is added to
+        :param tag_id: The ID of the tag
+        :return: The HTTP status code of the response of the DELETE request
+        """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
         return self._make_request(
