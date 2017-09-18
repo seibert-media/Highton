@@ -38,10 +38,22 @@ class Highton:
 
     @staticmethod
     def _parse_from_xml_to_dict(xml):
+        """
+        Parses valid XML into native Python dictionaries with the ability to parse them back into XML later on.
+
+        :param xml: Valid XML as a string
+        :return: A Python dictionary
+        """
         return xmltodict.parse(xml)
 
     @staticmethod
     def _parse_from_dict_to_xml(dictionary):
+        """
+        Parses a native Python dictionary into valid XML.
+
+        :param dictionary: A Python dictionary
+        :return: Valid XML as a string
+        """
         return xmltodict.unparse(dictionary)
 
     def _send_request(self, method, endpoint, params=None, data=None):
