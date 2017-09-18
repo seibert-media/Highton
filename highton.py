@@ -222,7 +222,7 @@ class Highton:
 
         :param person: A dictionary consisting of a person with this formatting as a native Python dictionary:
         https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
-        :return: If the API call was successful the just created person will be returned
+        :return: If the API call was successful the just updated person will be returned
         """
         return self._make_request(
             method=Highton.PUT_REQUEST,
@@ -252,6 +252,13 @@ class Highton:
     """
 
     def get_companies(self, since, page=0):
+        """
+        Retrieves all the companies, optionally since a certain date.
+
+        :param since: A native Python datetime object
+        :param page: Each page per 500 entries
+        :return: A list of dictionaries of companies
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies',
@@ -262,6 +269,12 @@ class Highton:
         ).get('companies').get('company', [])
 
     def get_companies_by_tag(self, tag_id):
+        """
+        Retrieves all the companies tagged with a certain tag.
+
+        :param tag_id: The ID of any tag
+        :return: A list of dictionaries of companies
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies',
@@ -271,6 +284,14 @@ class Highton:
         ).get('companies').get('company', [])
 
     def search_companies(self, term=None, page=0, **criteria):
+        """
+        Retrieves companies by search terms and/or criteria.
+
+        :param term: A search term
+        :param page: Each page per 25 entries
+        :param criteria: Keyword arguments with any criteria one uses in Highrise e.g. state, zip, city
+        :return: A list of dictionaries of companies
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint='companies/search',
@@ -282,12 +303,25 @@ class Highton:
         ).get('companies').get('company', [])
 
     def get_company(self, subject_id):
+        """
+        Retrieves a single company by ID.
+
+        :param subject_id: The ID of the company in Highrise
+        :return: A dictionary of the company
+        """
         return self._make_request(
             method=Highton.GET_REQUEST,
             endpoint=f'companies/{subject_id}',
         ).get('company', {})
 
     def create_company(self, company):
+        """
+        Creates a new person.
+
+        :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
+        :return: If the API call was successful the just created company will be returned
+        """
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='companies',
@@ -295,6 +329,13 @@ class Highton:
         ).get('company', {})
 
     def update_company(self, company):
+        """
+        Updates a company.
+
+        :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
+        :return: If the API call was successful the just updated company will be returned
+        """
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'companies/{company["id"]["#text"]}',
@@ -305,6 +346,13 @@ class Highton:
         ).get('company', {})
 
     def destroy_company(self, company):
+        """
+        Deletes a company.
+
+        :param company: A dictionary consisting of a company with this formatting as a native Python dictionary:
+        https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
+        :return: The HTTP status code of the DELETE request
+        """
         return self._make_request(
             method=Highton.DELETE_REQUEST,
             endpoint=f'companies/{company["id"]["#text"]}',
