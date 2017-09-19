@@ -43,31 +43,26 @@ class Highton:
 
     @staticmethod
     def _xml_to_object(xml):
+        """
+        Parses valid XML into Python ElementTree objects with the ability to parse them back into XML later on.
+
+        :param xml: Valid XML as a string
+        :return: A Python ElementTree object
+        """
         return objectify.fromstring(xml)
 
     @staticmethod
-    def _object_to_xml(object):
-        return etree.tostring(object)
-
-    @staticmethod
-    def _parse_from_xml_to_dict(xml):
+    def _object_to_xml(element):
         """
-        Parses valid XML into native Python dictionaries with the ability to parse them back into XML later on.
+        Parses a Python ElementTree object into valid XML.
 
-        :param xml: Valid XML as a string
-        :return: A Python dictionary
-        """
-        return xmltodict.parse(xml)
-
-    @staticmethod
-    def _parse_from_dict_to_xml(dictionary):
-        """
-        Parses a native Python dictionary into valid XML.
-
-        :param dictionary: A Python dictionary
+        :param dictionary: A Python ElementTree object
         :return: Valid XML as a string
         """
-        return xmltodict.unparse(dictionary)
+        try:
+            return str(etree.tostring(element))
+        except:
+            return {}
 
     @staticmethod
     def _check_for_parameters(subject_type, types):
@@ -120,7 +115,7 @@ class Highton:
                 method=method,
                 endpoint=endpoint,
                 params=params,
-                data=self._object_to_xml(data) if data else {}
+                data=self._object_to_xml(data)
             )
 
             if len(response.content) > 1:
@@ -414,7 +409,7 @@ class Highton:
             method=Highton.GET_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/notes',
             params={
-                'since': since.strftime('%Y%m%d%H%M%S'),
+                'since': since.strftime('%Y%m%d%H%M%S') if since else None,
                 'n': page * 25,
             },
         )
@@ -472,7 +467,7 @@ class Highton:
     def get_tags(self):
         """
         Retrieves all the tags.
-        
+
         :return: A list of dictionaries of tags
         """
         return self._make_request(
@@ -483,7 +478,7 @@ class Highton:
     def get_tags_by_subject(self, subject_type, subject_id):
         """
         Retrieves tags from a certain subject.
-        
+
         :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
         :param subject_id: The ID of the subject the tag is added to
         :return: A list of dictionaries of tags
@@ -498,7 +493,7 @@ class Highton:
     def get_tagged_parties(self, tag_id):
         """
         Return everything that is tagged with a certain tag.
-        
+
         :param tag_id: The ID of the tag
         :return: A list of dictionaries of parties
         """
@@ -510,7 +505,7 @@ class Highton:
     def add_tag(self, subject_type, subject_id, tag_name):
         """
         Adds a tag to a subject.
-        
+
         :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
         :param subject_id: The ID of the subject the tag is added to
         :param tag_name: The name of the tag to add as a string
@@ -518,16 +513,20 @@ class Highton:
         """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
+        tag = etree.Element('name')
+        tag.text = tag_name
+
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/tags',
-            data=tag_name,
+            data=tag,
+            params={'reload': 'true'}
         )
 
     def remove_tag(self, subject_type, subject_id, tag_id):
         """
         Removes a tag from a subject.
-        
+
         :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
         :param subject_id: The ID of the subject the tag is added to
         :param tag_id: The ID of the tag
