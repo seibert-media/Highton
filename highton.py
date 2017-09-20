@@ -141,16 +141,16 @@ class Highton:
                 location = etree.SubElement(website, 'location')
                 location.text = phone_number.get('location')
 
-        subject_datas = etree.SubElement(contact_data, 'subject_datas', type="array")
+        subject_datas = etree.SubElement(subject, 'subject_datas', type="array")
         if custom_fields:
             for custom_field in custom_fields:
-                subject_data = etree.SubElement(subject_datas, 'subject_data', type="array")
+                subject_data = etree.SubElement(subject_datas, 'subject_data')
                 subject_field_id = etree.SubElement(subject_data, 'subject_field_id', type="integer")
                 subject_field_id.text = custom_field.get('subject_field_id')
                 value = etree.SubElement(subject_data, 'value')
                 value.text = custom_field.get('value')
 
-        tags_data = etree.SubElement(contact_data, 'tags')
+        tags_data = etree.SubElement(subject, 'tags', type="array")
         if tags:
             for tag in tags:
                 tag_data = etree.SubElement(tags_data, 'tag')
