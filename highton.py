@@ -1,7 +1,6 @@
 import logging
 
 import requests
-import xmltodict
 from lxml import objectify, etree
 from requests.auth import HTTPBasicAuth
 
@@ -75,6 +74,102 @@ class Highton:
         """
         if subject_type not in types:
             raise Highton.InsufficentParametersException(f'The parameter subject must be in {types}')
+
+    @staticmethod
+    def _create_person(first_name, last_name=None, company_name=None, company_id=None, title=None, **kwargs):
+        person = etree.Element('person')
+        first = etree.SubElement(person, 'first-name')
+        first.text = first_name
+        last = etree.SubElement(person, 'last-name')
+        last.text = last_name
+        company = etree.SubElement(person, 'company-name')
+        company.text = company_name
+        companyid = etree.SubElement(person, 'company-id')
+        companyid.text = str(company_id) if company_id else None
+        person_title = etree.SubElement(person, 'title')
+        person_title.text = title
+
+        if kwargs:
+            Highton._create_contact_data(person, **kwargs)
+
+        return person
+
+    @staticmethod
+    def _create_contact_data(subject, email_addresses=None, phone_numbers=None, custom_fields=None,
+                             web_addresses=None, addresses=None, tags=None):
+
+        contact_data = etree.SubElement(subject, 'contact-data')
+        emails = etree.SubElement(contact_data, 'email-addresses', type="array")
+        if email_addresses:
+            for email_address in email_addresses:
+                email = etree.SubElement(emails, 'email-address')
+                address = etree.SubElement(email, 'address')
+                address.text = email_address.get('address')
+                location = etree.SubElement(email, 'location')
+                location.text = email_address.get('location')
+
+        websites = etree.SubElement(contact_data, 'web-addresses', type="array")
+        if web_addresses:
+            for web_address in web_addresses:
+                website = etree.SubElement(websites, 'web-address')
+                url = etree.SubElement(website, 'url')
+                url.text = web_address.get('url')
+                location = etree.SubElement(website, 'location')
+                location.text = web_address.get('location')
+
+        addresses_data = etree.SubElement(contact_data, 'addresses', type="array")
+        if addresses:
+            for address in addresses:
+                address_data = etree.SubElement(addresses_data, 'address')
+                city = etree.SubElement(address_data, 'city')
+                city.text = address.get('city')
+                country = etree.SubElement(address_data, 'country')
+                country.text = address.get('country')
+                location = etree.SubElement(address_data, 'location')
+                location.text = address.get('location')
+                street = etree.SubElement(address_data, 'street')
+                street.text = address.get('street')
+                zip = etree.SubElement(address_data, 'zip')
+                zip.text = address.get('zip')
+
+        phones = etree.SubElement(contact_data, 'phone-numbers', type="array")
+        if phone_numbers:
+            for phone_number in phone_numbers:
+                website = etree.SubElement(phones, 'phone-number')
+                number = etree.SubElement(website, 'number')
+                number.text = phone_number.get('number')
+                location = etree.SubElement(website, 'location')
+                location.text = phone_number.get('location')
+
+        subject_datas = etree.SubElement(contact_data, 'subject_datas', type="array")
+        if custom_fields:
+            for custom_field in custom_fields:
+                subject_data = etree.SubElement(subject_datas, 'subject_data', type="array")
+                subject_field_id = etree.SubElement(subject_data, 'subject_field_id', type="integer")
+                subject_field_id.text = custom_field.get('subject_field_id')
+                value = etree.SubElement(subject_data, 'value')
+                value.text = custom_field.get('value')
+
+        tags_data = etree.SubElement(contact_data, 'tags')
+        if tags:
+            for tag in tags:
+                tag_data = etree.SubElement(tags_data, 'tag')
+                name = etree.SubElement(tag_data, 'name')
+                name.text = tag.get('name')
+
+        return contact_data
+
+    @staticmethod
+    def _create_company(name, background=None, **kwargs):
+        company = etree.Element('company')
+        company_name = etree.SubElement(company, 'name')
+        company_name.text = name
+        company_background = etree.SubElement(company, 'background')
+        company_background.text = background
+
+        if kwargs:
+            Highton._create_contact_data(company, **kwargs)
+        return company
 
     def _send_request(self, method, endpoint, params=None, data=None):
         """
@@ -212,7 +307,7 @@ class Highton:
             endpoint=f'people/{subject_id}',
         )
 
-    def create_person(self, person):
+    def create_person(self, first_name, **kwargs):
         """
         Creates a new person.
 
@@ -220,6 +315,8 @@ class Highton:
         https://github.com/basecamp/highrise-api/blob/master/sections/people.md#create-person
         :return: If the API call was successful the just created person will be returned
         """
+        person = self._create_person(first_name, **kwargs)
+
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='people',
@@ -322,7 +419,7 @@ class Highton:
             endpoint=f'companies/{subject_id}',
         )
 
-    def create_company(self, company):
+    def create_company(self, name, **kwargs):
         """
         Creates a new person.
 
@@ -330,6 +427,9 @@ class Highton:
         https://github.com/basecamp/highrise-api/blob/master/sections/companies.md#create-company
         :return: If the API call was successful the just created company will be returned
         """
+
+        company = self._create_company(name, **kwargs)
+
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='companies',
@@ -414,7 +514,7 @@ class Highton:
             },
         )
 
-    def create_note(self, subject_type, subject_id, note):
+    def create_note(self, body, subject_id, subject_type):
         """
         Creates a new note.
 
@@ -425,13 +525,19 @@ class Highton:
         """
         self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
 
+        note_object = etree.Element('note')
+        id = etree.SubElement(note_object, 'body')
+        id.text = body
+        label = etree.SubElement(note_object, 'subject-id')
+        label.text = str(subject_id)
+
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint=f'{subject_type}/{subject_id}/notes',
-            data=note,
+            data=note_object,
         )
 
-    def update_note(self, note):
+    def update_note(self, body, note_id):
         """
         Updates a note.
 
@@ -439,10 +545,14 @@ class Highton:
         https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
         :return: If the API call was successful the just updated note will be returned
         """
+        note_object = etree.Element('note')
+        id = etree.SubElement(note_object, 'body')
+        id.text = body
+
         return self._make_request(
             method=Highton.PUT_REQUEST,
-            endpoint=f'notes/{note.id}',
-            data=note,
+            endpoint=f'notes/{note_id}',
+            data=note_object,
             params={'reload': 'true'}
         )
 
@@ -561,20 +671,24 @@ class Highton:
             params=field_type
         )
 
-    def create_party_custom_field(self, label):
+    def create_party_custom_field(self, value):
         """
         Creates a new custom field.
 
         :param label: The name of the custom field
         :return: If the API call was successful the just added custom field will be returned
         """
+        custom_field = etree.Element('subject-field')
+        label = etree.SubElement(custom_field, 'label')
+        label.text = value
+
         return self._make_request(
             method=Highton.POST_REQUEST,
             endpoint='subject_fields',
-            data=label
+            data=custom_field
         )
 
-    def update_custom_field(self, field_type, custom_field_id, label):
+    def update_custom_field(self, field_type, custom_field_id, value):
         """
         Updates a custom field.
 
@@ -585,10 +699,18 @@ class Highton:
         """
         self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
 
+        custom_field = etree.Element('subject-field')
+        id = etree.SubElement(custom_field, 'id')
+        id.text = str(custom_field_id)
+        label = etree.SubElement(custom_field, 'label')
+        label.text = value
+        type = etree.SubElement(custom_field, 'type')
+        type.text = field_type
+
         return self._make_request(
             method=Highton.PUT_REQUEST,
             endpoint=f'subject_fields/{custom_field_id}',
-            data={'subject-field': {'id': custom_field_id, 'label': label, 'type': field_type}},
+            data=custom_field,
         )
 
     def destroy_custom_field(self, custom_field_id):
