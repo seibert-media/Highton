@@ -4,18 +4,13 @@ import requests
 from lxml import objectify, etree
 from requests.auth import HTTPBasicAuth
 
+from highton_constants import HightonConstants
+
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.DEBUG)
 
 
 class Highton:
-    GET_REQUEST = 'GET'
-    POST_REQUEST = 'POST'
-    PUT_REQUEST = 'PUT'
-    DELETE_REQUEST = 'DELETE'
-    HIGHRISE_URL = 'highrisehq.com'
-    SUBJECT_TYPES = ['companies', 'kases', 'deals', 'people']
-
     class RequestException(Exception):
         """
         Offers an Exception in case of a request that timed-out, failed or was malformed.
@@ -77,16 +72,16 @@ class Highton:
 
     @staticmethod
     def _create_person(first_name, last_name=None, company_name=None, company_id=None, title=None, **kwargs):
-        person = etree.Element('person')
-        first = etree.SubElement(person, 'first-name')
+        person = etree.Element(HightonConstants.PERSON)
+        first = etree.SubElement(person, HightonConstants.FIRST_NAME)
         first.text = first_name
-        last = etree.SubElement(person, 'last-name')
+        last = etree.SubElement(person, HightonConstants.LAST_NAME)
         last.text = last_name
-        company = etree.SubElement(person, 'company-name')
+        company = etree.SubElement(person, HightonConstants.COMPANY_NAME)
         company.text = company_name
-        companyid = etree.SubElement(person, 'company-id')
+        companyid = etree.SubElement(person, HightonConstants.COMPANY_ID)
         companyid.text = str(company_id) if company_id else None
-        person_title = etree.SubElement(person, 'title')
+        person_title = etree.SubElement(person, HightonConstants.TITLE)
         person_title.text = title
 
         if kwargs:
@@ -98,73 +93,73 @@ class Highton:
     def _create_contact_data(subject, email_addresses=None, phone_numbers=None, custom_fields=None,
                              web_addresses=None, addresses=None, tags=None):
 
-        contact_data = etree.SubElement(subject, 'contact-data')
-        emails = etree.SubElement(contact_data, 'email-addresses', type="array")
+        contact_data = etree.SubElement(subject, HightonConstants.CONTACT_DATA)
+        emails = etree.SubElement(contact_data, HightonConstants.EMAIL_ADDRESSES, type="array")
         if email_addresses:
             for email_address in email_addresses:
-                email = etree.SubElement(emails, 'email-address')
-                address = etree.SubElement(email, 'address')
-                address.text = email_address.get('address')
-                location = etree.SubElement(email, 'location')
-                location.text = email_address.get('location')
+                email = etree.SubElement(emails, HightonConstants.EMAIL_ADDRESS)
+                address = etree.SubElement(email, HightonConstants.ADDRESS)
+                address.text = email_address.get(HightonConstants.ADDRESS)
+                location = etree.SubElement(email, HightonConstants.LOCATION)
+                location.text = email_address.get(HightonConstants.LOCATION)
 
-        websites = etree.SubElement(contact_data, 'web-addresses', type="array")
+        websites = etree.SubElement(contact_data, HightonConstants.WEB_ADDRESSES, type="array")
         if web_addresses:
             for web_address in web_addresses:
-                website = etree.SubElement(websites, 'web-address')
-                url = etree.SubElement(website, 'url')
-                url.text = web_address.get('url')
-                location = etree.SubElement(website, 'location')
-                location.text = web_address.get('location')
+                website = etree.SubElement(websites, HightonConstants.WEB_ADDRESS)
+                url = etree.SubElement(website, HightonConstants.URL)
+                url.text = web_address.get(HightonConstants.URL)
+                location = etree.SubElement(website, HightonConstants.LOCATION)
+                location.text = web_address.get(HightonConstants.LOCATION)
 
-        addresses_data = etree.SubElement(contact_data, 'addresses', type="array")
+        addresses_data = etree.SubElement(contact_data, HightonConstants.ADDRESSES, type="array")
         if addresses:
             for address in addresses:
-                address_data = etree.SubElement(addresses_data, 'address')
-                city = etree.SubElement(address_data, 'city')
-                city.text = address.get('city')
-                country = etree.SubElement(address_data, 'country')
-                country.text = address.get('country')
-                location = etree.SubElement(address_data, 'location')
-                location.text = address.get('location')
-                street = etree.SubElement(address_data, 'street')
-                street.text = address.get('street')
-                zip = etree.SubElement(address_data, 'zip')
-                zip.text = address.get('zip')
+                address_data = etree.SubElement(addresses_data, HightonConstants.ADDRESS)
+                city = etree.SubElement(address_data, HightonConstants.CITY)
+                city.text = address.get(HightonConstants.CITY)
+                country = etree.SubElement(address_data, HightonConstants.COUNTRY)
+                country.text = address.get(HightonConstants.COUNTRY)
+                location = etree.SubElement(address_data, HightonConstants.LOCATION)
+                location.text = address.get(HightonConstants.LOCATION)
+                street = etree.SubElement(address_data, HightonConstants.STREET)
+                street.text = address.get(HightonConstants.STREET)
+                zip = etree.SubElement(address_data, HightonConstants.ZIP)
+                zip.text = address.get(HightonConstants.ZIP)
 
-        phones = etree.SubElement(contact_data, 'phone-numbers', type="array")
+        phones = etree.SubElement(contact_data, HightonConstants.PHONE_NUMBERS, type="array")
         if phone_numbers:
             for phone_number in phone_numbers:
-                website = etree.SubElement(phones, 'phone-number')
-                number = etree.SubElement(website, 'number')
-                number.text = phone_number.get('number')
-                location = etree.SubElement(website, 'location')
-                location.text = phone_number.get('location')
+                website = etree.SubElement(phones, HightonConstants.PHONE_NUMBER)
+                number = etree.SubElement(website, HightonConstants.NUMBER)
+                number.text = phone_number.get(HightonConstants.NUMBER)
+                location = etree.SubElement(website, HightonConstants.LOCATION)
+                location.text = phone_number.get(HightonConstants.LOCATION)
 
-        subject_datas = etree.SubElement(subject, 'subject_datas', type="array")
+        subject_datas = etree.SubElement(subject, HightonConstants.SUBJECT_DATAS, type="array")
         if custom_fields:
             for custom_field in custom_fields:
-                subject_data = etree.SubElement(subject_datas, 'subject_data')
-                subject_field_id = etree.SubElement(subject_data, 'subject_field_id', type="integer")
-                subject_field_id.text = custom_field.get('subject_field_id')
-                value = etree.SubElement(subject_data, 'value')
-                value.text = custom_field.get('value')
+                subject_data = etree.SubElement(subject_datas, HightonConstants.SUBJECT_DATA)
+                subject_field_id = etree.SubElement(subject_data, HightonConstants.SUBJECT_DATA, type="integer")
+                subject_field_id.text = custom_field.get(HightonConstants.SUBJECT_DATA)
+                value = etree.SubElement(subject_data, HightonConstants.VALUE)
+                value.text = custom_field.get(HightonConstants.VALUE)
 
-        tags_data = etree.SubElement(subject, 'tags', type="array")
+        tags_data = etree.SubElement(subject, HightonConstants.TAGS, type="array")
         if tags:
             for tag in tags:
-                tag_data = etree.SubElement(tags_data, 'tag')
-                name = etree.SubElement(tag_data, 'name')
-                name.text = tag.get('name')
+                tag_data = etree.SubElement(tags_data, HightonConstants.TAG)
+                name = etree.SubElement(tag_data, HightonConstants.NAME)
+                name.text = tag.get(HightonConstants.NAME)
 
         return contact_data
 
     @staticmethod
     def _create_company(name, background=None, **kwargs):
-        company = etree.Element('company')
-        company_name = etree.SubElement(company, 'name')
+        company = etree.Element(HightonConstants.COMPANY)
+        company_name = etree.SubElement(company, HightonConstants.NAME)
         company_name.text = name
-        company_background = etree.SubElement(company, 'background')
+        company_background = etree.SubElement(company, HightonConstants.BACKGROUND)
         company_background.text = background
 
         if kwargs:
@@ -183,7 +178,7 @@ class Highton:
         """
         response = requests.request(
             method=method,
-            url=f'https://{self._user}.{Highton.HIGHRISE_URL}/{endpoint}.xml',
+            url=f'https://{self._user}.{HightonConstants.HIGHRISE_URL}/{endpoint}.xml',
             headers={'Content-Type': 'application/xml'},
             auth=HTTPBasicAuth(username=self._api_key, password=''),
             params=params,
@@ -241,8 +236,8 @@ class Highton:
         :return: A list of dictionaries of people
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint='people',
+            method=HightonConstants.GET,
+            endpoint=HightonConstants.PEOPLE,
             params={
                 'since': since.strftime('%Y%m%d%H%M%S') if since else None,
                 'n': page * 500,
@@ -257,8 +252,8 @@ class Highton:
         :return: A list of dictionaries of people
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'people',
+            method=HightonConstants.GET,
+            endpoint=HightonConstants.PEOPLE,
             params={
                 'tag_id': tag_id,
             },
@@ -274,8 +269,8 @@ class Highton:
         :return: A list of dictionaries of people
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint='people/search',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.PEOPLE}/{HightonConstants.SEARCH}',
             params={
                 **{f'criteria[{k}]': v for k, v in criteria.items()},
                 **{'n': page * 25},
@@ -291,8 +286,8 @@ class Highton:
         :return: A list of dictionaries of people
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'companies/{company["id"]["#text"]}/people',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.COMPANIES}/{company.id}/{HightonConstants.PEOPLE}',
         )
 
     def get_person(self, subject_id):
@@ -303,8 +298,8 @@ class Highton:
         :return: A dictionary of the person
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'people/{subject_id}',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.PEOPLE}/{subject_id}',
         )
 
     def create_person(self, first_name, **kwargs):
@@ -318,8 +313,8 @@ class Highton:
         person = self._create_person(first_name, **kwargs)
 
         return self._make_request(
-            method=Highton.POST_REQUEST,
-            endpoint='people',
+            method=HightonConstants.POST,
+            endpoint={HightonConstants.PEOPLE},
             data=person,
         )
 
@@ -332,8 +327,8 @@ class Highton:
         :return: If the API call was successful the just updated person will be returned
         """
         return self._make_request(
-            method=Highton.PUT_REQUEST,
-            endpoint=f'people/{person.id}',
+            method=HightonConstants.PUT,
+            endpoint=f'{HightonConstants.PEOPLE}/{person.id}',
             data=person,
             params={'reload': 'true'}
         )
@@ -347,8 +342,8 @@ class Highton:
         :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
-            method=Highton.DELETE_REQUEST,
-            endpoint=f'people/{person.id}',
+            method=HightonConstants.DELETE,
+            endpoint=f'{HightonConstants.PEOPLE}/{person.id}',
         )
 
     """
@@ -365,8 +360,8 @@ class Highton:
         :return: A list of dictionaries of companies
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint='companies',
+            method=HightonConstants.GET,
+            endpoint={HightonConstants.COMPANIES},
             params={
                 'since': since.strftime('%Y%m%d%H%M%S') if since else None,
                 'n': page * 500,
@@ -381,8 +376,8 @@ class Highton:
         :return: A list of dictionaries of companies
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'companies',
+            method=HightonConstants.GET,
+            endpoint=HightonConstants.COMPANIES,
             params={
                 'tag_id': tag_id,
             }
@@ -398,8 +393,8 @@ class Highton:
         :return: A list of dictionaries of companies
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint='companies/search',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.COMPANIES}/{HightonConstants.SEARCH}',
             params={
                 **{f'criteria[{k}]': v for k, v in criteria.items()},
                 **{'n': page * 25},
@@ -415,8 +410,8 @@ class Highton:
         :return: A dictionary of the company
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'companies/{subject_id}',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.COMPANIES}/{subject_id}',
         )
 
     def create_company(self, name, **kwargs):
@@ -431,8 +426,8 @@ class Highton:
         company = self._create_company(name, **kwargs)
 
         return self._make_request(
-            method=Highton.POST_REQUEST,
-            endpoint='companies',
+            method=HightonConstants.POST,
+            endpoint=HightonConstants.COMPANIES,
             data=company,
         )
 
@@ -445,8 +440,8 @@ class Highton:
         :return: If the API call was successful the just updated company will be returned
         """
         return self._make_request(
-            method=Highton.PUT_REQUEST,
-            endpoint=f'companies/{company.id}',
+            method=HightonConstants.PUT,
+            endpoint=f'{HightonConstants.COMPANIES}/{company.id}',
             data=company,
             params={'reload': 'true'}
         )
@@ -460,8 +455,8 @@ class Highton:
         :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
-            method=Highton.DELETE_REQUEST,
-            endpoint=f'companies/{company.id}',
+            method=HightonConstants.DELETE,
+            endpoint=f'{HightonConstants.COMPANIES}/{company.id}',
         )
 
     """
@@ -477,8 +472,8 @@ class Highton:
         :return: A dictionary of the note
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'notes/{note_id}',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.NOTES}/{note_id}',
         )
 
     def get_comments_from_note(self, note_id):
@@ -489,8 +484,8 @@ class Highton:
         :return: A list of dictionaries of comments
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'notes/{note_id}/comments',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.NOTES}/{note_id}/{HightonConstants.COMMENTS}',
         )
 
     def get_notes(self, subject_type, subject_id, since=None, page=0):
@@ -503,11 +498,11 @@ class Highton:
         :param page: Each page per 25 entries
         :return: A list of dictionaries of notes
         """
-        self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
+        self._check_for_parameters(subject_type=subject_type, types=HightonConstants.SUBJECT_TYPES)
 
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'{subject_type}/{subject_id}/notes',
+            method=HightonConstants.GET,
+            endpoint=f'{subject_type}/{subject_id}/{HightonConstants.NOTES}',
             params={
                 'since': since.strftime('%Y%m%d%H%M%S') if since else None,
                 'n': page * 25,
@@ -523,17 +518,17 @@ class Highton:
         :param note: The content of the note
         :return: If the API call was successful the just created note will be returned
         """
-        self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
+        self._check_for_parameters(subject_type=subject_type, types=HightonConstants.SUBJECT_TYPES)
 
-        note_object = etree.Element('note')
-        id = etree.SubElement(note_object, 'body')
+        note_object = etree.Element(HightonConstants.NOTE)
+        id = etree.SubElement(note_object, HightonConstants.BODY)
         id.text = body
-        label = etree.SubElement(note_object, 'subject-id')
+        label = etree.SubElement(note_object, HightonConstants.SUBJECT_ID)
         label.text = str(subject_id)
 
         return self._make_request(
-            method=Highton.POST_REQUEST,
-            endpoint=f'{subject_type}/{subject_id}/notes',
+            method=HightonConstants.POST,
+            endpoint=f'{subject_type}/{subject_id}/{HightonConstants.NOTES}',
             data=note_object,
         )
 
@@ -545,13 +540,13 @@ class Highton:
         https://github.com/basecamp/highrise-api/blob/master/sections/notes.md#create-note
         :return: If the API call was successful the just updated note will be returned
         """
-        note_object = etree.Element('note')
-        id = etree.SubElement(note_object, 'body')
+        note_object = etree.Element(HightonConstants.NOTE)
+        id = etree.SubElement(note_object, HightonConstants.BODY)
         id.text = body
 
         return self._make_request(
-            method=Highton.PUT_REQUEST,
-            endpoint=f'notes/{note_id}',
+            method=HightonConstants.PUT,
+            endpoint=f'{HightonConstants.NOTES}/{note_id}',
             data=note_object,
             params={'reload': 'true'}
         )
@@ -565,8 +560,8 @@ class Highton:
         :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
-            method=Highton.DELETE_REQUEST,
-            endpoint=f'notes/{note.id}',
+            method=HightonConstants.DELETE,
+            endpoint=f'{HightonConstants.NOTES}/{note.id}',
         )
 
     """
@@ -581,8 +576,8 @@ class Highton:
         :return: A list of dictionaries of tags
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint='tags',
+            method=HightonConstants.GET,
+            endpoint=HightonConstants.TAGS,
         )
 
     def get_tags_by_subject(self, subject_type, subject_id):
@@ -593,11 +588,11 @@ class Highton:
         :param subject_id: The ID of the subject the tag is added to
         :return: A list of dictionaries of tags
         """
-        self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
+        self._check_for_parameters(subject_type=subject_type, types=HightonConstants.SUBJECT_TYPES)
 
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'{subject_type}/{subject_id}/tags',
+            method=HightonConstants.GET,
+            endpoint=f'{subject_type}/{subject_id}/{HightonConstants.TAGS}',
         )
 
     def get_tagged_parties(self, tag_id):
@@ -608,8 +603,8 @@ class Highton:
         :return: A list of dictionaries of parties
         """
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint=f'tags/{tag_id}',
+            method=HightonConstants.GET,
+            endpoint=f'{HightonConstants.TAGS}/{tag_id}',
         )
 
     def add_tag(self, subject_type, subject_id, tag_name):
@@ -621,14 +616,14 @@ class Highton:
         :param tag_name: The name of the tag to add as a string
         :return: If the API call was successful the just added tag will be returned
         """
-        self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
+        self._check_for_parameters(subject_type=subject_type, types=HightonConstants.SUBJECT_TYPES)
 
         tag = etree.Element('name')
         tag.text = tag_name
 
         return self._make_request(
-            method=Highton.POST_REQUEST,
-            endpoint=f'{subject_type}/{subject_id}/tags',
+            method=HightonConstants.POST,
+            endpoint=f'{subject_type}/{subject_id}/{HightonConstants.TAGS}',
             data=tag,
             params={'reload': 'true'}
         )
@@ -637,24 +632,22 @@ class Highton:
         """
         Removes a tag from a subject.
 
-        :param subject_type: A type of any of these: ['companies', 'kases', 'deals', 'people']
+        :param subject_type: A type of any of these: HightonConstants.SUBJECT_TYPES
         :param subject_id: The ID of the subject the tag is added to
         :param tag_id: The ID of the tag
         :return: The HTTP status code of the response of the DELETE request
         """
-        self._check_for_parameters(subject_type=subject_type, types=Highton.SUBJECT_TYPES)
+        self._check_for_parameters(subject_type=subject_type, types=HightonConstants.SUBJECT_TYPES)
 
         return self._make_request(
-            method=Highton.DELETE_REQUEST,
-            endpoint=f'{subject_type}/{subject_id}/tags/{tag_id}',
+            method=HightonConstants.DELETE,
+            endpoint=f'{subject_type}/{subject_id}/{HightonConstants.TAGS}/{tag_id}',
         )
 
     """
     Section: Custom Fields
     Docs: https://github.com/basecamp/highrise-api/blob/master/sections/custom_fields.md
     """
-
-    CUSTOM_FIELD_TYPES = ['party', 'deal', 'all']
 
     def get_custom_fields(self, field_type):
         """
@@ -663,11 +656,11 @@ class Highton:
         :param field_type: A type of any of these: ['party', 'deal', 'all']
         :return: A list of dictionaries of custom fields
         """
-        self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
+        self._check_for_parameters(subject_type=field_type, types=HightonConstants.CUSTOM_FIELD_TYPES)
 
         return self._make_request(
-            method=Highton.GET_REQUEST,
-            endpoint='subject_fields',
+            method=HightonConstants.GET,
+            endpoint=HightonConstants.SUBJECT_FIELDS,
             params=field_type
         )
 
@@ -678,13 +671,13 @@ class Highton:
         :param label: The name of the custom field
         :return: If the API call was successful the just added custom field will be returned
         """
-        custom_field = etree.Element('subject-field')
-        label = etree.SubElement(custom_field, 'label')
+        custom_field = etree.Element(HightonConstants.SUBJECT_FIELD)
+        label = etree.SubElement(custom_field, HightonConstants.LABEL)
         label.text = value
 
         return self._make_request(
-            method=Highton.POST_REQUEST,
-            endpoint='subject_fields',
+            method=HightonConstants.POST,
+            endpoint=HightonConstants.SUBJECT_FIELDS,
             data=custom_field
         )
 
@@ -697,19 +690,19 @@ class Highton:
         :param label: The new name for the chosen custom field
         :return:
         """
-        self._check_for_parameters(subject_type=field_type, types=Highton.CUSTOM_FIELD_TYPES)
+        self._check_for_parameters(subject_type=field_type, types=HightonConstants.CUSTOM_FIELD_TYPES)
 
-        custom_field = etree.Element('subject-field')
-        id = etree.SubElement(custom_field, 'id')
+        custom_field = etree.Element(HightonConstants.SUBJECT_FIELD)
+        id = etree.SubElement(custom_field, HightonConstants.ID)
         id.text = str(custom_field_id)
-        label = etree.SubElement(custom_field, 'label')
+        label = etree.SubElement(custom_field, HightonConstants.LABEL)
         label.text = value
-        type = etree.SubElement(custom_field, 'type')
+        type = etree.SubElement(custom_field, HightonConstants.TYPE)
         type.text = field_type
 
         return self._make_request(
-            method=Highton.PUT_REQUEST,
-            endpoint=f'subject_fields/{custom_field_id}',
+            method=HightonConstants.PUT,
+            endpoint=f'{HightonConstants.SUBJECT_FIELDS}/{custom_field_id}',
             data=custom_field,
         )
 
@@ -721,6 +714,6 @@ class Highton:
         :return: The HTTP status code of the response of the DELETE request
         """
         return self._make_request(
-            method=Highton.DELETE_REQUEST,
-            endpoint=f'subject_fields/{custom_field_id}',
+            method=HightonConstants.DELETE,
+            endpoint=f'{HightonConstants.SUBJECT_FIELDS}/{custom_field_id}',
         )
