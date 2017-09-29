@@ -1,7 +1,7 @@
 from abc import ABCMeta
 from xml.etree import ElementTree
 
-import fields
+from highton import fields
 
 
 class XMLEncoder(metaclass=ABCMeta):

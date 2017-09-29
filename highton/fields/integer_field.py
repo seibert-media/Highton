@@ -1,6 +1,7 @@
-from fields.field import Field
 from xml.etree import ElementTree
-from fields.field_constants import FieldConstants
+
+from highton.fields.field import Field
+from highton.fields.field_constants import FieldConstants
 
 
 class IntegerField(Field):
@@ -13,5 +14,9 @@ class IntegerField(Field):
         return element
 
     def decode(self, element):
-        return int(element.text)
+        text = element.text
+        if text:
+            return int(text)
+        else:
+            return None
 

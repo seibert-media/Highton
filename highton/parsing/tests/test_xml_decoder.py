@@ -2,9 +2,9 @@ import datetime
 import unittest
 from xml.etree import ElementTree
 
-import fields
-from models import HightonModel
-from parsing.xml_decoder import FieldDoesNotExist
+from highton import fields
+from highton.models import HightonModel
+from highton.parsing.xml_decoder import FieldDoesNotExist
 
 TEST_CLASS_XML = """
 <test>

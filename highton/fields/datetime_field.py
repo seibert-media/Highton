@@ -1,8 +1,8 @@
 import datetime
-
-from fields.field import Field
 from xml.etree import ElementTree
-from fields.field_constants import FieldConstants
+
+from highton.fields.field import Field
+from highton.fields.field_constants import FieldConstants
 
 
 class DatetimeField(Field):
@@ -17,5 +17,9 @@ class DatetimeField(Field):
         return element
 
     def decode(self, element):
-        return datetime.datetime.strptime(element.text, self.DATETIME_FORMAT)
+        if element.text:
+            return datetime.datetime.strptime(element.text, self.DATETIME_FORMAT)
+        else:
+            return None
+
 

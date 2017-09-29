@@ -2,8 +2,8 @@ import datetime
 import unittest
 from xml.etree import ElementTree
 
-import fields
-from models import HightonModel
+from highton import fields
+from highton.wmodels import HightonModel
 
 TEST_CLASS_XML = b'<test><id type="integer">1</id><name>NAME</name><created-date type="date">2007-03-19</created-date><created-datetime type="date">2007-03-19T22:34:22Z</created-datetime><tags type="array"><tag><id>1</id><name>#1</name></tag><tag><id>2</id><name>#2</name></tag></tags><category><id>123</id><value>test</value></category></test>'
 

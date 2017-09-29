@@ -1,16 +1,16 @@
 from abc import ABCMeta
 from xml.etree import ElementTree
-import inspect
 
-import fields
+from highton import fields
 
 
 class FieldDoesNotExist(Exception):
-    def __init__(self, element):
+    def __init__(self, obj, element):
+        self.obj = obj
         self.element = element
 
     def __str__(self):
-        return 'The field "{tag}" does not exist'.format(tag=self.element.tag)
+        return 'The field "{tag}" does not exist in {object}'.format(tag=self.element.tag, object=self.obj)
 
 
 class XMLDecoder(metaclass=ABCMeta):
@@ -39,7 +39,11 @@ class XMLDecoder(metaclass=ABCMeta):
             )
             field.value = field.decode(child_element)
         except KeyError:
-            raise FieldDoesNotExist(child_element)
+            raise FieldDoesNotExist(xml_decoder_object, child_element)
+
+    @staticmethod
+    def from_string(string):
+        return ElementTree.fromstring(string)
 
     @classmethod
     def decode(cls, root_element):

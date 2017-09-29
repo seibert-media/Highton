@@ -1,0 +1,2 @@
+USERNAME = ''
+API_KEY = ''

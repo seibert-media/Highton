@@ -1,6 +1,6 @@
 from xml.etree import ElementTree
 
-from fields import Field
+from highton.fields import Field
 
 
 class ObjectField(Field):

@@ -53,10 +53,12 @@ class HightonConstants:
     SUBJECT_FIELD = 'subject-field'
     SUBJECT_FIELDS = 'subject_fields'
     SUBJECT_FIELD_ID = 'subject_field_id'
+    SUBJECT_FIELD_LABEL = 'subject_field_label'
 
     URL = 'url'
     ZIP = 'zip'
     CITY = 'city'
+    STATE = 'state'
     STREET = 'street'
     NUMBER = 'number'
     COUNTRY = 'country'
@@ -71,9 +73,35 @@ class HightonConstants:
     COMMENTS = 'comments'
     BACKGROUND = 'background'
 
+    AUTHOR_ID = 'author-id'
+    CLOSED_AT = 'closed-at'
+    CREATED_AT = 'created-at'
+    UPDATED_AT = 'updated-at'
+    VISIBLE_TO = 'visible-to'
+    GROUP_ID = 'group-id'
+    OWNER_ID = 'owner-id'
+    LINKEDIN_URL = 'linkedin-url'
+    AVATAR_URL = 'avatar_url'
+
     ALL = 'all'
     DEAL = 'deal'
     PARTY = 'party'
+    PARTIES = 'parties'
+
+    CASE = 'kase'
+    CASES = 'kases'
+
+    TWITTER_ACCOUNTS = 'twitter-accounts'
+    TWITTER_ACCOUNT = 'twitter-account'
+
+    USERNAME = 'username'
+    PROTOCOL = 'protocol'
+
+    INSTANT_MESSENGERS = 'instant-messengers'
+    INSTANT_MESSENGER = 'instant-messenger'
+
+    ASSOCIATED_PARTIES = 'associated-parties'
+    ASSOCIATED_PARTY = 'associated-party'
 
     SUBJECT_TYPES = [COMPANIES, KASES, DEALS, PEOPLE, ]
     CUSTOM_FIELD_TYPES = [PARTY, DEAL, ALL, ]

@@ -1,7 +1,7 @@
 from xml.etree import ElementTree
 
-from fields import Field
-from fields.field_constants import FieldConstants
+from highton.fields import Field
+from highton.fields.field_constants import FieldConstants
 
 
 class ListField(Field):

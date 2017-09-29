@@ -1,10 +1,9 @@
 from abc import ABCMeta
-from copy import deepcopy
 
-import fields
-from highton_constants import HightonConstants
-from parsing.xml_decoder import XMLDecoder
-from parsing.xml_encoder import XMLEncoder
+from highton import fields
+from highton.highton_constants import HightonConstants
+from highton.parsing.xml_decoder import XMLDecoder
+from highton.parsing.xml_encoder import XMLEncoder
 
 
 class HightonModel(XMLDecoder, XMLEncoder, metaclass=ABCMeta):
