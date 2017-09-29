@@ -20,19 +20,16 @@ class XMLDecoder(metaclass=ABCMeta):
             return attribute_value.value
         return attribute_value
 
-    @classmethod
-    def get_field_names_to_attributes(cls):
+    def get_field_names_to_attributes(self):
 
         return {
             value.name: key
-            for key, value in inspect.getmembers(cls, lambda a: not (inspect.isroutine(a)))
+            for key, value in self.__dict__.items()
             if isinstance(value, fields.Field)
         }
 
-    @classmethod
-    def get_field(cls, attribute_name):
-        members = dict(inspect.getmembers(cls, lambda a: not (inspect.isroutine(a))))
-        return members[attribute_name]
+    def get_field(self, attribute_name):
+        return self.__dict__[attribute_name]
 
     @staticmethod
     def _set_field(xml_decoder_object, field_names_to_attributes, child_element):

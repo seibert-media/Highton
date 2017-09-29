@@ -22,6 +22,10 @@ TEST_CLASS_XML = """
             <name>#2</name>
         </tag>
     </tags>
+     <category>
+        <id>123</id>
+        <value>test</value>
+    </category>
 </test>
 """
 
@@ -33,16 +37,24 @@ FIELD_DOES_NOT_EXIST_TEST_CLASS_XML = """
 
 
 class Tag(HightonModel):
-    id = fields.IntegerField(name='id')
-    name = fields.StringField(name='name')
+    def __init__(self, **kwargs):
+        self.name = fields.StringField(name='name')
+        super().__init__(**kwargs)
 
+class Category(HightonModel):
+    def __init__(self, **kwargs):
+        self.id = fields.IntegerField(name='id')
+        self.value = fields.StringField(name='value')
+        super().__init__(**kwargs)
 
 class TestClass(HightonModel):
-    id = fields.IntegerField(name='id')
-    name = fields.StringField(name='name')
-    created_date = fields.DateField(name='created-date')
-    created_datetime = fields.DatetimeField(name='created-datetime')
-    tags = fields.ListField(name='tags', init_class=Tag)
+    def __init__(self, **kwargs):
+        self.name = fields.StringField(name='name')
+        self.created_date = fields.DateField(name='created-date')
+        self.created_datetime = fields.DatetimeField(name='created-datetime')
+        self.tags = fields.ListField(name='tags', init_class=Tag)
+        self.category = fields.ObjectField(name='category', init_class=Category)
+        super().__init__(**kwargs)
 
 
 class TestXMLDecoder(unittest.TestCase):
@@ -67,6 +79,14 @@ class TestXMLDecoder(unittest.TestCase):
         self.assertEqual(
             test_class.tags[1].name,
             '#2'
+        )
+        self.assertEqual(
+            test_class.category.id,
+            123
+        )
+        self.assertEqual(
+            test_class.category.value,
+            'test'
         )
 
     def test_field_does_not_exist(self):

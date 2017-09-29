@@ -9,11 +9,12 @@ class DateField(Field):
     DATE_FORMAT = '%Y-%m-%d'
 
     def encode(self):
-        return ElementTree.Element(
-            tag=self.name,
-            text=self.value.isoformat(),
+        element =  ElementTree.Element(
+            self.name,
             attrib={'type': FieldConstants.DATE},
         )
+        element.text=self.value.isoformat()
+        return element
 
     def decode(self, element):
         return datetime.datetime.strptime(element.text, self.DATE_FORMAT).date()

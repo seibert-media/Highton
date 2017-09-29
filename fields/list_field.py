@@ -6,7 +6,7 @@ from fields.field_constants import FieldConstants
 
 class ListField(Field):
     def __init__(self, name, init_class):
-        super(ListField, self).__init__(name)
+        super().__init__(name)
         self.init_class = init_class
 
     def encode(self):
@@ -16,7 +16,7 @@ class ListField(Field):
         :return: ElementTree.Element
         """
         element = ElementTree.Element(
-            tag=self.name,
+            self.name,
             attrib={'type': FieldConstants.ARRAY},
         )
         for item in self.value:

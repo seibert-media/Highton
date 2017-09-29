@@ -9,11 +9,12 @@ class DatetimeField(Field):
     DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%SZ'
 
     def encode(self):
-        return ElementTree.Element(
-            tag=self.name,
-            text=self.value.strftime(self.DATETIME_FORMAT),
+        element =  ElementTree.Element(
+            self.name,
             attrib={'type': FieldConstants.DATETIME},
         )
+        element.text=self.value.strftime(self.DATETIME_FORMAT)
+        return element
 
     def decode(self, element):
         return datetime.datetime.strptime(element.text, self.DATETIME_FORMAT)

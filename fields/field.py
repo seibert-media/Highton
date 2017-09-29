@@ -8,7 +8,9 @@ class Field(metaclass=ABCMeta):
         self.value = None
 
     def encode(self):
-        return ElementTree.Element(tag=self.name, text=self.value)
+        element = ElementTree.Element(self.name)
+        element.text = str(self.value)
+        return element
 
     def decode(self, element):
         return element.text
