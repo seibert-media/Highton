@@ -31,7 +31,8 @@ class XMLDecoder(metaclass=ABCMeta):
 
     @classmethod
     def get_field(cls, attribute_name):
-        return dict(inspect.getmembers(cls, lambda a: not (inspect.isroutine(a))))[attribute_name]
+        members = dict(inspect.getmembers(cls, lambda a: not (inspect.isroutine(a))))
+        return members[attribute_name]
 
     @staticmethod
     def _set_field(xml_decoder_object, field_names_to_attributes, child_element):
@@ -44,10 +45,9 @@ class XMLDecoder(metaclass=ABCMeta):
             raise FieldDoesNotExist(child_element)
 
     @classmethod
-    def decode(cls, xml_string):
-        root = ElementTree.fromstring(xml_string)
+    def decode(cls, root_element):
         new_object = cls()
-        field_names_to_attributes = cls.get_field_names_to_attributes()
-        for child_element in root:
-            cls._set_field(new_object, field_names_to_attributes, child_element)
+        field_names_to_attributes = new_object.get_field_names_to_attributes()
+        for child_element in root_element:
+            new_object._set_field(new_object, field_names_to_attributes, child_element)
         return new_object

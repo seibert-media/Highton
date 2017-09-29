@@ -6,13 +6,13 @@ from parsing.xml_decoder import XMLDecoder
 from parsing.xml_encoder import XMLEncoder
 
 
-class HightonModel(XMLDecoder, XMLEncoder):
+class HightonModel(XMLDecoder, XMLEncoder, metaclass=ABCMeta):
     ENDPOINT = None
     TAG_NAME = None
 
-    id = fields.IntegerField(name=HightonConstants.ID)
-
     def __init__(self, **kwargs):
+        self.id = fields.IntegerField(name=HightonConstants.ID)
+
         for key, value in kwargs.items():
             setattr(self, key, value)
 
