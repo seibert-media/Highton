@@ -1,13 +1,18 @@
-from highton import fields, call_mixins
+from highton import fields
 from highton.models import HightonModel
 from highton.highton_constants import HightonConstants
+
 
 class Contact(
     HightonModel,
 
 ):
     def __init__(self, **kwargs):
-        from highton.models import Tag, ContactData, SubjectData
+        from highton.models import (
+            Tag,
+            ContactData,
+            SubjectData,
+        )
 
         self.author_id = fields.IntegerField(name=HightonConstants.AUTHOR_ID)
         self.background = fields.StringField(name=HightonConstants.BACKGROUND)

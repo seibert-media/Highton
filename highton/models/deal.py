@@ -1,4 +1,7 @@
-from highton import fields, call_mixins
+from highton import (
+    fields,
+    call_mixins,
+)
 from highton.highton_constants import HightonConstants
 from highton.models import HightonModel
 
@@ -7,11 +10,57 @@ class Deal(
     HightonModel,
     call_mixins.ListCallMixin,
 ):
+    """
+    A deal which represents:
+
+    https://github.com/basecamp/highrise-api/blob/master/sections/deals.md
+
+    :ivar id: fields.IntegerField
+    :ivar authod_id: fields.IntegerField
+    :ivar account_id: fields.IntegerField
+    :ivar background: fields.StringField
+    :ivar category_id: fields.IntegerField
+    :ivar created_at: fields.DatetimeField
+    :ivar currency: fields.StringField
+    :ivar duration: fields.IntegerField
+    :ivar group_id: fields.IntegerField
+    :ivar name: fields.StringField
+    :ivar owner_id: fields.IntegerField
+    :ivar party_id: fields.IntegerField
+    :ivar price: fields.IntegerField
+    :ivar price_type: fields.StringField
+    :ivar responsible_party_id: fields.IntegerField
+    :ivar status: fields.StringField
+    :ivar status_changed_on: fields.DateField
+    :ivar updated_at: fields.DatetimeField
+    :ivar visible_to: fields.StringField
+    :ivar party: fields.ObjectField
+    :ivar category: fields.ObjectField
+    :ivar tags: fields.ListField
+    :ivar parties: fields.ListField
+    :ivar contact_data: fields.ObjectField
+    :ivar subject_datas: fields.ListField
+    :ivar associated_parties: fields.ListField
+    """
+
     ENDPOINT = HightonConstants.DEALS
     TAG_NAME = HightonConstants.DEAL
 
     def __init__(self, **kwargs):
-        from highton.models import Tag, ContactData, SubjectData, Party, AssociatedParty, Category
+        """
+        Init a deal with the attributes
+
+        :param kwargs:
+        :type kwargs:
+        """
+        from highton.models import (
+            Tag,
+            ContactData,
+            SubjectData,
+            Party,
+            AssociatedParty,
+            Category,
+        )
 
         self.author_id = fields.IntegerField(name=HightonConstants.AUTHOR_ID)
         self.account_id = fields.IntegerField(name=HightonConstants.ACCOUNT_ID)

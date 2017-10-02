@@ -1,4 +1,7 @@
-from highton import fields, call_mixins
+from highton import (
+    fields,
+    call_mixins,
+)
 from highton.highton_constants import HightonConstants
 from highton.models.contact import Contact
 

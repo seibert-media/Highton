@@ -4,6 +4,11 @@ from highton.fields import Field
 
 
 class ObjectField(Field):
+    """
+    The ObjectFIeld parses the init_class object
+
+    :ivar init_class: a Highton model
+    """
     def __init__(self, name, init_class):
         super().__init__(name)
         self.init_class = init_class
@@ -12,7 +17,8 @@ class ObjectField(Field):
         """
         Just encode the object you have as value
         
-        :return: ElementTree.Element
+        :return: the parsed element
+        :rtype: xml.etree.ElementTree.Element
         """
         element = ElementTree.Element(self.name)
         element.append(self.value.encode())

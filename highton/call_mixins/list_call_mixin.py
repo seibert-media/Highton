@@ -1,13 +1,28 @@
 from highton.call_mixins import Call
 from highton import fields
 
-class ListCallMixin(Call):
 
-    # yyyymmddhhmmss
+class ListCallMixin(Call):
+    """
+    A mixin to retrieve a list of a highrise endpoint
+
+    :COLLECTION_DATETIME: the datetime constant
+
+    """
+
     COLLECTION_DATETIME = '%Y%m%d%H%M%S'
+    # yyyymmddhhmmss
 
     @classmethod
     def list(cls, params=None):
+        """
+        Retrieves a list of the model
+
+        :param params: params as dictionary
+        :type params: dict
+        :return: the list of the parsed xml objects
+        :rtype: list
+        """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
             cls.from_string(cls._get_request(params=params).text)
         )

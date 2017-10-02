@@ -2,6 +2,7 @@ from highton.models import HightonModel
 from highton.highton_constants import HightonConstants
 from highton import fields
 
+
 class EmailAddress(
     HightonModel,
 ):

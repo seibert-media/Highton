@@ -9,7 +9,14 @@ class ContactData(
     TAG_NAME = HightonConstants.CONTACT_DATA
 
     def __init__(self, **kwargs):
-        from highton.models import PhoneNumber, TwitterAccount, WebAddress, EmailAddress, Address, InstantMessenger
+        from highton.models import (
+            PhoneNumber,
+            TwitterAccount,
+            WebAddress,
+            EmailAddress,
+            Address,
+            InstantMessenger,
+        )
 
         self.phone_numbers = fields.ListField(name=HightonConstants.PHONE_NUMBERS, init_class=PhoneNumber)
         self.twitter_accounts = fields.ListField(name=HightonConstants.TWITTER_ACCOUNTS, init_class=TwitterAccount)

@@ -3,6 +3,7 @@ from highton.models import HightonModel
 from highton.highton_constants import HightonConstants
 from highton import fields
 
+
 class Case(
     HightonModel,
     call_mixins.ListCallMixin,
@@ -11,7 +12,10 @@ class Case(
     TAG_NAME = HightonConstants.CASE
 
     def __init__(self, **kwargs):
-        from highton.models import Party, AssociatedParty
+        from highton.models import (
+            Party,
+            AssociatedParty,
+        )
 
         self.author_id = fields.IntegerField(name=HightonConstants.AUTHOR_ID)
         self.closed_at = fields.DatetimeField(name=HightonConstants.CLOSED_AT)

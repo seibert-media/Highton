@@ -7,6 +7,12 @@ from highton.parsing.xml_encoder import XMLEncoder
 
 
 class HightonModel(XMLDecoder, XMLEncoder, metaclass=ABCMeta):
+    """
+    This class inherit from XMLDecoder and XMLEncoder which allows every HightonModel to be encoded and decoded in xml.
+
+    :ivar id: fields.IntegerField
+
+    """
     ENDPOINT = None
 
     def __init__(self, **kwargs):

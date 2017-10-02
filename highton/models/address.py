@@ -2,9 +2,20 @@ from highton.models import HightonModel
 from highton.highton_constants import HightonConstants
 from highton import fields
 
+
 class Address(
     HightonModel,
 ):
+    """
+
+    :ivar id: fields.IntegerField
+    :ivar location: fields.StringField
+    :ivar city: fields.StringField
+    :ivar country: fields.StringField
+    :ivar state: fields.StringField
+    :ivar street: fields.StringField
+    :ivar zip: fields.StringField
+    """
     TAG_NAME = HightonConstants.ADDRESS
 
     def __init__(self, **kwargs):

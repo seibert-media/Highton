@@ -6,6 +6,11 @@ from highton.fields.field_constants import FieldConstants
 
 class IntegerField(Field):
     def encode(self):
+        """
+
+        :return:
+        :rtype: xml.etree.ElementTree.Element
+        """
         element = ElementTree.Element(
             self.name,
             attrib={'type': FieldConstants.INTEGER},
@@ -14,6 +19,13 @@ class IntegerField(Field):
         return element
 
     def decode(self, element):
+        """
+
+        :param element:
+        :type element: xml.etree.ElementTree.Element
+        :return: the parsed int object
+        :rtype: int
+        """
         text = element.text
         if text:
             return int(text)

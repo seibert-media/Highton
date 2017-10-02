@@ -1,4 +1,7 @@
-from highton import fields, call_mixins
+from highton import (
+    fields,
+    call_mixins,
+)
 from highton.highton_constants import HightonConstants
 from highton.models.contact import Contact
 
@@ -31,7 +34,8 @@ class Person(
         :type tag_id: int
         :param title: 
         :type title: str
-        :return: 
+        :return: list of person objects
+        :rtype: list
         """
         params = {}
         if page:
@@ -44,8 +48,3 @@ class Person(
             params['title'] = title
 
         return super().list(params)
-
-
-
-
-
