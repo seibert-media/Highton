@@ -9,6 +9,7 @@ from highton.models import HightonModel
 class Deal(
     HightonModel,
     call_mixins.ListCallMixin,
+    call_mixins.DetailCallMixin,
 ):
     """
     A deal which represents:

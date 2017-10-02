@@ -43,6 +43,11 @@ class HightonConstants:
     ADDRESS = 'address'
     ADDRESSES = 'addresses'
 
+    DEAL_CATEGORIES = 'deal_categories'
+    DEAL_CATEGORY = 'deal-category'
+    TASK_CATEGORIES = 'task_categories'
+    TASK_CATEGORY = 'task-category'
+
     NOTE = 'note'
     NOTES = 'notes'
 
@@ -97,6 +102,8 @@ class HightonConstants:
     USERNAME = 'username'
     PROTOCOL = 'protocol'
 
+    COLOR = 'color'
+
     INSTANT_MESSENGERS = 'instant-messengers'
     INSTANT_MESSENGER = 'instant-messenger'
 
@@ -115,6 +122,7 @@ class HightonConstants:
     STATUS_CHANGED_ON = 'status-changed-on'
     CATEGORY = 'category'
 
+    ELEMENTS_COUNT = 'elements-count'
 
     SUBJECT_TYPES = [COMPANIES, KASES, DEALS, PEOPLE, ]
     CUSTOM_FIELD_TYPES = [PARTY, DEAL, ALL, ]

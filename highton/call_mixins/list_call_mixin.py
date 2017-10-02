@@ -6,8 +6,6 @@ class ListCallMixin(Call):
     """
     A mixin to retrieve a list of a highrise endpoint
 
-    :COLLECTION_DATETIME: the datetime constant
-
     """
 
     COLLECTION_DATETIME = '%Y%m%d%H%M%S'
@@ -24,5 +22,5 @@ class ListCallMixin(Call):
         :rtype: list
         """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
-            cls.from_string(cls._get_request(params=params).text)
+            cls.element_from_string(cls._get_request(params=params).text)
         )

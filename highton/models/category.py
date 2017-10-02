@@ -9,11 +9,11 @@ class Category(
     """
 
     :ivar id: fields.IntegerField(name=HightonConstants.ID)
-    :ivar name: fields.StringField(name=HightonConstants.FIRST_NAME)
+    :ivar name: fields.StringField(name=HightonConstants.NAME)
     """
     TAG_NAME = HightonConstants.CATEGORY
 
     def __init__(self, **kwargs):
-        self.name = fields.StringField(name=HightonConstants.FIRST_NAME)
+        self.name = fields.StringField(name=HightonConstants.NAME)
 
         super().__init__(**kwargs)

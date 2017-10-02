@@ -12,3 +12,6 @@ from .web_address import WebAddress
 from .associated_party import AssociatedParty
 from .subject_data import SubjectData
 from .category import Category
+from .deal import Deal
+from .task_category import TaskCategory
+from .deal_category import DealCategory
