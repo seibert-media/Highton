@@ -9,6 +9,7 @@ class Person(
 ):
     ENDPOINT = HightonConstants.PEOPLE
     TAG_NAME = HightonConstants.PERSON
+    OFFSET = 500
 
     def __init__(self, **kwargs):
         self.company_id = fields.IntegerField(name=HightonConstants.COMPANY_ID)
@@ -18,3 +19,33 @@ class Person(
         self.title = fields.StringField(name=HightonConstants.TITLE)
 
         super().__init__(**kwargs)
+
+    def list(self, page=None, since=None, tag_id=None, title=None):
+        """
+        
+        :param page: page starting by 1 (not 0!!!)
+        :type page: int
+        :param since:
+        :type since: datetime.datetime
+        :param tag_id: id of a tag
+        :type tag_id: int
+        :param title: 
+        :type title: str
+        :return: 
+        """
+        params = {}
+        if page:
+            params['n'] = int(page) * self.OFFSET
+        if since:
+            params['since'] = since.strftime(self.COLLECTION_DATETIME)
+        if tag_id:
+            params['tag_id'] = str(tag_id)
+        if title:
+            params['title'] = title
+
+        return super().list(params)
+
+
+
+
+
