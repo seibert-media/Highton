@@ -10,7 +10,7 @@ class IntegerField(Field):
             self.name,
             attrib={'type': FieldConstants.INTEGER},
         )
-        element.text=str(self.value)
+        element = self._set_nil(element, lambda value: str(value))
         return element
 
     def decode(self, element):

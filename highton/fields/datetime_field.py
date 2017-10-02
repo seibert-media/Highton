@@ -13,7 +13,7 @@ class DatetimeField(Field):
             self.name,
             attrib={'type': FieldConstants.DATETIME},
         )
-        element.text=self.value.strftime(self.DATETIME_FORMAT)
+        element = self._set_nil(element, lambda value: value.strftime(self.DATETIME_FORMAT))
         return element
 
     def decode(self, element):
