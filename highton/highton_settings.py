@@ -1,2 +1,2 @@
 USERNAME = ''
-API_KEY = ''
+USERNAME = ''
