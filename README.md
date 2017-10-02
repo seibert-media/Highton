@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/Highton.svg)](https://badge.fury.io/py/Highton)
+[![PyPI version](https://badge.fury.io/py/Highton.svg)](https://badge.fury.io/py/Highton) [![Current Docs](https://readthedocs.org/projects/pip/badge/?version=latest)](http://highton.readthedocs.io/en/latest/)
 
 Highton
 ===========
@@ -8,4 +8,4 @@ Highton
 From v2.0 on, the codebase is completely rewritten from scratch.    
 So please only upgrade if you are willing to touch your implementation as well.
 
-### Documentation: [![Current Docs](https://readthedocs.org/projects/pip/badge/?version=latest)]
+### Documentation: 
