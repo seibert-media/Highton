@@ -8,6 +8,13 @@ class SubjectData(
     HightonModel,
     call_mixins.ListCallMixin,
 ):
+    """
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar value: fields.StringField(name=HightonConstants.VALUE)
+    :ivar type: fields.StringField(name=HightonConstants.TYPE)
+    :ivar subject_field_id: fields.StringField(name=HightonConstants.SUBJECT_FIELD_ID)
+    :ivar subject_field_label: fields.StringField(name=HightonConstants.SUBJECT_FIELD_LABEL)
+    """
     ENDPOINT = HightonConstants.CASES
     TAG_NAME = HightonConstants.CASE
 

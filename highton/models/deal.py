@@ -15,32 +15,32 @@ class Deal(
 
     https://github.com/basecamp/highrise-api/blob/master/sections/deals.md
 
-    :ivar id: fields.IntegerField
-    :ivar authod_id: fields.IntegerField
-    :ivar account_id: fields.IntegerField
-    :ivar background: fields.StringField
-    :ivar category_id: fields.IntegerField
-    :ivar created_at: fields.DatetimeField
-    :ivar currency: fields.StringField
-    :ivar duration: fields.IntegerField
-    :ivar group_id: fields.IntegerField
-    :ivar name: fields.StringField
-    :ivar owner_id: fields.IntegerField
-    :ivar party_id: fields.IntegerField
-    :ivar price: fields.IntegerField
-    :ivar price_type: fields.StringField
-    :ivar responsible_party_id: fields.IntegerField
-    :ivar status: fields.StringField
-    :ivar status_changed_on: fields.DateField
-    :ivar updated_at: fields.DatetimeField
-    :ivar visible_to: fields.StringField
-    :ivar party: fields.ObjectField
-    :ivar category: fields.ObjectField
-    :ivar tags: fields.ListField
-    :ivar parties: fields.ListField
-    :ivar contact_data: fields.ObjectField
-    :ivar subject_datas: fields.ListField
-    :ivar associated_parties: fields.ListField
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar author_id: fields.IntegerField(name=HightonConstants.AUTHOR_ID)
+    :ivar account_id: fields.IntegerField(name=HightonConstants.ACCOUNT_ID)
+    :ivar background: fields.StringField(name=HightonConstants.BACKGROUND)
+    :ivar category_id: fields.IntegerField(name=HightonConstants.CATEGORY_ID)
+    :ivar created_at: fields.DatetimeField(name=HightonConstants.CREATED_AT)
+    :ivar currency: fields.StringField(name=HightonConstants.CURRENCY)
+    :ivar duration: fields.IntegerField(name=HightonConstants.DURATION)
+    :ivar group_id: fields.IntegerField(name=HightonConstants.GROUP_ID)
+    :ivar name: fields.StringField(name=HightonConstants.NAME)
+    :ivar owner_id: fields.IntegerField(name=HightonConstants.OWNER_ID)
+    :ivar party_id: fields.IntegerField(name=HightonConstants.PARTY_ID)
+    :ivar price: fields.IntegerField(name=HightonConstants.PRICE)
+    :ivar price_type: fields.StringField(name=HightonConstants.PRICE_TYPE)
+    :ivar responsible_party_id: fields.IntegerField(name=HightonConstants.RESPONSIBLE_PARTY_ID)
+    :ivar status: fields.StringField(name=HightonConstants.STATUS)
+    :ivar status_changed_on: fields.DateField(name=HightonConstants.STATUS_CHANGED_ON)
+    :ivar updated_at: fields.DatetimeField(name=HightonConstants.UPDATED_AT)
+    :ivar visible_to: fields.StringField(name=HightonConstants.VISIBLE_TO)
+    :ivar party: fields.ObjectField(name=HightonConstants.PARTY, init_class=Party)
+    :ivar category: fields.ObjectField(name=HightonConstants.CATEGORY, init_class=Category)
+    :ivar tags: fields.ListField(name=HightonConstants.TAGS, init_class=Tag)
+    :ivar parties: fields.ListField(name=HightonConstants.PARTIES, init_class=Party)
+    :ivar contact_data: fields.ObjectField(name=HightonConstants.CONTACT_DATA, init_class=ContactData)
+    :ivar subject_datas: fields.ListField(name=HightonConstants.SUBJECT_DATAS, init_class=SubjectData)
+    :ivar associated_parties: fields.ListField(name=HightonConstants.ASSOCIATED_PARTIES, init_class=AssociatedParty)
     """
 
     ENDPOINT = HightonConstants.DEALS
@@ -82,7 +82,6 @@ class Deal(
         self.visible_to = fields.StringField(name=HightonConstants.VISIBLE_TO)
         self.party = fields.ObjectField(name=HightonConstants.PARTY, init_class=Party)
         self.category = fields.ObjectField(name=HightonConstants.CATEGORY, init_class=Category)
-
         self.tags = fields.ListField(name=HightonConstants.TAGS, init_class=Tag)
         self.parties = fields.ListField(name=HightonConstants.PARTIES, init_class=Party)
         self.contact_data = fields.ObjectField(name=HightonConstants.CONTACT_DATA, init_class=ContactData)

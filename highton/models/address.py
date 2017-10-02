@@ -8,13 +8,13 @@ class Address(
 ):
     """
 
-    :ivar id: fields.IntegerField
-    :ivar location: fields.StringField
-    :ivar city: fields.StringField
-    :ivar country: fields.StringField
-    :ivar state: fields.StringField
-    :ivar street: fields.StringField
-    :ivar zip: fields.StringField
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar location: fields.StringField(name=HightonConstants.LOCATION)
+    :ivar city: fields.StringField(name=HightonConstants.CITY)
+    :ivar country: fields.StringField(name=HightonConstants.COUNTRY)
+    :ivar state: fields.StringField(name=HightonConstants.STATE)
+    :ivar street: fields.StringField(name=HightonConstants.STREET)
+    :ivar zip: fields.StringField(name=HightonConstants.ZIP)
     """
     TAG_NAME = HightonConstants.ADDRESS
 

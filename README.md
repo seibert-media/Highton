@@ -8,4 +8,3 @@ Highton
 From v2.0 on, the codebase is completely rewritten from scratch.    
 So please only upgrade if you are willing to touch your implementation as well.
 
-### Documentation: 

@@ -8,6 +8,10 @@ class Tag(
     HightonModel,
     call_mixins.ListCallMixin,
 ):
+    """
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar name: fields.StringField(name=HightonConstants.NAME)
+    """
     ENDPOINT = HightonConstants.TAGS
     TAG_NAME = HightonConstants.TAG
 

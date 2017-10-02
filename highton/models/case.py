@@ -8,6 +8,23 @@ class Case(
     HightonModel,
     call_mixins.ListCallMixin,
 ):
+
+    """
+
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar author_id: fields.IntegerField(name=HightonConstants.AUTHOR_ID)
+    :ivar closed_at: fields.DatetimeField(name=HightonConstants.CLOSED_AT)
+    :ivar created_at: fields.DatetimeField(name=HightonConstants.CREATED_AT)
+    :ivar updated_at: fields.DatetimeField(name=HightonConstants.UPDATED_AT)
+    :ivar name: fields.StringField(name=HightonConstants.NAME)
+    :ivar visible_to: fields.StringField(name=HightonConstants.VISIBLE_TO)
+    :ivar group_id: fields.IntegerField(name=HightonConstants.GROUP_ID)
+    :ivar owner_id: fields.IntegerField(name=HightonConstants.OWNER_ID)
+    :ivar background: fields.StringField(name=HightonConstants.BACKGROUND)
+    :ivar parties: fields.ListField(name=HightonConstants.PARTIES, init_class=Party)
+    :ivar associated_parties: fields.ListField(name=HightonConstants.ASSOCIATED_PARTIES, init_class=AssociatedParty)
+    """
+
     ENDPOINT = HightonConstants.CASES
     TAG_NAME = HightonConstants.CASE
 

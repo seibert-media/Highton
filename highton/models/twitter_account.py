@@ -6,6 +6,13 @@ from highton import fields
 class TwitterAccount(
     HightonModel,
 ):
+    """
+
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar location: fields.StringField(name=HightonConstants.LOCATION)
+    :ivar username: fields.StringField(name=HightonConstants.USERNAME)
+    :ivar url: fields.StringField(name=HightonConstants.URL)
+    """
     TAG_NAME = HightonConstants.TWITTER_ACCOUNT
 
     def __init__(self, **kwargs):

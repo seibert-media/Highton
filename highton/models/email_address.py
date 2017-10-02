@@ -6,6 +6,11 @@ from highton import fields
 class EmailAddress(
     HightonModel,
 ):
+    """
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar location: fields.StringField(name=HightonConstants.LOCATION)
+    :ivar address: fields.StringField(name=HightonConstants.ADDRESS)
+    """
     TAG_NAME = HightonConstants.EMAIL_ADDRESS
 
     def __init__(self, **kwargs):
