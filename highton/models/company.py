@@ -8,7 +8,11 @@ from highton.models.contact import Contact
 
 class Company(
     Contact,
+    call_mixins.CreateCallMixin,
+    call_mixins.UpdateCallMixin,
+    call_mixins.DetailCallMixin,
     call_mixins.ListCallMixin,
+    call_mixins.DeleteCallMixin,
 ):
     """
 
@@ -29,8 +33,36 @@ class Company(
     """
     ENDPOINT = HightonConstants.COMPANIES
     TAG_NAME = HightonConstants.COMPANY
+    OFFSET = 500
 
     def __init__(self, **kwargs):
         self.name = fields.StringField(name=HightonConstants.NAME)
 
         super().__init__(**kwargs)
+
+    @classmethod
+    def list(cls, page=1, since=None, tag_id=None, title=None):
+        """
+
+        :param page: page starting by 1 (not 0!!!)
+        :type page: int
+        :param since:
+        :type since: datetime.datetime
+        :param tag_id: id of a tag
+        :type tag_id: int
+        :param title:
+        :type title: str
+        :return: list of person objects
+        :rtype: list
+        """
+        params = {}
+        if page:
+            params['n'] = int(page) * cls.OFFSET
+        if since:
+            params['since'] = since.strftime(cls.COLLECTION_DATETIME)
+        if tag_id:
+            params['tag_id'] = str(tag_id)
+        if title:
+            params['title'] = title
+
+        return super().list(params)

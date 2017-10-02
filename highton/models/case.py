@@ -6,7 +6,11 @@ from highton import fields
 
 class Case(
     HightonModel,
+    call_mixins.CreateCallMixin,
+    call_mixins.UpdateCallMixin,
+    call_mixins.DetailCallMixin,
     call_mixins.ListCallMixin,
+    call_mixins.DeleteCallMixin,
 ):
 
     """

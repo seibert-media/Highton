@@ -8,8 +8,11 @@ from highton.models import HightonModel
 
 class Deal(
     HightonModel,
-    call_mixins.ListCallMixin,
+    call_mixins.CreateCallMixin,
+    call_mixins.UpdateCallMixin,
     call_mixins.DetailCallMixin,
+    call_mixins.ListCallMixin,
+    call_mixins.DeleteCallMixin,
 ):
     """
     A deal which represents:
@@ -46,6 +49,7 @@ class Deal(
 
     ENDPOINT = HightonConstants.DEALS
     TAG_NAME = HightonConstants.DEAL
+    OFFSET = 500
 
     def __init__(self, **kwargs):
         """
@@ -90,3 +94,42 @@ class Deal(
         self.associated_parties = fields.ListField(name=HightonConstants.ASSOCIATED_PARTIES, init_class=AssociatedParty)
 
         super().__init__(**kwargs)
+
+    @classmethod
+    def list(cls, page=1, status=None, since=None):
+        """
+
+        :param page: page starting by 1 (not 0!!!)
+        :type page: int
+        :param since:
+        :type since: datetime.datetime
+        :param status:
+        :type status: str
+        :return: list of person objects
+        :rtype: list
+        """
+        params = {}
+        if page:
+            params['n'] = int(page) * cls.OFFSET
+        if since:
+            params['since'] = since.strftime(cls.COLLECTION_DATETIME)
+        if status:
+            params['status'] = status
+
+        return super().list(params)
+
+    def update_status(self, status):
+        """
+        Updates the status of the deal
+
+        :param status: status have to be ('won', 'pending', 'lost')
+        :return: successfull response or raise Exception
+        :rtype:
+        """
+        assert (status in (HightonConstants.WON, HightonConstants.PENDING, HightonConstants.LOST))
+        from highton.models import Status
+
+        return self._put_request(
+            data=Status(name=status),
+            endpoint=self.ENDPOINT + '/' + str(self.id) + '/status',
+        )

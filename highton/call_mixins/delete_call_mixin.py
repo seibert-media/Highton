@@ -9,7 +9,7 @@ class DeleteCallMixin(Call):
 
     def delete(self):
         """
-        Deleted the object
+        Deletes the object
 
         :return:
         :rtype: None

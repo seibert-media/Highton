@@ -124,5 +124,9 @@ class HightonConstants:
 
     ELEMENTS_COUNT = 'elements-count'
 
+    WON = 'won'
+    PENDING = 'pending'
+    LOST = 'lost'
+
     SUBJECT_TYPES = [COMPANIES, KASES, DEALS, PEOPLE, ]
     CUSTOM_FIELD_TYPES = [PARTY, DEAL, ALL, ]

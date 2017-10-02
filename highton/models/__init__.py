@@ -15,3 +15,6 @@ from .category import Category
 from .deal import Deal
 from .task_category import TaskCategory
 from .deal_category import DealCategory
+from .person import Person
+from .company import Company
+from .status import Status

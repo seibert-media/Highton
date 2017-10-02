@@ -15,9 +15,9 @@ So please only upgrade if you are willing to touch your implementation as well.
 |-------|-----:|
 |People   |:white_check_mark:|
 |Categories (Tasks, Deals)|:white_check_mark:|
-|Companies | :x:|
-|Cases | :x:|
-|Deals | :x:|
+|Companies | :white_check_mark:|
+|Cases | :white_check_mark:|
+|Deals | :white_check_mark:|
 |Notes | :x:|
 |Emails | :x:|
 |Comments | :x:|
