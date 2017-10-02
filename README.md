@@ -18,7 +18,7 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Companies | :white_check_mark:|
 |Cases | :white_check_mark:|
 |Deals | :white_check_mark:|
-|Notes | :x:|
+|Notes | :white_check_mark:|
 |Emails | :x:|
 |Comments | :x:|
 |Tags | :x:|

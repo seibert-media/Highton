@@ -9,6 +9,9 @@ from highton.highton_settings import USERNAME, API_KEY
 
 class Call(metaclass=ABCMeta):
     ENDPOINT = None
+    COLLECTION_DATETIME = '%Y%m%d%H%M%S'
+
+    # yyyymmddhhmmss
 
     @classmethod
     def _request(cls, method, endpoint=None, params=None, data=None):

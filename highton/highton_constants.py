@@ -121,6 +121,7 @@ class HightonConstants:
     STATUS = 'status'
     STATUS_CHANGED_ON = 'status-changed-on'
     CATEGORY = 'category'
+    SIZE = 'size'
 
     ELEMENTS_COUNT = 'elements-count'
 
@@ -128,5 +129,13 @@ class HightonConstants:
     PENDING = 'pending'
     LOST = 'lost'
 
+    COLLECTION_ID = 'collection-id'
+    COLLECTION_TYPE = 'collection-type'
+
+    ATTACHMENTS = 'attachments'
+    ATTACHMENT = 'attachment'
+
+    SUBJECT_NAME = 'subject-name'
+    SUBJECT_TYPE = 'subject-type'
     SUBJECT_TYPES = [COMPANIES, KASES, DEALS, PEOPLE, ]
     CUSTOM_FIELD_TYPES = [PARTY, DEAL, ALL, ]

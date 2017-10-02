@@ -8,9 +8,6 @@ class ListCallMixin(Call):
 
     """
 
-    COLLECTION_DATETIME = '%Y%m%d%H%M%S'
-    # yyyymmddhhmmss
-
     @classmethod
     def list(cls, params=None):
         """

@@ -41,10 +41,10 @@ class Company(
         super().__init__(**kwargs)
 
     @classmethod
-    def list(cls, page=1, since=None, tag_id=None, title=None):
+    def list(cls, page=0, since=None, tag_id=None, title=None):
         """
 
-        :param page: page starting by 1 (not 0!!!)
+        :param page: page starting by 0
         :type page: int
         :param since:
         :type since: datetime.datetime
