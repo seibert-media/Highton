@@ -7,10 +7,12 @@ class Field(metaclass=ABCMeta):
     This is an abstract class for a field, which makes the base for an encode and decode method
 
     :ivar name: name of the field which needed to serialize this field to a xml object
+    :ivar required: if the field is required when you create or update an object
     :ivar value: the value of the field
     """
-    def __init__(self, name):
+    def __init__(self, name, required=False):
         self.name = name
+        self.required = required
         self.value = None
 
     def encode(self):

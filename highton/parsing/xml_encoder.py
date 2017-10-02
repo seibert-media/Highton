@@ -40,5 +40,6 @@ class XMLEncoder(metaclass=ABCMeta):
         """
         root_element = ElementTree.Element(self.TAG_NAME)
         for value in [value for value in self.__dict__.values() if isinstance(value, fields.Field)]:
-            root_element.append(value.encode())
+            if value.required or value.value:
+                root_element.append(value.encode())
         return root_element

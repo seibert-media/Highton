@@ -1,12 +1,9 @@
 from highton.highton_constants import HightonConstants
 from highton.models.type_category import TypeCategory
-from highton import call_mixins
 
 
 class DealCategory(
     TypeCategory,
-    call_mixins.ListCallMixin,
-    call_mixins.DetailCallMixin,
 ):
     """
     :ivar id: fields.IntegerField(name=HightonConstants.ID)

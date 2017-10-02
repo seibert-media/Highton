@@ -5,8 +5,6 @@ from highton import call_mixins
 
 class TaskCategory(
     TypeCategory,
-    call_mixins.ListCallMixin,
-    call_mixins.DetailCallMixin,
 ):
     """
     :ivar id: fields.IntegerField(name=HightonConstants.ID)

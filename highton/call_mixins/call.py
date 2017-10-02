@@ -12,7 +12,7 @@ class Call(metaclass=ABCMeta):
 
     @classmethod
     def _request(cls, method, endpoint=None, params=None, data=None):
-        return requests.request(
+        response = requests.request(
             method=method,
             url='https://{user}.{highrise_url}/{endpoint}.xml'.format(
                 user=USERNAME,
@@ -24,6 +24,8 @@ class Call(metaclass=ABCMeta):
             params=params,
             data=data,
         )
+        response.raise_for_status()
+        return response
 
     @classmethod
     def _get_request(cls, endpoint=None, params=None):
