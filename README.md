@@ -8,3 +8,26 @@ Highton
 From v2.0 on, the codebase is completely rewritten from scratch.    
 So please only upgrade if you are willing to touch your implementation as well.
 
+
+## Features List:
+
+| Endpoint | State |
+|-------|-----:|
+|People   |:white_check_mark:|
+|Categories (Tasks, Deals)|:white_check_mark:|
+|Companies | :x:|
+|Cases | :x:|
+|Deals | :x:|
+|Notes | :x:|
+|Emails | :x:|
+|Comments | :x:|
+|Tags | :x:|
+|Tasks | :x:|
+|Users | :x:|
+|Groups | :x:|
+|Memberships | :x:|
+|Account | :x:|
+|Parties | :x:|
+|Recordings | :x:|
+|Custom Fields | :x:|
+|Deletions | :x:|
