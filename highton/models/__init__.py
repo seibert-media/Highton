@@ -11,3 +11,4 @@ from .email_address import EmailAddress
 from .web_address import WebAddress
 from .associated_party import AssociatedParty
 from .subject_data import SubjectData
+from .category import Category

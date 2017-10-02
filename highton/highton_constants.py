@@ -103,5 +103,18 @@ class HightonConstants:
     ASSOCIATED_PARTIES = 'associated-parties'
     ASSOCIATED_PARTY = 'associated-party'
 
+    ACCOUNT_ID = 'account-id'
+    CATEGORY_ID = 'category-id'
+    CURRENCY = 'currency'
+    DURATION = 'duration'
+    PARTY_ID = 'party-id'
+    PRICE = 'price'
+    PRICE_TYPE = 'price-type'
+    RESPONSIBLE_PARTY_ID = 'responsible-party-id'
+    STATUS = 'status'
+    STATUS_CHANGED_ON = 'status-changed-on'
+    CATEGORY = 'category'
+
+
     SUBJECT_TYPES = [COMPANIES, KASES, DEALS, PEOPLE, ]
     CUSTOM_FIELD_TYPES = [PARTY, DEAL, ALL, ]
