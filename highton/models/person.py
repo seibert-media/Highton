@@ -14,6 +14,7 @@ class Person(
     call_mixins.UpdateCallMixin,
     call_mixins.DeleteCallMixin,
     call_mixins.ListNoteCallMixin,
+    call_mixins.ListEmailCallMixin,
 ):
     """
 

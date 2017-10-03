@@ -13,6 +13,8 @@ class Company(
     call_mixins.DetailCallMixin,
     call_mixins.ListCallMixin,
     call_mixins.DeleteCallMixin,
+    call_mixins.ListNoteCallMixin,
+    call_mixins.ListEmailCallMixin,
 ):
     """
 

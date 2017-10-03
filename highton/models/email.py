@@ -7,7 +7,7 @@ from highton import (
 from highton.models.attachment import Attachment
 
 
-class Note(
+class Email(
     HightonModel,
     call_mixins.DetailCallMixin,
     call_mixins.CreateCallMixin,
@@ -16,12 +16,13 @@ class Note(
 ):
     """
 
-    :ivar id: fields:IntegerField(name=HightonConstants.ID)
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
+    :ivar title: fields.StringField(name=HightonConstants.TITLE, required=True)
     :ivar body: fields.StringField(name=HightonConstants.BODY, required=True)
-    :ivar author_id: fields.IntegerField(name=HightonConstants.AUTHOR_ID)
     :ivar subject_id: fields.IntegerField(name=HightonConstants.SUBJECT_ID, required=True)
     :ivar subject_type: fields.StringField(name=HightonConstants.SUBJECT_TYPE, required=True)
     :ivar subject_name: fields.StringField(name=HightonConstants.SUBJECT_NAME)
+    :ivar author_id: fields.IntegerField(name=HightonConstants.AUTHOR_ID)
     :ivar collection_id: fields.IntegerField(name=HightonConstants.COLLECTION_ID)
     :ivar collection_type: fields.StringField(name=HightonConstants.COLLECTION_TYPE)
     :ivar visible_to: fields.StringField(name=HightonConstants.VISIBLE_TO)
@@ -31,15 +32,16 @@ class Note(
     :ivar created_at: fields.DatetimeField(name=HightonConstants.CREATED_AT)
     :ivar attachments: fields.ListField(name=HightonConstants.ATTACHMENTS, init_class=Attachment)
     """
-    TAG_NAME = HightonConstants.NOTE
-    ENDPOINT = HightonConstants.NOTES
+    TAG_NAME = HightonConstants.EMAIL
+    ENDPOINT = HightonConstants.EMAILS
 
     def __init__(self, **kwargs):
+        self.title = fields.StringField(name=HightonConstants.TITLE, required=True)
         self.body = fields.StringField(name=HightonConstants.BODY, required=True)
-        self.author_id = fields.IntegerField(name=HightonConstants.AUTHOR_ID)
         self.subject_id = fields.IntegerField(name=HightonConstants.SUBJECT_ID, required=True)
         self.subject_type = fields.StringField(name=HightonConstants.SUBJECT_TYPE, required=True)
         self.subject_name = fields.StringField(name=HightonConstants.SUBJECT_NAME)
+        self.author_id = fields.IntegerField(name=HightonConstants.AUTHOR_ID)
         self.collection_id = fields.IntegerField(name=HightonConstants.COLLECTION_ID)
         self.collection_type = fields.StringField(name=HightonConstants.COLLECTION_TYPE)
         self.visible_to = fields.StringField(name=HightonConstants.VISIBLE_TO)

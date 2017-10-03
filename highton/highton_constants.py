@@ -22,6 +22,9 @@ class HightonConstants:
     PEOPLE = 'people'
     PERSON = 'person'
 
+    EMAIL = 'email'
+    EMAILS = 'emails'
+
     NAME = 'name'
     TITLE = 'title'
     FIRST_NAME = 'first-name'

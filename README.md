@@ -19,7 +19,7 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Cases | :white_check_mark:|
 |Deals | :white_check_mark:|
 |Notes | :white_check_mark:|
-|Emails | :x:|
+|Emails | :white_check_mark:|
 |Comments | :x:|
 |Tags | :x:|
 |Tasks | :x:|
