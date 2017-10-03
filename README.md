@@ -20,7 +20,7 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Deals | :white_check_mark:|
 |Notes | :white_check_mark:|
 |Emails | :white_check_mark:|
-|Comments | :x:|
+|Comments | :white_check_mark:|
 |Tags | :x:|
 |Tasks | :x:|
 |Users | :x:|

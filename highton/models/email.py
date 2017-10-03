@@ -13,6 +13,7 @@ class Email(
     call_mixins.CreateCallMixin,
     call_mixins.UpdateCallMixin,
     call_mixins.DeleteCallMixin,
+    call_mixins.ListCommentCallMixin,
 ):
     """
 

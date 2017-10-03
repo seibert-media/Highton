@@ -8,6 +8,7 @@ class Attachment(
 ):
     """
 
+    :ivar id: fields.IntegerField(name=HightonConstants.ID)
     :ivar url: fields.StringField(name=HightonConstants.URL)
     :ivar name: fields.StringField(name=HightonConstants.NAME)
     :ivar size: fields.IntegerField(name=HightonConstants.SIZE)

@@ -30,7 +30,7 @@ class HightonConstants:
     FIRST_NAME = 'first-name'
     LAST_NAME = 'last-name'
     CONTACT_DATA = 'contact-data'
-
+    PARENT_ID = 'parent-id'
     EMAIL_ADDRESS = 'email-address'
     EMAIL_ADDRESSES = 'email-addresses'
 
@@ -78,6 +78,7 @@ class HightonConstants:
     VALUE = 'value'
     LABEL = 'label'
     SEARCH = 'search'
+    COMMENT = 'comment'
     COMMENTS = 'comments'
     BACKGROUND = 'background'
 
