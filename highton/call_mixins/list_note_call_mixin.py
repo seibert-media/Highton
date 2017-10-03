@@ -1,6 +1,5 @@
 from highton.call_mixins import Call
 from highton import fields
-from highton.models.note import Note
 
 
 class ListNoteCallMixin(Call):
@@ -12,7 +11,7 @@ class ListNoteCallMixin(Call):
 
     NOTES_OFFSET = 25
 
-    def notes(self, page=0, since=None):
+    def list_notes(self, page=0, since=None):
         """
         Get the notes of current object
 
@@ -23,6 +22,7 @@ class ListNoteCallMixin(Call):
         :return: the notes
         :rtype: list
         """
+        from highton.models.note import Note
         params = {'page': int(page) * self.NOTES_OFFSET}
         if since:
             params['since'] = since.strftime(self.COLLECTION_DATETIME)

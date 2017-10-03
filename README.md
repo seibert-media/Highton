@@ -21,7 +21,7 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Notes | :white_check_mark:|
 |Emails | :white_check_mark:|
 |Comments | :white_check_mark:|
-|Tags | :x:|
+|Tags | :white_check_mark:|
 |Tasks | :x:|
 |Users | :x:|
 |Groups | :x:|

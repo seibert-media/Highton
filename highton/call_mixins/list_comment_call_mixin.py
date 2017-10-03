@@ -1,6 +1,5 @@
 from highton.call_mixins import Call
 from highton import fields
-from highton.models.comment import Comment
 
 
 class ListCommentCallMixin(Call):
@@ -12,15 +11,15 @@ class ListCommentCallMixin(Call):
 
     COMMENT_OFFSET = 25
 
-    def comments(self, page=0):
+    def list_comments(self, page=0):
         """
         Get the comments of current object
 
         :param page: the page starting at 0
-        :type since: datetime.datetime
         :return: the emails
         :rtype: list
         """
+        from highton.models.comment import Comment
         params = {'page': int(page) * self.COMMENT_OFFSET}
 
         return fields.ListField(

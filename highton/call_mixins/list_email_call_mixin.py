@@ -1,6 +1,5 @@
 from highton.call_mixins import Call
 from highton import fields
-from highton.models.email import Email
 
 
 class ListEmailCallMixin(Call):
@@ -12,7 +11,7 @@ class ListEmailCallMixin(Call):
 
     EMAILS_OFFSET = 25
 
-    def emails(self, page=0, since=None):
+    def list_emails(self, page=0, since=None):
         """
         Get the emails of current object
 
@@ -23,6 +22,7 @@ class ListEmailCallMixin(Call):
         :return: the emails
         :rtype: list
         """
+        from highton.models.email import Email
         params = {'page': int(page) * self.EMAILS_OFFSET}
         if since:
             params['since'] = since.strftime(self.COLLECTION_DATETIME)
