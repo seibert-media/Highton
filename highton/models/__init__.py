@@ -22,3 +22,4 @@ from .task import Task
 from .user import User
 from .group import Group
 from .note import Note
+from .subject_field import SubjectField

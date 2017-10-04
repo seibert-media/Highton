@@ -20,6 +20,7 @@ class Company(
     call_mixins.DeleteTagCallMixin,
     call_mixins.ListTaskCallMixin,
     call_mixins.CreateNoteCallMixin,
+    call_mixins.SearchCallMixin,
 ):
     """
 

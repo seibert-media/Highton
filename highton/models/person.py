@@ -20,6 +20,7 @@ class Person(
     call_mixins.CreateTagCallMixin,
     call_mixins.CreateNoteCallMixin,
     call_mixins.DeleteTagCallMixin,
+    call_mixins.SearchCallMixin,
 ):
     """
 

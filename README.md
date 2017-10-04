@@ -29,5 +29,5 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Account | :x:|
 |Parties | :x:|
 |Recordings | :x:|
-|Custom Fields | :x:|
+|Custom Fields (Subject fields) | :white_check_mark:|
 |Deletions | :x:|
