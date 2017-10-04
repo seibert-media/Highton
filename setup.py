@@ -2,14 +2,20 @@ from setuptools import setup
 
 setup(
     name='Highton',
-    version='2.0',
+    version='2.0.1',
     license='Apache License 2.0',
     description='A Python library for Highrise',
     long_description='A beautiful Python - Highrise - Wrapper.',
     url='https://github.com/seibert-media/Highton',
     author='Julia Giebelhausen, Jakob Löhnertz, Michael Bykovski',
     author_email='brogrammers@seibert-media.net',
-    packages=['highton', 'highton.models', ],
+    packages=[
+        'highton',
+        'highton.call_mixins',
+        'highton.fields',
+        'highton.models',
+        'highton.parsing',
+    ],
     install_requires=[
         'requests'
     ],
