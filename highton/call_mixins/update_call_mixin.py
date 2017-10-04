@@ -7,7 +7,7 @@ class UpdateCallMixin(Call):
 
     """
 
-    def update(self, object_id):
+    def update(self):
         """
         Updates the object
 
@@ -18,5 +18,5 @@ class UpdateCallMixin(Call):
             data=self.element_to_string(
                 self.encode()
             ),
-            endpoint=self.ENDPOINT + '/' + str(object_id)
+            endpoint=self.ENDPOINT + '/' + str(self.id)
         )
