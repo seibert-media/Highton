@@ -28,6 +28,12 @@ class HightonConstants:
     EMAIL = 'email'
     EMAILS = 'emails'
 
+    USER = 'user'
+    USERS = 'users'
+
+    GROUP = 'group'
+    GROUPS = 'groups'
+
     NAME = 'name'
     TITLE = 'title'
     FIRST_NAME = 'first-name'
@@ -36,6 +42,9 @@ class HightonConstants:
     PARENT_ID = 'parent-id'
     EMAIL_ADDRESS = 'email-address'
     EMAIL_ADDRESSES = 'email-addresses'
+    TOKEN = 'token'
+    DROPBOX = 'dropbox'
+    ADMIN = 'admin'
 
     WEB_ADDRESS = 'web-address'
     WEB_ADDRESSES = 'web-addresses'

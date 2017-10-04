@@ -19,3 +19,5 @@ from .person import Person
 from .company import Company
 from .status import Status
 from .task import Task
+from .user import User
+from .group import Group
