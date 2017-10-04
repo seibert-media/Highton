@@ -18,6 +18,7 @@ class Deal(
     call_mixins.ListTagCallMixin,
     call_mixins.CreateTagCallMixin,
     call_mixins.DeleteTagCallMixin,
+    call_mixins.ListTaskCallMixin,
 ):
     """
     A deal which represents:

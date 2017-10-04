@@ -16,6 +16,7 @@ class Case(
     call_mixins.ListTagCallMixin,
     call_mixins.CreateTagCallMixin,
     call_mixins.DeleteTagCallMixin,
+    call_mixins.ListTaskCallMixin,
 ):
     """
 

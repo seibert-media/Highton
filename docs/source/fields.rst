@@ -3,6 +3,14 @@ Fields
 ========
 
 -------------------
+BooleanField
+-------------------
+.. automodule:: highton.fields.boolean_field
+   :members:
+   :undoc-members:
+   :inherited-members:
+
+-------------------
 DateField
 -------------------
 .. automodule:: highton.fields.date_field

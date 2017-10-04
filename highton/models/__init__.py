@@ -18,3 +18,4 @@ from .deal_category import DealCategory
 from .person import Person
 from .company import Company
 from .status import Status
+from .task import Task

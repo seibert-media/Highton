@@ -18,6 +18,9 @@ class HightonConstants:
     # Deal
     DEALS = 'deals'
 
+    TASK = 'task'
+    TASKS = 'tasks'
+
     # Person
     PEOPLE = 'people'
     PERSON = 'person'
@@ -81,6 +84,13 @@ class HightonConstants:
     COMMENT = 'comment'
     COMMENTS = 'comments'
     BACKGROUND = 'background'
+    RECORDING_ID = 'recording-id'
+    FRAME = 'frame'
+    ALERT_AT = 'alert-at'
+    PUBLIC = 'public'
+    RECURRING_PERIOD = 'recurring-period'
+    ANCHOR_TYPE = 'anchor-type'
+    DONE_AT = 'done-at'
 
     AUTHOR_ID = 'author-id'
     CLOSED_AT = 'closed-at'
@@ -126,6 +136,7 @@ class HightonConstants:
     STATUS_CHANGED_ON = 'status-changed-on'
     CATEGORY = 'category'
     SIZE = 'size'
+    DUE_AT = 'due-at'
 
     ELEMENTS_COUNT = 'elements-count'
 

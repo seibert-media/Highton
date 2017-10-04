@@ -22,7 +22,7 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Emails | :white_check_mark:|
 |Comments | :white_check_mark:|
 |Tags | :white_check_mark:|
-|Tasks | :x:|
+|Tasks | :white_check_mark:|
 |Users | :x:|
 |Groups | :x:|
 |Memberships | :x:|
