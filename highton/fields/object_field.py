@@ -1,5 +1,3 @@
-from xml.etree import ElementTree
-
 from highton.fields import Field
 
 
@@ -20,9 +18,7 @@ class ObjectField(Field):
         :return: the parsed element
         :rtype: xml.etree.ElementTree.Element
         """
-        element = ElementTree.Element(self.name)
-        element.append(self.value.encode())
-        return element
+        return self.value.encode()
 
     def decode(self, element):
         return self.init_class.decode(element)
