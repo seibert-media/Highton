@@ -58,16 +58,24 @@ class Task(
 
     def complete(self):
         """
-        Complette current task
+        Complete current task
         :return:
         :rtype: requests.models.Response
         """
         return self._post_request(
+            data='',
             endpoint=self.ENDPOINT + '/' + str(self.id) + '/complete'
         )
 
     @classmethod
     def list_upcoming(cls):
+        """
+        Returns a collection of upcoming tasks (tasks that have not yet been completed,
+        regardless of whether they’re overdue) for the authenticated user
+
+        :return:
+        :rtype: list
+        """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
             cls.element_from_string(
                 cls._get_request(endpoint=cls.ENDPOINT + '/upcoming').text
@@ -76,6 +84,14 @@ class Task(
 
     @classmethod
     def list_assigned(cls):
+        """
+        Returns a collection of upcoming tasks (tasks that have not yet been completed,
+        regardless of whether they’re overdue) that were created by the authenticated user,
+        but assigned to somebody else.
+
+        :return:
+        :rtype: list
+        """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
             cls.element_from_string(
                 cls._get_request(endpoint=cls.ENDPOINT + '/assigned').text
@@ -84,6 +100,12 @@ class Task(
 
     @classmethod
     def list_completed(cls):
+        """
+        Returns a collection of completed tasks.
+
+        :return:
+        :rtype: list
+        """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
             cls.element_from_string(
                 cls._get_request(endpoint=cls.ENDPOINT + '/completed').text
@@ -92,6 +114,12 @@ class Task(
 
     @classmethod
     def list_today(cls):
+        """
+        Returns a collection of uncompleted tasks due for the rest of today for the authenticated user.
+
+        :return:
+        :rtype: list
+        """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
             cls.element_from_string(
                 cls._get_request(endpoint=cls.ENDPOINT + '/today').text
@@ -100,6 +128,12 @@ class Task(
 
     @classmethod
     def list_all(cls):
+        """
+        Returns a collection of all tasks visible to the current user.
+
+        :return:
+        :rtype: list
+        """
         return fields.ListField(name=cls.ENDPOINT, init_class=cls).decode(
             cls.element_from_string(
                 cls._get_request(endpoint=cls.ENDPOINT + '/all').text
