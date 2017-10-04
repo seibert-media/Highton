@@ -14,9 +14,23 @@ class Task(
     """
 
     :ivar id: fields.IntegerField(name=HightonConstants.ID)
-    :ivar location: fields.StringField(name=HightonConstants.LOCATION)
-    :ivar username: fields.StringField(name=HightonConstants.USERNAME)
-    :ivar url: fields.StringField(name=HightonConstants.URL)
+    :ivar recording_id: fields.IntegerField(name=HightonConstants.RECORDING_ID)
+    :ivar subject_id: fields.IntegerField(name=HightonConstants.SUBJECT_ID)
+    :ivar subject_type: fields.StringField(name=HightonConstants.SUBJECT_TYPE)
+    :ivar subject_name: fields.StringField(name=HightonConstants.SUBJECT_NAME)
+    :ivar category_id: fields.IntegerField(name=HightonConstants.CATEGORY_ID, required=True)
+    :ivar body: fields.StringField(name=HightonConstants.BODY, required=True)
+    :ivar frame: fields.StringField(name=HightonConstants.FRAME, required=True)
+    :ivar due_at: fields.DatetimeField(name=HightonConstants.DUE_AT, required=True)
+    :ivar alert_at: fields.DatetimeField(name=HightonConstants.ALERT_AT)
+    :ivar created_at: fields.DatetimeField(name=HightonConstants.CREATED_AT)
+    :ivar author_id: fields.IntegerField(name=HightonConstants.AUTHOR_ID)
+    :ivar updated_at: fields.DatetimeField(name=HightonConstants.UPDATED_AT)
+    :ivar public: fields.BooleanField(name=HightonConstants.PUBLIC)
+    :ivar recurring_period: fields.StringField(name=HightonConstants.RECURRING_PERIOD)
+    :ivar anchor_type: fields.IntegerField(name=HightonConstants.ANCHOR_TYPE)
+    :ivar done_at: fields.DatetimeField(name=HightonConstants.DONE_AT)
+    :ivar owner_id: fields.IntegerField(name=HightonConstants.OWNER_ID)
     """
     TAG_NAME = HightonConstants.TASK
     ENDPOINT = HightonConstants.TASKS
