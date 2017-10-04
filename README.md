@@ -23,8 +23,8 @@ So please only upgrade if you are willing to touch your implementation as well.
 |Comments | :white_check_mark:|
 |Tags | :white_check_mark:|
 |Tasks | :white_check_mark:|
-|Users | :x:|
-|Groups | :x:|
+|Users | :white_check_mark:|
+|Groups | :white_check_mark:|
 |Memberships | :x:|
 |Account | :x:|
 |Parties | :x:|
