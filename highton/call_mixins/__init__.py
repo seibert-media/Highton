@@ -11,3 +11,4 @@ from .list_tag_call_mixin import ListTagCallMixin
 from .create_tag_call_mixin import CreateTagCallMixin
 from .delete_tag_call_mixin import DeleteTagCallMixin
 from .list_task_call_mixin import ListTaskCallMixin
+from .create_note_call_mixin import CreateNoteCallMixin
