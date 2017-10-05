@@ -11,7 +11,7 @@ class SearchCallMixin(Call):
     SEARCH_OFFSET = 25
 
     @classmethod
-    def search(cls, term=None, criteria=None, page=1):
+    def search(cls, term=None, page=0, **criteria):
         """
         Search a list of the model
         If you use "term":
