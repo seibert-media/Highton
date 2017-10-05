@@ -1,4 +1,4 @@
-[![PyPI version](https://badge.fury.io/py/Highton.svg)](https://badge.fury.io/py/Highton) [![Current Docs](https://readthedocs.org/projects/highton/badge/?version=latest)](http://highton.readthedocs.io/en/latest/)
+[![PyPI version](https://badge.fury.io/py/Highton.svg)](https://badge.fury.io/py/Highton) [![Current Docs](https://readthedocs.org/projects/highton/badge/?version=latest)](http://highton.readthedocs.io/en/latest/) [![Build Status](https://travis-ci.org/seibert-media/Highton.svg?branch=master)](https://travis-ci.org/seibert-media/Highton)
 
 Highton
 ===========
