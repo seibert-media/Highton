@@ -4,8 +4,7 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 from highton.highton_constants import HightonConstants
-from highton.highton_settings import USERNAME, API_KEY
-
+from highton.highton_settings import HightonSettings
 
 class Call(metaclass=ABCMeta):
     ENDPOINT = None
@@ -18,12 +17,12 @@ class Call(metaclass=ABCMeta):
         response = requests.request(
             method=method,
             url='https://{user}.{highrise_url}/{endpoint}.xml'.format(
-                user=USERNAME,
+                user=HightonSettings.username(),
                 highrise_url=HightonConstants.HIGHRISE_URL,
                 endpoint=endpoint if endpoint else cls.ENDPOINT
             ),
             headers={'Content-Type': 'application/xml'},
-            auth=HTTPBasicAuth(username=API_KEY, password=''),
+            auth=HTTPBasicAuth(username=HightonSettings.api_key(), password=''),
             params=params,
             data=data,
         )

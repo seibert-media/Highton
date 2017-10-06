@@ -15,14 +15,14 @@ Install
 Setup
 ------------------------------------------------------------------------------------------------------------------------
 
-Just setup highton by defining constant variables in your application
+Just setup highton by defining a singleton in your application.
+You don't have to store this singleton in a variable.
 
 .. code:: python
 
-    from highton import highton_settings
+    from highton.highton_settings import HightonSettings
 
-    highton_settings.USERNAME = '<your_username>'
-    highton_settings.API_KEY = '<your_API_KEY>'
+    HightonSettings(username='<your_username>', api_key='<your_API_KEY>')
 
 
 ------------------------------------------------------------------------------------------------------------------------
