@@ -21,7 +21,7 @@ class CreateTagCallMixin(Call):
         created_id = self._post_request(
             endpoint=self.ENDPOINT + '/' + str(self.id) + '/' + Tag.ENDPOINT,
             data=self.element_to_string(
-                Tag(name=name).name.encode()
+                Tag(name=name).__dict__.get('name').encode()
             )
-        ).headers.get('Location').split('/')[-1]
+        ).headers.get('Location').replace('.xml', '').split('/')[-1]
         return Tag.get(created_id)
