@@ -3,3 +3,4 @@ class FieldConstants:
     DATETIME = 'datetime'
     DATE = 'date'
     ARRAY = 'array'
+    BOOLEAN = 'boolean'

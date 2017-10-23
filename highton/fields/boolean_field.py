@@ -27,7 +27,7 @@ class BooleanField(Field):
         """
         element = ElementTree.Element(
             self.name,
-            attrib={'type': FieldConstants.DATE},
+            attrib={'type': FieldConstants.BOOLEAN},
         )
         element.text = self.MAPPING[self.value]
         return element
