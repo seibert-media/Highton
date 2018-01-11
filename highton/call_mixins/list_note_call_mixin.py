@@ -23,7 +23,7 @@ class ListNoteCallMixin(Call):
         :rtype: list
         """
         from highton.models.note import Note
-        params = {'page': int(page) * self.NOTES_OFFSET}
+        params = {'n': int(page) * self.NOTES_OFFSET}
         if since:
             params['since'] = since.strftime(self.COLLECTION_DATETIME)
 
