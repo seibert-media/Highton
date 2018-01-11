@@ -13,13 +13,14 @@ class Call(metaclass=ABCMeta):
     # yyyymmddhhmmss
 
     @classmethod
-    def _request(cls, method, endpoint=None, params=None, data=None):
+    def _request(cls, method, endpoint=None, params=None, data=None, endpoint_suffix='.xml'):
         response = requests.request(
             method=method,
-            url='https://{user}.{highrise_url}/{endpoint}.xml'.format(
+            url='https://{user}.{highrise_url}/{endpoint}{endpoint_suffix}'.format(
                 user=HightonSettings.username(),
                 highrise_url=HightonConstants.HIGHRISE_URL,
-                endpoint=endpoint if endpoint else cls.ENDPOINT
+                endpoint=endpoint if endpoint else cls.ENDPOINT,
+                endpoint_suffix=endpoint_suffix
             ),
             headers={'Content-Type': 'application/xml'},
             auth=HTTPBasicAuth(username=HightonSettings.api_key(), password=''),
@@ -30,8 +31,8 @@ class Call(metaclass=ABCMeta):
         return response
 
     @classmethod
-    def _get_request(cls, endpoint=None, params=None):
-        return cls._request(method=HightonConstants.GET, endpoint=endpoint, params=params)
+    def _get_request(cls, endpoint=None, params=None, endpoint_suffix='.xml'):
+        return cls._request(method=HightonConstants.GET, endpoint=endpoint, params=params, endpoint_suffix=endpoint_suffix)
 
     @classmethod
     def _post_request(cls, data, endpoint=None, params=None):

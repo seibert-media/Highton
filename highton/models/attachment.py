@@ -1,10 +1,12 @@
-from highton.models import HightonModel
-from highton.highton_constants import HightonConstants
+from highton import call_mixins
 from highton import fields
+from highton.highton_constants import HightonConstants
+from highton.models import HightonModel
 
 
 class Attachment(
     HightonModel,
+    call_mixins.Call
 ):
     """
 
@@ -22,3 +24,6 @@ class Attachment(
         self.size = fields.IntegerField(name=HightonConstants.SIZE)
 
         super().__init__(**kwargs)
+
+    def get(self):
+        return self._get_request(endpoint=f'files/{self.id}', endpoint_suffix='').content
