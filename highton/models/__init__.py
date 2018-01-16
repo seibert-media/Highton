@@ -4,6 +4,7 @@ from .tag import Tag
 from .party import Party
 from .contact_data import ContactData
 from .address import Address
+from .attachment import Attachment
 from .phone_number import PhoneNumber
 from .twitter_account import TwitterAccount
 from .instant_messenger import InstantMessenger
