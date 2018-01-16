@@ -26,4 +26,4 @@ class Attachment(
         super().__init__(**kwargs)
 
     def get(self):
-        return self._get_request(endpoint=f'files/{self.id}', endpoint_suffix='').content
+        return self._get_request(endpoint='files/{}'.format(self.id), endpoint_suffix='').content
