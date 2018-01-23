@@ -89,7 +89,7 @@ class Deal(
         self.price_type = fields.StringField(name=HightonConstants.PRICE_TYPE)
         self.responsible_party_id = fields.IntegerField(name=HightonConstants.RESPONSIBLE_PARTY_ID)
         self.status = fields.StringField(name=HightonConstants.STATUS)
-        self.status_changed_on = fields.DateField(name=HightonConstants.STATUS_CHANGED_ON)
+        self.status_changed_on = fields.DatetimeField(name=HightonConstants.STATUS_CHANGED_ON)
         self.updated_at = fields.DatetimeField(name=HightonConstants.UPDATED_AT)
         self.visible_to = fields.StringField(name=HightonConstants.VISIBLE_TO)
         self.party = fields.ObjectField(name=HightonConstants.PARTY, init_class=Party)
