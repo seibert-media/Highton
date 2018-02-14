@@ -1,3 +1,4 @@
+from copy import deepcopy
 from highton import (
     fields,
     call_mixins,
@@ -124,6 +125,11 @@ class Deal(
             params['status'] = status
 
         return super().list(params)
+
+    def update(self):
+        this = deepcopy(self)
+        this.party = None  # an undocumented feature; updating with a party set causes Highrise to answer with a http status of 422
+        this.update()
 
     def update_status(self, status):
         """

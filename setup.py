@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='Highton',
-    version='2.1.1',
+    version='2.1.2',
     license='Apache License 2.0',
     description='A Python library for Highrise',
     long_description='A beautiful Python - Highrise - Wrapper.',
