@@ -1,4 +1,5 @@
 from highton.call_mixins import Call
+from copy import deepcopy
 
 
 class UpdateCallMixin(Call):
@@ -14,9 +15,11 @@ class UpdateCallMixin(Call):
         :return:
         :rtype: response
         """
+        this = deepcopy(self)
+        this.party = None
         return self._put_request(
             data=self.element_to_string(
-                self.encode()
+                this.encode()
             ),
             endpoint=self.ENDPOINT + '/' + str(self.id)
         )
