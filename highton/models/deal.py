@@ -142,7 +142,8 @@ class Deal(
         assert (status in (HightonConstants.WON, HightonConstants.PENDING, HightonConstants.LOST))
         from highton.models import Status
 
+        status_obj = Status(name=status)
         return self._put_request(
-            data=Status(name=status),
+            data=status_obj.element_to_string(status_obj.encode()),
             endpoint=self.ENDPOINT + '/' + str(self.id) + '/status',
         )
