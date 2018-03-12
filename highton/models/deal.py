@@ -129,7 +129,7 @@ class Deal(
     def update(self):
         this = deepcopy(self)
         this.party = None  # an undocumented feature; updating with a party set causes Highrise to answer with a http status of 422
-        this.update()
+        super().update()
 
     def update_status(self, status):
         """
