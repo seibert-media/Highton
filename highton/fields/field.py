@@ -55,3 +55,13 @@ class Field(metaclass=ABCMeta):
         else:
             element.attrib['nil'] = 'true'
         return element
+
+    def to_serializable_value(self):
+        """
+        Parse the value to a serializable pythonic value
+        Default: Just return the value
+
+        :return:
+        :rtype: Any
+        """
+        return self.value

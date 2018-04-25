@@ -43,6 +43,11 @@ class ListField(Field):
             child_elements.append(self.init_class.decode(child))
         return child_elements
 
+    def to_serializable_value(self):
+        """
+        Run through the values and parse them to a serializable value
 
-
-
+        :return:
+        :rtype: list
+        """
+        return [child.to_serializable_value() for child in (self.value if self.value else [])]
