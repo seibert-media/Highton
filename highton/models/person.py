@@ -48,11 +48,11 @@ class Person(
     OFFSET = 500
 
     def __init__(self, **kwargs):
-        self.company_id = fields.IntegerField(name=HightonConstants.COMPANY_ID)
-        self.company_name = fields.StringField(name=HightonConstants.COMPANY_NAME)
-        self.first_name = fields.StringField(name=HightonConstants.FIRST_NAME)
-        self.last_name = fields.StringField(name=HightonConstants.LAST_NAME)
-        self.title = fields.StringField(name=HightonConstants.TITLE)
+        self.company_id = fields.IntegerField(name=HightonConstants.COMPANY_ID, required=True)
+        self.company_name = fields.StringField(name=HightonConstants.COMPANY_NAME, required=True)
+        self.first_name = fields.StringField(name=HightonConstants.FIRST_NAME, required=True)
+        self.last_name = fields.StringField(name=HightonConstants.LAST_NAME, required=True)
+        self.title = fields.StringField(name=HightonConstants.TITLE, required=True)
 
         super().__init__(**kwargs)
 
