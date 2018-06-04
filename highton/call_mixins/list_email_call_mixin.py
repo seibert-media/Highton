@@ -23,7 +23,8 @@ class ListEmailCallMixin(Call):
         :rtype: list
         """
         from highton.models.email import Email
-        params = {'page': int(page) * self.EMAILS_OFFSET}
+        params = {'n': int(page) * self.EMAILS_OFFSET}
+
         if since:
             params['since'] = since.strftime(self.COLLECTION_DATETIME)
 
