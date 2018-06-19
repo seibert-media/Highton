@@ -1,4 +1,5 @@
 from highton.call_mixins import Call
+from highton.models.tag import Tag
 
 
 class DeleteTagCallMixin(Call):
