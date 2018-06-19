@@ -14,11 +14,8 @@ class DeleteTagCallMixin(Call):
 
         :param tag_id: the id of the tag which should be deleted
         :type tag_id: int
-        :return: newly created Tag
-        :rtype: Tag
+        :rtype: None
         """
-        from highton.models.tag import Tag
-        created_id = self._delete_request(
+        self._delete_request(
             endpoint=self.ENDPOINT + '/' + str(self.id) + '/' + Tag.ENDPOINT + '/' + str(tag_id),
-        ).headers.get('Location').split('/')[-1]
-        return Tag.get(created_id)
+        )
