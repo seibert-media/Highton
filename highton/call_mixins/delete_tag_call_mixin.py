@@ -16,6 +16,8 @@ class DeleteTagCallMixin(Call):
         :type tag_id: int
         :rtype: None
         """
+        from highton.models.tag import Tag
+
         self._delete_request(
             endpoint=self.ENDPOINT + '/' + str(self.id) + '/' + Tag.ENDPOINT + '/' + str(tag_id),
         )
