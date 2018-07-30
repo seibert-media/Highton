@@ -4,6 +4,7 @@ from highton import (
 )
 from highton.highton_constants import HightonConstants
 from highton.models.contact import Contact
+from highton.models.person import Person
 
 
 class Company(
@@ -60,7 +61,7 @@ class Company(
         :type tag_id: int
         :param title:
         :type title: str
-        :return: list of person objects
+        :return: list of customer objects
         :rtype: list
         """
         params = {}
@@ -74,3 +75,18 @@ class Company(
             params['title'] = title
 
         return super().list(params)
+
+    def people(self):
+        """
+        Retrieve all people of the company
+
+        :return: list of people objects
+        :rtype: list
+        """
+        return fields.ListField(name=HightonConstants.PEOPLE, init_class=Person).decode(
+            self.element_from_string(
+                self._get_request(
+                    endpoint=self.ENDPOINT + '/' + str(self.id) + '/people',
+                ).text
+            )
+        )
